@@ -1,0 +1,54 @@
+﻿@using System.Web.Mvc.Html
+@using Ticket.Models
+@using ListofUserAndTicketViewModel = Ticket.ViewModels.ListofUserAndTicketViewModel
+@model ListofUserAndTicketViewModel
+@{
+    ViewBag.Title = "Index";
+
+}
+
+<h2>Index</h2>
+
+<ul>
+    @foreach (Ticket t in Model.TicketsList)
+    {
+    <li>
+
+        @t.Title <hr /> @t.Text <hr /> @t.Author.Username
+        @Html.ActionLink("Cevapla", "Reply", new { id = @t.Id }, new { @class = "btn btn-danger" })
+
+        @using (Ajax.BeginForm("Assign", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "button", InsertionMode = InsertionMode.Replace }))
+
+        {
+            if (Model.AssignList != null)
+            {
+                @Html.DropDownListFor(x => x.Admin.ID, Model.AssignList, "Atanacak Kişiyi Seçiniz")
+            }
+
+            @Html.HiddenFor(x => x.ID, new { @Value = t.Id })
+            <input  type="submit" value="Assign" class="btn btn-primary" />
+            <span id="button">
+
+            </span>
+
+
+
+        }
+        @using (Ajax.BeginForm("PriorityResult", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "button2", InsertionMode = InsertionMode.Replace }))
+        {
+            if (Model.PriorityList != null)
+            {
+                @Html.DropDownListFor(x => x.Tickets.Priority, Model.PriorityList, "Önemini Seçiniz")
+                @Html.HiddenFor(x => x.TicketID, new { @Value = t.Id })
+            }
+
+            <input type="submit" value="Assign" class="btn btn-primary" />
+            <span id="button2">
+
+            </span>
+        }
+
+    </li>
+    }
+</ul>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
