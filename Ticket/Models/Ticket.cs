@@ -34,6 +34,7 @@ namespace Ticket.Models
         public string Text { get; set; }
         public virtual Users Author { get; set; }
         public virtual List<Reply> Replies { get; set; }
+        public string FilePath { get; set; }
         public bool IsSolved { get; set; }
         public Priority Priority { get; set; }
         public Type Type { get; set; }

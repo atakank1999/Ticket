@@ -20,5 +20,10 @@ namespace Ticket.Controllers
             return RedirectToAction("Index", "Tickets");
             
         }
+        public ActionResult SignOut()
+        {
+            Session["Login"] = null;
+            return RedirectToAction("Index");
+        }
     }
 }

@@ -15,7 +15,7 @@ namespace Ticket.Models.Context
 
         public DatabaseContext():base("DatabaseContext")
         {
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<DbContext>());
+            Database.SetInitializer(new DropCreateDatabaseAlways<DatabaseContext>());
         }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

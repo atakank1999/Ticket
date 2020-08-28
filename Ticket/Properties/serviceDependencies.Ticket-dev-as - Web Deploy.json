@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/ticketdbserver/databases/Ticket_db",
+      "type": "mssql.azure",
+      "connectionId": "DatabaseContext",
+      "secretStore": "AzureAppSettings"
+    }
+  }
+}
