@@ -94,30 +94,71 @@ namespace Ticket.Controllers
         [HttpPost]
         public PartialViewResult Assign(ListofUserAndTicketViewModel p)
         {
-            DatabaseContext db = new DatabaseContext();
-            Models.Ticket t = db.Tickets.Find(p.ID);
-            Users u = db.Users.Find(p.Admin.ID);
-
-            List<Assignment> alList = db.Assignments.ToList();
-            foreach (Assignment a in alList)
-            {
-                if (a.Ticket==t)
-                {
-                    a.Admin = u;
-                }
-            }
-            Assignment assignment = new Assignment();
-            assignment.Admin = u;
-            assignment.Ticket = t;
-            assignment.IsDone = false;
-            db.Assignments.Add(assignment);
-            int result =db.SaveChanges();
             List<String> list = new List<String>();
 
-            if (result != 0)
+            if (p.Admin.ID!=0)
             {
-                list.Add("success");
-                list.Add("Değişiklikler uygulanmıştır");
+                DatabaseContext db = new DatabaseContext();
+                Models.Ticket t = db.Tickets.Find(p.ID);
+                Users u = db.Users.Find(p.Admin.ID);
+                Assignment assignment = null;
+
+                List<Assignment> alList = db.Assignments.ToList();
+                foreach (Assignment a in alList)
+                {
+                    if (a.Ticket == t)
+                    {
+                        assignment = a;
+
+                        if (DateTime.Compare(p.Deadline, DateTime.UtcNow) > 0)
+                        {
+                            assignment.Deadline = p.Deadline;
+                        }
+                        else
+                        {
+                            assignment.Deadline = null;
+                        }
+
+                    }
+                }
+
+                if (assignment != null)
+                {
+                    assignment.Admin = u;
+                }
+                else if (u != null)
+                {
+
+                }
+                {
+                    assignment = new Assignment();
+                    assignment.Ticket = t;
+                    assignment.IsDone = false;
+                    assignment.Admin = u;
+                    if (DateTime.Compare(p.Deadline, DateTime.UtcNow) > 0)
+                    {
+                        assignment.Deadline = p.Deadline;
+                    }
+                    else
+                    {
+                        assignment.Deadline = null;
+                    }
+
+                    db.Assignments.Add(assignment);
+
+                }
+                int result = db.SaveChanges();
+
+                if (result != 0)
+                {
+                    list.Add("success");
+                    list.Add("Değişiklikler uygulanmıştır");
+                }
+                else
+                {
+                    list.Add("danger");
+                    list.Add("Değişikler uygulanamamıştır ya da değişiklik olmamıştır");
+                }
             }
             else
             {

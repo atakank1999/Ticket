@@ -17,6 +17,7 @@ namespace Ticket.ViewModels
         public Models.Ticket Tickets { get; set; }
         public int ID { get; set; }
         public int TicketID { get; set; }
+        public DateTime Deadline { get; set; }
 
         public ListofUserAndTicketViewModel()
         {

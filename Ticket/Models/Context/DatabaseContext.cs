@@ -15,11 +15,11 @@ namespace Ticket.Models.Context
 
         public DatabaseContext():base("DatabaseContext")
         {
-            Database.SetInitializer(new DropCreateDatabaseAlways<DatabaseContext>());
+            Database.SetInitializer(new CreateDatabaseIfNotExists<DatabaseContext>());
         }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            Database.SetInitializer<DatabaseContext>(new DropCreateDatabaseIfModelChanges<DatabaseContext>());
+            Database.SetInitializer<DatabaseContext>(new CreateDatabaseIfNotExists<DatabaseContext>());
             base.OnModelCreating(modelBuilder);
         }
 
