@@ -39,5 +39,11 @@ namespace Ticket.Models
         public Priority Priority { get; set; }
         public Type Type { get; set; }
         public virtual Assignment assignedTo { get; set; }
+        public DateTime DateTime { get; set; }
+
+        public Ticket()
+        {
+            DateTime = DateTime.UtcNow;
+        }
     }
 }

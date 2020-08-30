@@ -16,6 +16,10 @@ namespace Ticket.Controllers
         // GET: Tickets
         public ActionResult Index()
         {
+            if (Session["Login"]==null)
+            {
+                return RedirectToAction("Index", "SignIn");
+            }
             DatabaseContext db = new DatabaseContext();
             List<Models.Users> ticketlist = db.Users.ToList();
             foreach (Users u in ticketlist)

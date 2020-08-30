@@ -23,21 +23,22 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Ticket.Text, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.Ticket.Text,  10,30, new { @class = "form-control" } )
+                @Html.TextAreaFor(model => model.Ticket.Text,  10,100, new { @class = "form-control", style = "width: 100%; max-width: 100%;" } )
                 @Html.ValidationMessageFor(model => model.Ticket.Text, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
             <div class="col-md-10">
-                @Html.DropDownListFor(x=>x.Ticket.Type,Model.SelectListItems,"Ticketınızın tipini giriniz",new { @class="form-control"})
+                @Html.DropDownListFor(x=>x.Ticket.Type,Model.SelectListItems,"Ticketınızın tipini giriniz",new { @class="form-control" })
 
             </div>
 
         </div>
-        <div class="form-group">
+        <div class="form-group custom-file mb-3">
             <div class="col-md-10">
-                <label for="file">Dosya Adı:</label>
-                <input type="file" name="file" ,id="file" ,class="form-control" accept=".jpeg, .jpg,.pdf,.doc,.docx,.xls,.xlsx" />
+                <input type="file" name="file" id="file" ,class=" custom-file-input" accept=".jpeg, .jpg,.pdf,.doc,.docx,.xls,.xlsx" />
+                <label class="custom-file-label" for="file">Dosya Adı:</label>
+
             </div>
             <script>
 
@@ -54,6 +55,3 @@
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>

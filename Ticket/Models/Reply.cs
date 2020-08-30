@@ -18,5 +18,12 @@ namespace Ticket.Models
         [Required]
         public string Text { get; set; }
 
+        public DateTime date { get; set; }
+
+        public Reply()
+        {
+            date = DateTime.UtcNow;
+        }
+
     }
 }

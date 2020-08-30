@@ -3362,6 +3362,10 @@
     <Compile Include="Migrations\202008291330495_Assignment3.designer.cs">
       <DependentUpon>202008291330495_Assignment3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008292015334_tickets.cs" />
+    <Compile Include="Migrations\202008292015334_tickets.designer.cs">
+      <DependentUpon>202008292015334_tickets.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Assignment.cs" />
     <Compile Include="Models\Context\DatabaseContext.cs" />
@@ -3420,6 +3424,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008291330495_Assignment3.resx">
       <DependentUpon>202008291330495_Assignment3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008292015334_tickets.resx">
+      <DependentUpon>202008292015334_tickets.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
