@@ -1,5 +1,4 @@
-﻿
-@using Ticket.Models
+﻿@using Ticket.Models
 @model  Users
 @{
     ViewBag.Title = "Index";
@@ -18,22 +17,9 @@
                 <br />
 
                 <p class="text-right">Bilet Tipi : @t.Type</p>
-                @if (t.IsSolved)
-                {
-                    <p class="text-right text-success">Çözüldü</p>
-                }
-                else
-                {
-                    
-                    <p class="text-right text-warning">Açık</p>
-
-                }
-
-
-
+                <p class="text-right text-danger">@t.Status</p>
             </div>
             <div class="col-md-5">
-
             </div>
         </div>
         foreach (Reply r in t.Replies)
@@ -49,10 +35,4 @@
             </div>
         }
     }
-
 </div>
-
-
-
-
-
