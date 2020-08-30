@@ -21,16 +21,20 @@ namespace Ticket.Controllers
                 return RedirectToAction("Index", "SignIn");
             }
             DatabaseContext db = new DatabaseContext();
-            List<Models.Users> ticketlist = db.Users.ToList();
-            foreach (Users u in ticketlist)
+            List<Models.Users> users= db.Users.ToList();
+            foreach (Users u in users)
             {
                 if (Session["Login"].ToString()==u.Username)
                 {
-                    return View(u.Tickets);
+
+                    return View(u);
+
+
                 }
 
             }
-            return View();
+
+            return RedirectToAction("Index", "SignIn");
 
         }
         public ActionResult Create()
@@ -108,5 +112,6 @@ namespace Ticket.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
     }
 }

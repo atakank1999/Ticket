@@ -11,13 +11,50 @@
 <div class="container-fluid">
     @foreach (Ticket t in Model.TicketsList)
     {
-        <div class="row ">
+        <div class="row mt-2 ">
             <div class="col-md-7 border shadow-sm">
                 <h1>@t.Title</h1>
+                <h4 class="text-right">Önceliği: @t.Priority</h4>
+                <h5 class="text-right">Tipi: @t.Type</h5>
+
                 <blockquote class="blockquote ">
                     <p class="pl-2 ">@t.Text </p>
                     <footer class="blockquote-footer text-right"><cite> <small>@t.Author.Username</small> </cite> </footer>
                 </blockquote>
+                <div class="row">
+                    <div class="col-6">
+                        @if (!t.FilePath.IsEmpty())
+                        {
+                            <button class="btn btn-icon btn-outline-primary">
+                                <span class="btn-inner--icon"><i class="ni ni-cloud-download-95"></i></span>
+                                @Html.ActionLink(Path.GetFileName(t.FilePath).ToString(),"Download",new{id = t.Id},new{@class= "btn-inner--text" })
+
+                            </button>
+                        
+
+                        }
+                    </div>
+                    <div class="col-6">
+                        <p class="text-right ">
+
+                            <small class="text-danger">
+                                @if (t.assignedTo != null)
+                                {
+                                    @(t.assignedTo.Admin.Username + "'ya atandı")
+                                    <br />
+                                    @(t.assignedTo.Deadline + " Son tarih")
+
+                                }
+                                <p class="text-right">
+                                    <small>Durumu:</small>
+                                    <small>@t.Status</small>
+                                </p>
+                            </small>
+                        </p>
+                    </div>
+                </div>
+
+
             </div>
             <div class="col-md-5">
                 @Html.ActionLink("Cevapla", "Reply", new { id = @t.Id }, new { @class = "btn btn-danger btn-sm mt-3 mb-3" })
@@ -42,77 +79,53 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-row">
-                        @using (Ajax.BeginForm("PriorityResult", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "button2", InsertionMode = InsertionMode.Replace }))
-                        {
-                            if (Model.PriorityList != null)
-                            {
-                                @Html.DropDownListFor(x => x.Tickets.Priority, Model.PriorityList, "Önemini Seçiniz",new {@class = "form-control form-control-sm" })
-                                @Html.HiddenFor(x => x.TicketID, new { @Value = t.Id })
-                            }
+                }
 
-                            <input type="submit" value="Assign" class="btn btn-primary btn-sm" />
-                            <span id="button2">
-                            </span>
+                @using (Ajax.BeginForm("PriorityResult", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "button2", InsertionMode = InsertionMode.Replace }))
+                {
+                    <div class="form-row mb-2">
+                        @if (Model.PriorityList != null)
+                        {
+                        @Html.DropDownListFor(x => x.Tickets.Priority, Model.PriorityList, "Önemini Seçiniz", new { @class = "form-control form-control-sm" })
+                        @Html.HiddenFor(x => x.TicketID, new { @Value = t.Id })
                         }
+
+                        <input type="submit" value="Assign" class="btn btn-primary btn-sm" />
+                        <span id="button2">
+                        </span>
+                    </div>
+
+                }
+                @using (Ajax.BeginForm("StatusResult", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "button3", InsertionMode = InsertionMode.Replace }))
+                {
+                    <div class="form-row">
+
+                        @if (Model.StatusList != null)
+                        {
+                        @Html.DropDownListFor(x => x.Tickets.Status, Model.StatusList, "Durumunu Seçiniz", new { @class = "form-control form-control-sm" })
+                        @Html.HiddenFor(x => x.TicketID, new { @Value = t.Id })
+                        }
+                        <input type="submit" value="Assign" class="btn btn-primary btn-sm" />
+                        <span id="button3">
+                        </span>
                     </div>
 
                 }
             </div>
         </div>
-
-        <div class="row">
-            <div class="col-md-9">
+        foreach (Reply r in t.Replies)
+        {
+            <div class="row mt-2">
+                <div class="col-5"></div>
+                <div class="col-7 border shadow-sm align-self-end bg-green text-right">
+                    <blockquote class="blockquote ">
+                        <p class="pl-2 ">@r.Text </p>
+                        <footer class="blockquote-footer text-right"><cite> <small>@r.WriterAdmin.Username</small> </cite> </footer>
+                    </blockquote>
+                </div>
             </div>
-        </div>
+        }
         <hr />
 
     }
 </div>
-
-@*<ul>
-        @foreach (Ticket t in Model.TicketsList)
-        {
-        <li>
-
-            @t.Title <hr /> @t.Text <hr /> @t.Author.Username
-            @Html.ActionLink("Cevapla", "Reply", new { id = @t.Id }, new { @class = "btn btn-danger" })
-
-            @using (Ajax.BeginForm("Assign", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "button", InsertionMode = InsertionMode.Replace }))
-
-            {
-                if (Model.AssignList != null)
-                {
-                    @Html.DropDownListFor(x => x.Admin.ID, Model.AssignList, "Atanacak Kişiyi Seçiniz")
-                }
-
-                @Html.HiddenFor(x => x.ID, new { @Value = t.Id })
-
-                <div class="form-group">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
-                        </div>
-                        @Html.EditorFor(x => x.Deadline, new { htmlAttributes = new { @class = "form-control datepicker", placeholder = "Select date", type = "date", value = @DateTime.UtcNow.ToString("dd/MM/yyyy ") } })
-                    </div>
-                </div>
-                <input type="submit" value="Assign" class="btn btn-primary" />
-                <span id="button">
-                </span>
-
-            }
-            @using (Ajax.BeginForm("PriorityResult", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "button2", InsertionMode = InsertionMode.Replace }))
-            {
-                if (Model.PriorityList != null)
-                {
-                    @Html.DropDownListFor(x => x.Tickets.Priority, Model.PriorityList, "Önemini Seçiniz")
-                    @Html.HiddenFor(x => x.TicketID, new { @Value = t.Id })
-                }
-
-                <input type="submit" value="Assign" class="btn btn-primary" />
-                <span id="button2">
-                </span>
-            }
-        </li>
-        }
-    </ul>*@

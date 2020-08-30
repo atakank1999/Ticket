@@ -13,6 +13,7 @@ namespace Ticket.ViewModels
         public List<Models.Ticket> TicketsList { get; set; }
         public List<SelectListItem> AssignList { get; set; }
         public List<SelectListItem> PriorityList { get; set; }
+        public List<SelectListItem> StatusList { get; set; }
         public Users Admin { get; set; }
         public Models.Ticket Tickets { get; set; }
         public int ID { get; set; }
@@ -24,6 +25,7 @@ namespace Ticket.ViewModels
             TicketsList = new List<Models.Ticket>();
             AssignList = new List<SelectListItem>();
             PriorityList = new List<SelectListItem>();
+            StatusList = new List<SelectListItem>();
             Admin = new Users();
             Tickets = new Models.Ticket();
         }

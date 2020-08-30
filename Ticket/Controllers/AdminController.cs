@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -31,7 +32,21 @@ namespace Ticket.Controllers
              model.PriorityList.Add(new SelectListItem {Text = "Orta", Value = Priority.Orta.ToString() , Selected = false });
              model.PriorityList.Add(new SelectListItem {Text = "Önemli",Value = Priority.Onemli.ToString(), Selected = false });
              model.PriorityList.Add(new SelectListItem {Text = "Acil", Value = Priority.Acil.ToString() ,Selected = false});
-
+             model.StatusList.Add(new SelectListItem()
+             {
+                 Value = Status.Başlamadı.ToString(),
+                 Text = "Başlamadı"
+             });
+             model.StatusList.Add(new SelectListItem()
+             {
+                 Value = Status.Sürüyor.ToString(),
+                 Text = "Sürüyor"
+             });
+             model.StatusList.Add(new SelectListItem()
+             {
+                 Value = Status.Çözüldü.ToString(),
+                 Text = "Çözüldü"
+             });
 
 
 
@@ -59,7 +74,29 @@ namespace Ticket.Controllers
         }
         public ActionResult Reply()
         {
-            return View(new Reply());
+            ReplyWithSelectlist replyWithSelectlist = new ReplyWithSelectlist();
+            replyWithSelectlist.SelectListItems = new List<SelectListItem>();
+            replyWithSelectlist.SelecListStatus = new List<SelectListItem>();
+            replyWithSelectlist.SelectListItems.Add(new SelectListItem()
+            {
+                Value = Status.Başlamadı.ToString(),
+                Text = "Başlamadı"
+            });
+            replyWithSelectlist.SelectListItems.Add(new SelectListItem()
+            {
+                Value = Status.Sürüyor.ToString(),
+                Text = "Sürüyor"
+            });
+            replyWithSelectlist.SelectListItems.Add(new SelectListItem()
+            {
+                Value = Status.Çözüldü.ToString(),
+                Text = "Çözüldü"
+            });
+            replyWithSelectlist.SelecListStatus.Add(new SelectListItem { Text = "Düşük", Value = Priority.Dusuk.ToString(), Selected = false });
+            replyWithSelectlist.SelecListStatus.Add(new SelectListItem { Text = "Orta", Value = Priority.Orta.ToString(), Selected = false });
+            replyWithSelectlist.SelecListStatus.Add(new SelectListItem { Text = "Önemli", Value = Priority.Onemli.ToString(), Selected = false });
+            replyWithSelectlist.SelecListStatus.Add(new SelectListItem { Text = "Acil", Value = Priority.Acil.ToString(), Selected = false });
+            return View(replyWithSelectlist);
         }
 
         [HttpPost,ValidateAntiForgeryToken]
@@ -83,6 +120,8 @@ namespace Ticket.Controllers
                     reply.RepliedTicket = t;
                 }
             }
+            reply.date = DateTime.UtcNow;
+            reply.RepliedTicket.Status = reply.RepliedTicket.Status;
 
             db.Replies.Add(reply);
             db.SaveChanges();
@@ -202,6 +241,46 @@ namespace Ticket.Controllers
             }
 
             return PartialView("_Success",list);
+        }
+        [HttpPost]
+        public ActionResult StatusResult(ListofUserAndTicketViewModel model)
+        {
+            DatabaseContext db = new DatabaseContext();
+            int result = -1;
+            Models.Ticket ticket = db.Tickets.Find(model.TicketID);
+            List<String> list = new List<String>();
+            if (ticket != null)
+            {
+                if (ticket.Status != model.Tickets.Status)
+                {
+                    ticket.Status = model.Tickets.Status;
+                    result = db.SaveChanges();
+                }
+
+
+
+            }
+            if (result != 0)
+            {
+
+                list.Add("success");
+                list.Add("Değişiklikler uygulanmıştır");
+
+            }
+            else
+            {
+                list.Add("danger");
+                list.Add("Değişikler uygulanamamıştır");
+            }
+
+            return PartialView("_Success", list);
+        }
+        public ActionResult Download(int id)
+        {
+            DatabaseContext db = new DatabaseContext();
+            Models.Ticket ticket = db.Tickets.Find(id);
+            string path = ticket.FilePath;
+            return File(path, "application/force-download",Path.GetFileName(path));
         }
     }
 }

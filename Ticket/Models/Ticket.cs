@@ -25,6 +25,13 @@ namespace Ticket.Models
         Görüş,
         Öneri
     }
+
+    public enum Status
+    {
+        Başlamadı,
+        Sürüyor,
+        Çözüldü
+    }
     [Table("Tickets")]
     public class Ticket
     {
@@ -35,11 +42,11 @@ namespace Ticket.Models
         public virtual Users Author { get; set; }
         public virtual List<Reply> Replies { get; set; }
         public string FilePath { get; set; }
-        public bool IsSolved { get; set; }
         public Priority Priority { get; set; }
         public Type Type { get; set; }
         public virtual Assignment assignedTo { get; set; }
         public DateTime DateTime { get; set; }
+        public Status Status { get; set; }
 
         public Ticket()
         {
