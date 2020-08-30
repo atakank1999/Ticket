@@ -3370,6 +3370,14 @@
     <Compile Include="Migrations\202008301628422_reply.designer.cs">
       <DependentUpon>202008301628422_reply.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008301958065_AddProperty.cs" />
+    <Compile Include="Migrations\202008301958065_AddProperty.designer.cs">
+      <DependentUpon>202008301958065_AddProperty.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008302003075_AddProperty1.cs" />
+    <Compile Include="Migrations\202008302003075_AddProperty1.designer.cs">
+      <DependentUpon>202008302003075_AddProperty1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Assignment.cs" />
     <Compile Include="Models\Context\DatabaseContext.cs" />
@@ -3436,6 +3444,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008301628422_reply.resx">
       <DependentUpon>202008301628422_reply.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008301958065_AddProperty.resx">
+      <DependentUpon>202008301958065_AddProperty.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008302003075_AddProperty1.resx">
+      <DependentUpon>202008302003075_AddProperty1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
