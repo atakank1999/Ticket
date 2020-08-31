@@ -33,20 +33,26 @@ namespace Ticket.Controllers
                     return View(user);
                 }
 
+                if (user.Username == u.Username)
+                {
+                    ModelState.AddModelError("","Bu kullanıcı adı zaten kullanılıyor");
+                    return View(user);
+
+                }
+
             }
 
             if (ModelState.IsValid)
             {
-                ModelState.AddModelError("","Doğru");
                 db.Users.Add(user);
                 int num = db.SaveChanges();
 
-                return View(user);
+                return RedirectToAction("Index", "Tickets");
 
             }
             else
             {
-                ModelState.AddModelError("","Bişeyler Yanlış");
+                ModelState.AddModelError("","Birşeyler Yanlış");
                 return View(user);
             }
 

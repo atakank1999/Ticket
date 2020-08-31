@@ -112,6 +112,11 @@ namespace Ticket.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+        public ActionResult Edit()
+        {
+            //TODO
+            return View();
+        }
 
     }
 }
