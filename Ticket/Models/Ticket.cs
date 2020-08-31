@@ -50,10 +50,12 @@ namespace Ticket.Models
         public virtual Assignment assignedTo { get; set; }
         public DateTime DateTime { get; set; }
         public Status Status { get; set; }
+        public DateTime EditedOn { get; set; }
 
         public Ticket()
         {
             DateTime = DateTime.UtcNow;
+            EditedOn = DateTime.UtcNow;
         }
     }
 }

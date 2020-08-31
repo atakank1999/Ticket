@@ -3380,9 +3380,9 @@
     <Compile Include="Migrations\202008302003075_AddProperty1.designer.cs">
       <DependentUpon>202008302003075_AddProperty1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202008311549200_ticket.cs" />
-    <Compile Include="Migrations\202008311549200_ticket.designer.cs">
-      <DependentUpon>202008311549200_ticket.cs</DependentUpon>
+    <Compile Include="Migrations\202008311957249_ticketdate.cs" />
+    <Compile Include="Migrations\202008311957249_ticketdate.designer.cs">
+      <DependentUpon>202008311957249_ticketdate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -3412,7 +3412,8 @@
     <Content Include="Views\Tickets\Error.cshtml" />
     <Content Include="Scripts\jquery-3.5.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.5.1.min.map" />
-    <Content Include="Views\Tickets\Edit.cshtml" />
+    <Content Include="Views\Tickets\EditProfile.cshtml" />
+    <Content Include="Views\Tickets\EditTicket.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3458,8 +3459,8 @@
     <EmbeddedResource Include="Migrations\202008302003075_AddProperty1.resx">
       <DependentUpon>202008302003075_AddProperty1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008311549200_ticket.resx">
-      <DependentUpon>202008311549200_ticket.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202008311957249_ticketdate.resx">
+      <DependentUpon>202008311957249_ticketdate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -7,18 +7,18 @@ namespace Ticket.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class ticket : IMigrationMetadata
+    public sealed partial class ticketdate : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ticket));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(ticketdate));
         
         string IMigrationMetadata.Id
         {
-            get { return "202008311549200_ticket"; }
+            get { return "202008311957249_ticketdate"; }
         }
         
         string IMigrationMetadata.Source
         {
-            get { return null; }
+            get { return Resources.GetString("Source"); }
         }
         
         string IMigrationMetadata.Target
