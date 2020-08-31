@@ -25,6 +25,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TypeScriptToolsVersion>3.9</TypeScriptToolsVersion>
+    <ApplicationInsightsResourceId>/subscriptions/e3cd03b1-81af-4717-8909-757d5d977313/resourceGroups/Hello/providers/microsoft.insights/components/TicketAppInsights</ApplicationInsightsResourceId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -3231,6 +3232,7 @@
     <Content Include="assets\vendor\prismjs\components.json" />
     <Content Include="ApplicationInsights.config" />
     <None Include="Properties\PublishProfiles\Ticket-dev-as - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\Ticket20200831142313 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\Ticketappp - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
@@ -3378,6 +3380,10 @@
     <Compile Include="Migrations\202008302003075_AddProperty1.designer.cs">
       <DependentUpon>202008302003075_AddProperty1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008311549200_ticket.cs" />
+    <Compile Include="Migrations\202008311549200_ticket.designer.cs">
+      <DependentUpon>202008311549200_ticket.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Assignment.cs" />
     <Compile Include="Models\Context\DatabaseContext.cs" />
@@ -3451,6 +3457,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008302003075_AddProperty1.resx">
       <DependentUpon>202008302003075_AddProperty1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008311549200_ticket.resx">
+      <DependentUpon>202008311549200_ticket.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -12,7 +12,20 @@
             <div class="col-md-8 border rounded align-self-center bg-white">
                 <h2>@t.Title</h2>
                 <p>@t.Text</p>
-                <p class="text-right"><small>@t.DateTime.ToString("d")</small></p>
+                @if (!t.FilePath.IsEmpty())
+                {
+                    <button class="btn btn-icon btn-outline-primary">
+                        <span class="btn-inner--icon"><i class="ni ni-cloud-download-95"></i></span>
+                        @Html.ActionLink(Path.GetFileName(t.FilePath).ToString(),"Download","Admin",new{id = t.Id},new{@class= "btn-inner--text" })
+
+                    </button>
+                        
+
+                }
+                <p class ="text-right">
+ 
+                    <span ><small >@t.DateTime.ToString("d")</small></span> 
+                </p>
                 <br />
                 <br />
 

@@ -1,21 +1,19 @@
 {
   "dependencies": {
-    "appInsights1": {
-      "type": "appInsights.sdk"
-    },
-    "secrets1": {
-      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.KeyVault/vaults/Ticketvault",
-      "type": "secrets.keyVault",
-      "connectionId": "VaultUri",
-      "secretStore": null
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/ticketdbserver/databases/Ticket_db",
+      "type": "mssql.azure",
+      "connectionId": "DatabaseContext",
+      "secretStore": "AzureKeyVault"
     },
     "secrets2": {
       "type": "secrets.user"
     },
-    "mssql1": {
-      "type": "mssql.local",
-      "connectionId": "DatabaseContext",
-      "secretStore": null
+    "appInsights1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/microsoft.insights/components/TicketAppInsights",
+      "type": "appInsights.azure",
+      "connectionId": "APPINSIGHTS_INSTRUMENTATIONKEY",
+      "secretStore": "LocalSecretsFile"
     }
   }
 }

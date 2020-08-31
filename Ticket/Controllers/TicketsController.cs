@@ -40,28 +40,6 @@ namespace Ticket.Controllers
         public ActionResult Create()
         {
             TicketwithListViewModel model = new TicketwithListViewModel();
-            List <SelectListItem> list = new List<SelectListItem>();
-            SelectListItem Şikayet = new SelectListItem()
-            {
-                Text = "Şikayet",Value = Type.Şikayet.ToString()
-            };
-            SelectListItem Öneri = new SelectListItem()
-            {
-                Text = "Öneri",
-                Value = Type.Öneri.ToString()
-            };
-            SelectListItem Görüş = new SelectListItem()
-            {
-                Text = "Görüş",
-                Value = Type.Görüş.ToString()
-            };
-            list.Add(Şikayet);
-            list.Add(Görüş);
-            list.Add(Öneri);
-
-
-            model.SelectListItems = list;
-
 
 
             return View(model);
@@ -90,11 +68,12 @@ namespace Ticket.Controllers
                     }
                     file.SaveAs(Path.Combine(Server.MapPath("~/userfiles"), file.FileName));
                     t.Ticket.FilePath = Path.Combine(Server.MapPath("~/userfiles"), file.FileName);
-
+                    @ViewBag.result = "Dosya Başarıyla Yüklenmiştir";
                 }
                 else
                 {
-                    return View("Error");
+                    @ViewBag.result = "Bu dosya tipi Desteklenmemektedir";
+                    return View(t);
                 }
 
 

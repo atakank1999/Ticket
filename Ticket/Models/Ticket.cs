@@ -37,7 +37,10 @@ namespace Ticket.Models
     {
         [Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        [Required(ErrorMessage = "Boş Geçilemez"),Display(Name = "Başlık")]
         public string Title { get; set; }
+        [Required(ErrorMessage = "Boş Geçilemez"), Display(Name = "Biletinizin içeriği")]
+
         public string Text { get; set; }
         public virtual Users Author { get; set; }
         public virtual List<Reply> Replies { get; set; }

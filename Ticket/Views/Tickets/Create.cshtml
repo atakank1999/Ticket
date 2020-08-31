@@ -34,10 +34,14 @@
             </div>
 
         </div>
-        <div class="form-group custom-file mb-3">
+        <div class="form-group mb-3">
             <div class="col-md-10">
-                <input type="file" name="file" id="file" ,class=" custom-file-input" accept=".jpeg, .jpg,.pdf,.doc,.docx,.xls,.xlsx" />
-                <label class="custom-file-label" for="file">Dosya Adı:</label>
+                <div class="custom-file">
+                    <label for="file">Eklenecek Dosyayı Seçiniz</label>
+                    <input type="file" class="form-control-file" id="file" name="file">
+                    <p class="text-danger"> @ViewBag.result</p>
+
+                </div>
 
             </div>
             <script>

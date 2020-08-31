@@ -1,27 +1,3 @@
 {
-  "dependencies": {
-    "appInsights1": {
-      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/microsoft.insights/components/Ticketappp",
-      "type": "appInsights.azure",
-      "connectionId": "APPINSIGHTS_INSTRUMENTATIONKEY",
-      "secretStore": "AzureAppSettings"
-    },
-    "secrets1": {
-      "type": "secrets",
-      "suggestion": "true",
-      "ignored": "true"
-    },
-    "secrets2": {
-      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.KeyVault/vaults/Ticketvault",
-      "type": "secrets.keyVault",
-      "connectionId": "VaultUri",
-      "secretStore": "AzureAppSettings"
-    },
-    "mssql1": {
-      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/ticketdbserver/databases/Ticket_db",
-      "type": "mssql.azure",
-      "connectionId": "DatabaseContext",
-      "secretStore": "AzureKeyVault"
-    }
-  }
+  "dependencies": {}
 }

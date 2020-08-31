@@ -36,7 +36,7 @@
     },
     {
       "type": "Microsoft.Resources/deployments",
-      "name": "[concat(parameters('resourceGroupName'), 'Deployment', uniqueString(concat('Ticketvault', subscription().subscriptionId)))]",
+      "name": "[concat(parameters('resourceGroupName'), 'Deployment', uniqueString(concat('TicketAppInsights', subscription().subscriptionId)))]",
       "resourceGroup": "[parameters('resourceGroupName')]",
       "apiVersion": "2019-10-01",
       "dependsOn": [
@@ -49,21 +49,12 @@
           "contentVersion": "1.0.0.0",
           "resources": [
             {
-              "name": "Ticketvault",
-              "type": "Microsoft.KeyVault/vaults",
+              "name": "TicketAppInsights",
+              "type": "microsoft.insights/components",
               "location": "[parameters('resourceLocation')]",
-              "properties": {
-                "sku": {
-                  "family": "A",
-                  "name": "Standard"
-                },
-                "tenantId": "a6d8404c-cd2d-433b-8f4c-c5d18f9693ca",
-                "accessPolicies": [],
-                "enabledForDeployment": true,
-                "enabledForDiskEncryption": true,
-                "enabledForTemplateDeployment": true
-              },
-              "apiVersion": "2016-10-01"
+              "kind": "web",
+              "properties": {},
+              "apiVersion": "2015-05-01"
             }
           ]
         }
@@ -71,6 +62,6 @@
     }
   ],
   "metadata": {
-    "_dependencyType": "secrets.keyVault"
+    "_dependencyType": "appInsights.azure"
   }
 }
