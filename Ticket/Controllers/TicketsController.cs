@@ -57,6 +57,10 @@ namespace Ticket.Controllers
         [HttpPost,ValidateAntiForgeryToken]
         public ActionResult Create(TicketwithListViewModel t,HttpPostedFileBase file)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(t);
+            }
 
 
             if (file != null)

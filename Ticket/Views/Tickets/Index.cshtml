@@ -50,7 +50,11 @@
                 }
                 <p class="text-right">
 
-                    <span><small>@t.DateTime.ToString("d")</small></span>
+                    <span><small>@t.DateTime.ToString("d")</small></span> <br />
+                    @if (t.DateTime.Date != t.EditedOn.Date)
+                    {
+                <small><i>@("Düzenlenme Tarihi : "+t.EditedOn.ToString("d"))</i>  </small>
+                    }
                 </p>
                 <br />
                 <br />
@@ -90,7 +94,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Silme</button>
-                <button type="button" class="btn btn-success"><a href="">Sil</a></button>
+                <a href=""> <button type="button" class="btn btn-success">Sil</button></a>
             </div>
         </div>
     </div>

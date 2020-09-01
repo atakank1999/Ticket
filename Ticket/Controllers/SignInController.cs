@@ -28,6 +28,7 @@ namespace Ticket.Controllers
                     if (u.IsAdmin)
                     {
                         Session["Admin"] = u.Username;
+                        return RedirectToAction("Index ", "Admin");
                     }
                     return RedirectToAction("Index","Home");
                 }
