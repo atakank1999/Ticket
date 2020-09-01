@@ -199,8 +199,13 @@ namespace Ticket.Controllers
         public ActionResult Delete(int id)
         {
             DatabaseContext db =new DatabaseContext();
+
             Models.Ticket t = db.Tickets.Find(id);
-            db.Assignments.Remove(t.assignedTo);
+            if (t.assignedTo!=null)
+            {
+                db.Assignments.Remove(t.assignedTo);
+
+            }
             foreach (Reply reply in t.Replies.ToList())
             {
                 db.Replies.Remove(reply);

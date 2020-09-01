@@ -24,7 +24,13 @@ namespace Ticket.Controllers
             {
                 if (u.Email == user.Email && u.Password == user.Password)
                 {
+                    if (user.IsAdmin)
+                    {
+                        Session["Admin"] = u.Username;
+                        RedirectToAction("Index", "Admin");
+                    }
                     Session["Login"] = u.Username;
+
                     return RedirectToAction("Index","Home");
                 }
             }

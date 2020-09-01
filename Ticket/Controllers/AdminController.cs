@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.WebPages.Html;
@@ -124,7 +125,19 @@ namespace Ticket.Controllers
             reply.RepliedTicket.Status = reply.RepliedTicket.Status;
 
             db.Replies.Add(reply);
-            db.SaveChanges();
+            int result = db.SaveChanges();
+            if (result>0)
+            {
+                var message = new MailMessage();
+                message.To.Add(new MailAddress(reply.RepliedTicket.Author.Email)); //replace with valid value
+                message.Subject = reply.RepliedTicket.Title + "Başlıklı yazınıza yanıt geldi";
+                message.Body = reply.Text;
+                message.IsBodyHtml = true;
+                using (var smtp = new SmtpClient())
+                {
+                     smtp.SendMailAsync(message);
+                }
+            }
 
 
 
