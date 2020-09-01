@@ -170,7 +170,7 @@ namespace Ticket.Controllers
                         }
                         else
                         {
-                            assignment.Deadline = null;
+                            assignment.Deadline = default(DateTime);
                         }
 
                     }
@@ -195,7 +195,7 @@ namespace Ticket.Controllers
                     }
                     else
                     {
-                        assignment.Deadline = null;
+                        assignment.Deadline = default(DateTime);
                     }
 
                     db.Assignments.Add(assignment);

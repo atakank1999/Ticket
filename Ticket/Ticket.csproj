@@ -3418,6 +3418,10 @@
     <Compile Include="Migrations\202008311957249_ticketdate.designer.cs">
       <DependentUpon>202008311957249_ticketdate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202009011921435_assignmentdate.cs" />
+    <Compile Include="Migrations\202009011921435_assignmentdate.designer.cs">
+      <DependentUpon>202009011921435_assignmentdate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Assignment.cs" />
     <Compile Include="Models\Context\DatabaseContext.cs" />
@@ -3499,6 +3503,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008311957249_ticketdate.resx">
       <DependentUpon>202008311957249_ticketdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202009011921435_assignmentdate.resx">
+      <DependentUpon>202009011921435_assignmentdate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

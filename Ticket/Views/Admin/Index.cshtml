@@ -40,7 +40,11 @@
                                 {
                                     @(t.assignedTo.Admin.Username + "'ya atandı")
                                     <br />
-                                    @(t.assignedTo.Deadline + " Son tarih")
+                                    if (t.assignedTo.Deadline!=default(DateTime))
+                                    {
+                                        @(t.assignedTo.Deadline.ToString("d") + " Son tarih")
+
+                                    }
 
                                 }
                                 <p class="text-right">
