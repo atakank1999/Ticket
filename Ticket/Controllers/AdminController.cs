@@ -295,5 +295,11 @@ namespace Ticket.Controllers
             string path = ticket.FilePath;
             return File(path, "application/force-download",Path.GetFileName(path));
         }
+        public ActionResult MyAssignments()
+        {
+            DatabaseContext db = new DatabaseContext();
+
+            return View();
+        }
     }
 }
