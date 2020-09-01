@@ -23,6 +23,7 @@ namespace Ticket.Controllers
         public ActionResult SignOut()
         {
             Session["Login"] = null;
+            Session["Admin"] = null;
             return RedirectToAction("Index");
         }
     }

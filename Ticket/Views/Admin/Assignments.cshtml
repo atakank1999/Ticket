@@ -1,0 +1,98 @@
+﻿@using Ticket.Models
+@using ListAssignmentAndTicket = Ticket.ViewModels.ListAssignmentAndTicket
+@model ListAssignmentAndTicket
+@{
+    ViewBag.Title = "Assignments";
+}
+
+<h2>Atanan Görevler</h2>
+<div class="container-fluid">
+    @foreach (Assignment a in Model.Assignments)
+    {
+
+        <div class="row mt-2 ">
+            <div class="col-md-7 border shadow-sm">
+                <h1>@a.Ticket.Title</h1>
+                <h4 class="text-right">Önceliği: @a.Ticket.Priority</h4>
+                <h5 class="text-right">Tipi: @a.Ticket.Type</h5>
+
+                <blockquote class="blockquote ">
+                    <p class="pl-2 ">@a.Ticket.Text </p>
+                    <footer class="blockquote-footer text-right"><cite> <small>@a.Ticket.Author.Username</small> </cite> </footer>
+                </blockquote>
+                <div class="row">
+                    <div class="col-6">
+                        @if (!a.Ticket.FilePath.IsEmpty())
+                        {
+                            <button class="btn btn-icon btn-outline-primary">
+                                <span class="btn-inner--icon"><i class="ni ni-cloud-download-95"></i></span>
+                                @Html.ActionLink(Path.GetFileName(a.Ticket.FilePath).ToString(), "Download", new { id = a.Ticket.Id }, new { @class = "btn-inner--text" })
+                            </button>
+
+                        }
+                    </div>
+                    <div class="col-6">
+                        <p class="text-right ">
+
+                            <small class="text-danger">
+                                @if (a.Ticket.assignedTo != null)
+                                {
+                                    @(a.Ticket.assignedTo.Deadline + " Son tarih")
+
+                                }
+                        <p class="text-right">
+                            <small>Durumu:</small>
+                            <small>@a.Ticket.Status</small>
+                        </p>
+                        </small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                @Html.ActionLink("Cevapla", "Reply", new { id = @a.Ticket.Id }, new { @class = "btn btn-danger btn-sm mt-3 mb-3" })
+
+                @using (Ajax.BeginForm("PriorityResultAssignment", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "button2", InsertionMode = InsertionMode.Replace }))
+                {
+                    <div class="form-row mb-2">
+                        @Html.EnumDropDownListFor(x => x.Ticket.Priority, "Önemini Seçiniz", new { @class = "form-control form-control-sm" })
+                        @Html.HiddenFor(x => x.Ticket.Id, new { @Value = a.Ticket.Id })
+                        
+
+                        <input type="submit" value="Assign" class="btn btn-primary btn-sm" />
+                        <span id="button2">
+                        </span>
+                    </div>
+
+                }
+                @using (Ajax.BeginForm("StatusResultAssignments", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "button3", InsertionMode = InsertionMode.Replace }))
+                {
+                    <div class="form-row">
+
+                            @Html.EnumDropDownListFor(x => x.Ticket.Status,  "Durumunu Seçiniz", new { @class = "form-control form-control-sm" })
+                            @Html.HiddenFor(x => x.Ticket.Id, new { Value = a.Ticket.Id })
+                        
+                        <input type="submit" value="Assign" class="btn btn-primary btn-sm" />
+                        <span id="button3">
+                        </span>
+                    </div>
+
+                }
+            </div>
+        </div>
+        foreach (Reply r in a.Ticket.Replies)
+        {
+            <div class="row mt-2">
+                <div class="col-5"></div>
+                <div class="col-7 border shadow-sm align-self-end bg-green text-right">
+                    <blockquote class="blockquote ">
+                        <p class="pl-2 ">@r.Text </p>
+                        <footer class="blockquote-footer text-right"><cite> <small>@r.WriterAdmin.Username</small> </cite> </footer>
+                    </blockquote>
+                </div>
+            </div>
+        }
+        <hr />
+
+    }
+</div>

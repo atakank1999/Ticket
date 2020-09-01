@@ -66,6 +66,7 @@ namespace Ticket.Controllers
                 if (admin.Email== u.Email && admin.Password == u.Password && u.IsAdmin)
                 {
                     Session["Admin"] = u.Username;
+                    Session["Login"] = u.Username;
                     return RedirectToAction("Index");
                 }
             }
@@ -243,6 +244,39 @@ namespace Ticket.Controllers
             return PartialView("_Success",list);
         }
         [HttpPost]
+        public PartialViewResult PriorityResultAssignment(ListAssignmentAndTicket model)
+        {
+            DatabaseContext db = new DatabaseContext();
+            int result = -1;
+            Models.Ticket ticket = db.Tickets.Find(model.Ticket.Id);
+            List<String> list = new List<String>();
+            if (ticket != null)
+            {
+                if (ticket.Priority != model.Ticket.Priority)
+                {
+                    ticket.Priority = model.Ticket.Priority;
+                    result = db.SaveChanges();
+                }
+
+
+
+            }
+            if (result != 0)
+            {
+
+                list.Add("success");
+                list.Add("Değişiklikler uygulanmıştır");
+
+            }
+            else
+            {
+                list.Add("danger");
+                list.Add("Değişikler uygulanamamıştır");
+            }
+
+            return PartialView("_Success", list);
+        }
+        [HttpPost]
         public ActionResult StatusResult(ListofUserAndTicketViewModel model)
         {
             DatabaseContext db = new DatabaseContext();
@@ -275,12 +309,62 @@ namespace Ticket.Controllers
 
             return PartialView("_Success", list);
         }
+        [HttpPost]
+        public ActionResult StatusResultAssignments(ListAssignmentAndTicket model)
+        {
+            DatabaseContext db = new DatabaseContext();
+            int result = -1;
+            Models.Ticket ticket = db.Tickets.Find(model.Ticket.Id);
+            List<String> list = new List<String>();
+            if (ticket != null)
+            {
+                if (ticket.Status != model.Ticket.Status)
+                {
+                    ticket.Status = model.Ticket.Status;
+                    result = db.SaveChanges();
+                }
+
+
+
+            }
+            if (result != 0)
+            {
+
+                list.Add("success");
+                list.Add("Değişiklikler uygulanmıştır");
+
+            }
+            else
+            {
+                list.Add("danger");
+                list.Add("Değişikler uygulanamamıştır");
+            }
+
+            return PartialView("_Success", list);
+        }
         public ActionResult Download(int id)
         {
             DatabaseContext db = new DatabaseContext();
             Models.Ticket ticket = db.Tickets.Find(id);
             string path = ticket.FilePath;
             return File(path, "application/force-download",Path.GetFileName(path));
+        }
+        public ActionResult Assignments()
+        {
+            DatabaseContext db =new DatabaseContext();
+            Users modeluser = null;
+            foreach (Users u in db.Users.ToList())
+            {
+                if (Session["Login"].ToString()==u.Username)
+                {
+                    modeluser = u;
+                }
+            }
+            
+            ListAssignmentAndTicket model = new ListAssignmentAndTicket();
+            model.Assignments = modeluser.Assignments;
+
+            return View(model);
         }
     }
 }

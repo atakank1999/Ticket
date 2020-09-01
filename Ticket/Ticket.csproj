@@ -3391,6 +3391,7 @@
     <Compile Include="Models\Ticket.cs" />
     <Compile Include="Models\Users.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\ListAssignmentAndTicket.cs" />
     <Compile Include="ViewModels\ListofUserAndTicketViewModel.cs" />
     <Compile Include="ViewModels\ReplyWithSelectlist.cs" />
     <Compile Include="ViewModels\TicketAndReply.cs" />
@@ -3414,6 +3415,7 @@
     <Content Include="Scripts\jquery-3.5.1.min.map" />
     <Content Include="Views\Tickets\EditProfile.cshtml" />
     <Content Include="Views\Tickets\EditTicket.cshtml" />
+    <Content Include="Views\Admin\Assignments.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

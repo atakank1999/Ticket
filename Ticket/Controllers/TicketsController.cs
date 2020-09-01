@@ -200,11 +200,20 @@ namespace Ticket.Controllers
         {
             DatabaseContext db =new DatabaseContext();
             Models.Ticket t = db.Tickets.Find(id);
-            db.Assignments.Remove(t.assignedTo);
-            foreach (Reply reply in t.Replies.ToList())
+            if (t.assignedTo!=null)
             {
-                db.Replies.Remove(reply);
+            db.Assignments.Remove(t.assignedTo);
+
             }
+
+            if (t.Replies.Count!=0)
+            {
+                foreach (Reply reply in t.Replies.ToList())
+                {
+                    db.Replies.Remove(reply);
+                }
+            }
+
             db.Tickets.Remove(t);
             db.SaveChanges();
 
