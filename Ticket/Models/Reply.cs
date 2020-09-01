@@ -15,7 +15,7 @@ namespace Ticket.Models
         public virtual Users WriterAdmin { get; set; }
 
         public virtual Ticket RepliedTicket { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Boş geçilemez")]
         public string Text { get; set; }
 
         public DateTime date { get; set; }
