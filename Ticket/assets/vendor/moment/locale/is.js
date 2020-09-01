@@ -7,7 +7,6 @@
    factory(global.moment)
 }(this, (function (moment) { 'use strict';
 
-
     function plural(n) {
         if (n % 100 === 11) {
             return true;
@@ -127,5 +126,4 @@
     });
 
     return is;
-
 })));

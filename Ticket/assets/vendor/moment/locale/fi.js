@@ -7,7 +7,6 @@
    factory(global.moment)
 }(this, (function (moment) { 'use strict';
 
-
     var numbersPast = 'nolla yksi kaksi kolme neljä viisi kuusi seitsemän kahdeksan yhdeksän'.split(' '),
         numbersFuture = [
             'nolla', 'yhden', 'kahden', 'kolmen', 'neljän', 'viiden', 'kuuden',
@@ -104,5 +103,4 @@
     });
 
     return fi;
-
 })));

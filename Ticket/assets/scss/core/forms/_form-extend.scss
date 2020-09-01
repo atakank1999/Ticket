@@ -2,7 +2,6 @@
 // Form extend
 //
 
-
 // Color variations
 
 .form-primary {
@@ -15,7 +14,6 @@
             background-color: transparentize(darken(theme-color("primary"), 12%), .3);
             border: $input-border-width solid darken(theme-color("primary"), 12%);
         }
-
         // Placeholder
         &::placeholder {
             color: transparentize(color-yiq(theme-color("primary")), .2);

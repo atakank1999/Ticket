@@ -3,7 +3,6 @@
 // helper classes for different cases
 //
 
-
 // Clearfix for sections that use float property
 
 .floatfix {
@@ -12,6 +11,7 @@
         content: '';
         display: table;
     }
+
     &:after {
         clear: both;
     }

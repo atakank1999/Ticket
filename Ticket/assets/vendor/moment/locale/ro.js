@@ -7,7 +7,6 @@
    factory(global.moment)
 }(this, (function (moment) { 'use strict';
 
-
     function relativeTimeWithPlural(number, withoutSuffix, key) {
         var format = {
                 'ss': 'secunde',
@@ -70,5 +69,4 @@
     });
 
     return ro;
-
 })));

@@ -28,9 +28,7 @@
                             <button class="btn btn-icon btn-outline-primary">
                                 <span class="btn-inner--icon"><i class="ni ni-cloud-download-95"></i></span>
                                 @Html.ActionLink(Path.GetFileName(t.FilePath).ToString(),"Download",new{id = t.Id},new{@class= "btn-inner--text" })
-
                             </button>
-                        
 
                         }
                     </div>
@@ -53,8 +51,6 @@
                         </p>
                     </div>
                 </div>
-
-
             </div>
             <div class="col-md-5">
                 @Html.ActionLink("Cevapla", "Reply", new { id = @t.Id }, new { @class = "btn btn-danger btn-sm mt-3 mb-3" })

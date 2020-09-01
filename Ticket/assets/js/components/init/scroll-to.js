@@ -5,13 +5,11 @@
 'use strict';
 
 var ScrollTo = (function() {
-
 	//
 	// Variables
 	//
 
 	var $scrollTo = $('.scroll-me, [data-scroll-to], .toc-entry a');
-
 
 	//
 	// Methods
@@ -30,7 +28,6 @@ var ScrollTo = (function() {
         event.preventDefault();
 	}
 
-
 	//
 	// Events
 	//
@@ -40,5 +37,4 @@ var ScrollTo = (function() {
 			scrollTo($(this));
 		});
 	}
-
 })();

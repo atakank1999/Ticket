@@ -2,7 +2,6 @@
 // Badge
 //
 
-
 // General styles
 
 .badge {
@@ -13,7 +12,6 @@
     }
 }
 
-
 // Size variations
 
 .badge-md {
@@ -23,7 +21,6 @@
 .badge-lg {
     padding: .85em 1.375em;
 }
-
 
 // Multiple inline badges
 
@@ -40,7 +37,6 @@
     }
 }
 
-
 // Color fixes
 
 .badge-default {
@@ -52,7 +48,6 @@
     color: color-yiq(theme-color("secondary"));
 }
 
-
 // Badge spacing inside a btn with some text
 
 .btn {
@@ -60,6 +55,7 @@
         &:not(:first-child) {
             margin-left: .5rem;
         }
+
         &:not(:last-child) {
             margin-right: .5rem;
         }

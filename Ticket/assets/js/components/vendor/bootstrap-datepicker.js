@@ -5,11 +5,9 @@
 'use strict';
 
 var Datepicker = (function() {
-
 	// Variables
 
 	var $datepicker = $('.datepicker');
-
 
 	// Methods
 
@@ -22,7 +20,6 @@ var Datepicker = (function() {
 		$this.datepicker(options);
 	}
 
-
 	// Events
 
 	if ($datepicker.length) {
@@ -30,5 +27,4 @@ var Datepicker = (function() {
 			init($(this));
 		});
 	}
-
 })();

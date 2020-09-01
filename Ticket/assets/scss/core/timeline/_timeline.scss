@@ -2,12 +2,9 @@
 // Timeline
 //
 
-
 .timeline {
     position: relative;
-
     // Axis
-
     &:before {
         content: '';
         position: absolute;
@@ -132,7 +129,6 @@
     }
 
     .timeline-content {
-
         width: 38%;
     }
 
@@ -143,11 +139,9 @@
     .timeline-block:nth-child(even) .timeline-content {
         float: right;
     }
-
     // Timeline axis colors
-
     @each $color, $value in $theme-colors {
-        [data-timeline-axis-color="#{$color}"]  {
+        [data-timeline-axis-color="#{$color}"] {
             &:before {
                 border-color: $value;
             }

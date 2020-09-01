@@ -82,7 +82,6 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ ([
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -122,11 +121,9 @@ var Parchment = {
 };
 exports.default = Parchment;
 
-
 /***/ }),
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 
 var __extends = (this && this.__extends) || (function () {
@@ -178,7 +175,7 @@ function create(input, value) {
         throw new ParchmentError("Unable to create " + input + " blot");
     }
     var BlotClass = match;
-    var node = 
+    var node =
     // @ts-ignore
     input instanceof Node || input['nodeType'] === Node.TEXT_NODE ? input : BlotClass.create(value);
     return new BlotClass(node, value);
@@ -277,19 +274,15 @@ function register() {
 }
 exports.register = register;
 
-
 /***/ }),
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
-
 var diff = __webpack_require__(51);
 var equal = __webpack_require__(11);
 var extend = __webpack_require__(3);
 var op = __webpack_require__(20);
 
-
 var NULL_CHARACTER = String.fromCharCode(0);  // Placeholder char for embed in diff()
-
 
 var Delta = function (ops) {
   // Assume we are given a well formed ops
@@ -301,7 +294,6 @@ var Delta = function (ops) {
     this.ops = [];
   }
 };
-
 
 Delta.prototype.insert = function (text, attributes) {
   var newOp = {};
@@ -434,7 +426,6 @@ Delta.prototype.slice = function (start, end) {
   }
   return new Delta(ops);
 };
-
 
 Delta.prototype.compose = function (other) {
   var thisIter = op.iterator(this.ops);
@@ -624,14 +615,11 @@ Delta.prototype.transformPosition = function (index, priority) {
   return index;
 };
 
-
 module.exports = Delta;
-
 
 /***/ }),
 /* 3 */
 /***/ (function(module, exports) {
-
 'use strict';
 
 var hasOwn = Object.prototype.hasOwnProperty;
@@ -750,13 +738,10 @@ module.exports = function extend() {
 	return target;
 };
 
-
 /***/ }),
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
-
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -852,7 +837,6 @@ var BlockEmbed = function (_Parchment$Embed) {
 
 BlockEmbed.scope = _parchment2.default.Scope.BLOCK_BLOT;
 // It is important for cursor behavior BlockEmbeds use tags that are block level elements
-
 
 var Block = function (_Parchment$Block) {
   _inherits(Block, _Parchment$Block);
@@ -1012,9 +996,7 @@ exports.default = Block;
 /***/ }),
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
-
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -1747,9 +1729,7 @@ exports.default = Quill;
 /***/ }),
 /* 6 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
-
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -1837,9 +1817,7 @@ exports.default = Inline;
 /***/ }),
 /* 7 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
-
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -1874,9 +1852,7 @@ exports.default = TextBlot;
 /***/ }),
 /* 8 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
-
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -1990,9 +1966,7 @@ exports.default = Emitter;
 /***/ }),
 /* 9 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
-
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -2016,9 +1990,7 @@ exports.default = Module;
 /***/ }),
 /* 10 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
-
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -2054,7 +2026,6 @@ exports.default = namespace;
 /***/ }),
 /* 11 */
 /***/ (function(module, exports, __webpack_require__) {
-
 var pSlice = Array.prototype.slice;
 var objectKeys = __webpack_require__(52);
 var isArguments = __webpack_require__(53);
@@ -2064,7 +2035,6 @@ var deepEqual = module.exports = function (actual, expected, opts) {
   // 7.1. All identical values are equivalent, as determined by ===.
   if (actual === expected) {
     return true;
-
   } else if (actual instanceof Date && expected instanceof Date) {
     return actual.getTime() === expected.getTime();
 
@@ -2150,11 +2120,9 @@ function objEquiv(a, b, opts) {
   return typeof a === typeof b;
 }
 
-
 /***/ }),
 /* 12 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -2213,13 +2181,10 @@ var Attributor = /** @class */ (function () {
 }());
 exports.default = Attributor;
 
-
 /***/ }),
 /* 13 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
-
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -2419,9 +2384,7 @@ exports.default = CodeBlock;
 /***/ }),
 /* 14 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
-
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -2787,9 +2750,7 @@ exports.default = Editor;
 /***/ }),
 /* 15 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
-
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -3179,7 +3140,6 @@ var Selection = function () {
         if (!this.hasFocus()) this.root.focus();
         var native = (this.getNativeRange() || {}).native;
         if (native == null || force || startNode !== native.startContainer || startOffset !== native.startOffset || endNode !== native.endContainer || endOffset !== native.endOffset) {
-
           if (startNode.tagName == "BR") {
             startOffset = [].indexOf.call(startNode.parentNode.childNodes, startNode);
             startNode = startNode.parentNode;
@@ -3276,9 +3236,7 @@ exports.default = Selection;
 /***/ }),
 /* 16 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
-
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -3346,7 +3304,6 @@ exports.default = Break;
 /***/ }),
 /* 17 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 
 var __extends = (this && this.__extends) || (function () {
@@ -3608,11 +3565,9 @@ function makeBlot(node) {
 }
 exports.default = ContainerBlot;
 
-
 /***/ }),
 /* 18 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 
 var __extends = (this && this.__extends) || (function () {
@@ -3690,11 +3645,9 @@ var FormatBlot = /** @class */ (function (_super) {
 }(container_1.default));
 exports.default = FormatBlot;
 
-
 /***/ }),
 /* 19 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 
 var __extends = (this && this.__extends) || (function () {
@@ -3740,14 +3693,11 @@ var LeafBlot = /** @class */ (function (_super) {
 }(shadow_1.default));
 exports.default = LeafBlot;
 
-
 /***/ }),
 /* 20 */
 /***/ (function(module, exports, __webpack_require__) {
-
 var equal = __webpack_require__(11);
 var extend = __webpack_require__(3);
-
 
 var lib = {
   attributes: {
@@ -3809,7 +3759,6 @@ var lib = {
     }
   }
 };
-
 
 function Iterator(ops) {
   this.ops = ops;
@@ -3898,14 +3847,11 @@ Iterator.prototype.rest = function () {
   }
 };
 
-
 module.exports = lib;
-
 
 /***/ }),
 /* 21 */
 /***/ (function(module, exports) {
-
 var clone = (function() {
 'use strict';
 
@@ -4164,13 +4110,10 @@ if (typeof module === 'object' && module.exports) {
   module.exports = clone;
 }
 
-
 /***/ }),
 /* 22 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
-
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -4421,9 +4364,7 @@ exports.default = Scroll;
 /***/ }),
 /* 23 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
-
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -5027,9 +4968,7 @@ exports.SHORTKEY = SHORTKEY;
 /***/ }),
 /* 24 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
-
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -5204,15 +5143,12 @@ Cursor.className = 'ql-cursor';
 Cursor.tagName = 'span';
 Cursor.CONTENTS = '\uFEFF'; // Zero width no break space
 
-
 exports.default = Cursor;
 
 /***/ }),
 /* 25 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
-
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -5253,9 +5189,7 @@ exports.default = Container;
 /***/ }),
 /* 26 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
-
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -5318,9 +5252,7 @@ exports.ColorStyle = ColorStyle;
 /* 28 */,
 /* 29 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
-
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -5403,7 +5335,6 @@ exports.default = _quill2.default;
 /***/ }),
 /* 30 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -5562,11 +5493,9 @@ var ShadowBlot = /** @class */ (function () {
 }());
 exports.default = ShadowBlot;
 
-
 /***/ }),
 /* 31 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -5639,11 +5568,9 @@ var AttributorStore = /** @class */ (function () {
 }());
 exports.default = AttributorStore;
 
-
 /***/ }),
 /* 32 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 
 var __extends = (this && this.__extends) || (function () {
@@ -5702,11 +5629,9 @@ var ClassAttributor = /** @class */ (function (_super) {
 }(attributor_1.default));
 exports.default = ClassAttributor;
 
-
 /***/ }),
 /* 33 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 
 var __extends = (this && this.__extends) || (function () {
@@ -5765,13 +5690,10 @@ var StyleAttributor = /** @class */ (function (_super) {
 }(attributor_1.default));
 exports.default = StyleAttributor;
 
-
 /***/ }),
 /* 34 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
-
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -5825,9 +5747,7 @@ exports.default = Theme;
 /***/ }),
 /* 35 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
-
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -5946,9 +5866,7 @@ exports.default = Embed;
 /***/ }),
 /* 36 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
-
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -5977,9 +5895,7 @@ exports.AlignStyle = AlignStyle;
 /***/ }),
 /* 37 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
-
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -6007,9 +5923,7 @@ exports.BackgroundStyle = BackgroundStyle;
 /***/ }),
 /* 38 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
-
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -6038,9 +5952,7 @@ exports.DirectionStyle = DirectionStyle;
 /***/ }),
 /* 39 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
-
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -6097,9 +6009,7 @@ exports.FontClass = FontClass;
 /***/ }),
 /* 40 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
-
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -6128,9 +6038,7 @@ exports.SizeStyle = SizeStyle;
 /* 41 */,
 /* 42 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
-
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -6297,7 +6205,6 @@ exports.getLastChangeIndex = getLastChangeIndex;
 /* 43 */,
 /* 44 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -6434,11 +6341,9 @@ var LinkedList = /** @class */ (function () {
 }());
 exports.default = LinkedList;
 
-
 /***/ }),
 /* 45 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 
 var __extends = (this && this.__extends) || (function () {
@@ -6618,11 +6523,9 @@ var ScrollBlot = /** @class */ (function (_super) {
 }(container_1.default));
 exports.default = ScrollBlot;
 
-
 /***/ }),
 /* 46 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 
 var __extends = (this && this.__extends) || (function () {
@@ -6703,11 +6606,9 @@ var InlineBlot = /** @class */ (function (_super) {
 }(format_1.default));
 exports.default = InlineBlot;
 
-
 /***/ }),
 /* 47 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 
 var __extends = (this && this.__extends) || (function () {
@@ -6779,11 +6680,9 @@ var BlockBlot = /** @class */ (function (_super) {
 }(format_1.default));
 exports.default = BlockBlot;
 
-
 /***/ }),
 /* 48 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 
 var __extends = (this && this.__extends) || (function () {
@@ -6827,11 +6726,9 @@ var EmbedBlot = /** @class */ (function (_super) {
 }(leaf_1.default));
 exports.default = EmbedBlot;
 
-
 /***/ }),
 /* 49 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 
 var __extends = (this && this.__extends) || (function () {
@@ -6930,13 +6827,10 @@ var TextBlot = /** @class */ (function (_super) {
 }(leaf_1.default));
 exports.default = TextBlot;
 
-
 /***/ }),
 /* 50 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
-
 
 var elem = document.createElement('div');
 elem.classList.toggle('test-class', false);
@@ -7005,7 +6899,6 @@ document.addEventListener("DOMContentLoaded", function () {
 /***/ }),
 /* 51 */
 /***/ (function(module, exports) {
-
 /**
  * This library modifies the diff-patch-match library by Neil Fraser
  * by removing the patch and match functionality and certain advanced
@@ -7031,7 +6924,6 @@ document.addEventListener("DOMContentLoaded", function () {
  * limitations under the License.
  */
 
-
 /**
  * The data structure representing a diff is an array of tuples:
  * [[DIFF_DELETE, 'Hello'], [DIFF_INSERT, 'Goodbye'], [DIFF_EQUAL, ' world.']]
@@ -7040,7 +6932,6 @@ document.addEventListener("DOMContentLoaded", function () {
 var DIFF_DELETE = -1;
 var DIFF_INSERT = 1;
 var DIFF_EQUAL = 0;
-
 
 /**
  * Find the differences between two texts.  Simplifies the problem by stripping
@@ -7093,7 +6984,6 @@ function diff_main(text1, text2, cursor_pos) {
   diffs = fix_emoji(diffs);
   return diffs;
 };
-
 
 /**
  * Find the differences between two texts.  Assumes that the texts do not
@@ -7154,7 +7044,6 @@ function diff_compute_(text1, text2) {
 
   return diff_bisect_(text1, text2);
 };
-
 
 /**
  * Find the 'middle snake' of a diff, split the problem in two
@@ -7271,7 +7160,6 @@ function diff_bisect_(text1, text2) {
   return [[DIFF_DELETE, text1], [DIFF_INSERT, text2]];
 };
 
-
 /**
  * Given the location of the 'middle snake', split the diff in two parts
  * and recurse.
@@ -7293,7 +7181,6 @@ function diff_bisectSplit_(text1, text2, x, y) {
 
   return diffs.concat(diffsb);
 };
-
 
 /**
  * Determine the common prefix of two strings.
@@ -7326,7 +7213,6 @@ function diff_commonPrefix(text1, text2) {
   return pointermid;
 };
 
-
 /**
  * Determine the common suffix of two strings.
  * @param {string} text1 First string.
@@ -7357,7 +7243,6 @@ function diff_commonSuffix(text1, text2) {
   }
   return pointermid;
 };
-
 
 /**
  * Do the two texts share a substring which is at least half the length of the
@@ -7450,7 +7335,6 @@ function diff_halfMatch_(text1, text2) {
   var mid_common = hm[4];
   return [text1_a, text1_b, text2_a, text2_b, mid_common];
 };
-
 
 /**
  * Reorder and merge like edit sections.  Merge equalities.
@@ -7577,7 +7461,6 @@ function diff_cleanupMerge(diffs) {
     diff_cleanupMerge(diffs);
   }
 };
-
 
 var diff = diff_main;
 diff.INSERT = DIFF_INSERT;
@@ -7745,11 +7628,9 @@ function merge_tuples (diffs, start, length) {
   return diffs;
 }
 
-
 /***/ }),
 /* 52 */
 /***/ (function(module, exports) {
-
 exports = module.exports = typeof Object.keys === 'function'
   ? Object.keys : shim;
 
@@ -7760,11 +7641,9 @@ function shim (obj) {
   return keys;
 }
 
-
 /***/ }),
 /* 53 */
 /***/ (function(module, exports) {
-
 var supportsArgumentsClass = (function(){
   return Object.prototype.toString.call(arguments)
 })() == '[object Arguments]';
@@ -7786,11 +7665,9 @@ function unsupported(object){
     false;
 };
 
-
 /***/ }),
 /* 54 */
 /***/ (function(module, exports) {
-
 'use strict';
 
 var has = Object.prototype.hasOwnProperty
@@ -8103,13 +7980,10 @@ if ('undefined' !== typeof module) {
   module.exports = EventEmitter;
 }
 
-
 /***/ }),
 /* 55 */
 /***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
-
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -8585,9 +8459,7 @@ exports.matchText = matchText;
 /* 109 */,
 /* 110 */
 /***/ (function(module, exports, __webpack_require__) {
-
 module.exports = __webpack_require__(29);
-
 
 /***/ })
 /******/ ])["default"];

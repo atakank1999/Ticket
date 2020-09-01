@@ -36,12 +36,10 @@
     font-weight: 700;
 }
 
-
 // Media components inside dropdown link
 
 .dropdown-menu {
     a.media {
-
         > div {
             &:first-child {
                 line-height: 1;

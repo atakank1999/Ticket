@@ -7,7 +7,6 @@
    factory(global.moment)
 }(this, (function (moment) { 'use strict';
 
-
     var suffixes = {
         0: '-ум',
         1: '-ум',
@@ -111,5 +110,4 @@
     });
 
     return tg;
-
 })));

@@ -7,8 +7,6 @@
    factory(global.moment)
 }(this, (function (moment) { 'use strict';
 
-
-
     var months = [
         'Eanáir', 'Feabhra', 'Márta', 'Aibreán', 'Bealtaine', 'Méitheamh', 'Iúil', 'Lúnasa', 'Meán Fómhair', 'Deaireadh Fómhair', 'Samhain', 'Nollaig'
     ];
@@ -72,5 +70,4 @@
     });
 
     return ga;
-
 })));

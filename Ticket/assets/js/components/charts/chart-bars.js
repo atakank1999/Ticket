@@ -3,13 +3,11 @@
 //
 
 var BarsChart = (function() {
-
 	//
 	// Variables
 	//
 
 	var $chart = $('#chart-bars');
-
 
 	//
 	// Methods
@@ -17,7 +15,6 @@ var BarsChart = (function() {
 
 	// Init chart
 	function initChart($chart) {
-
 		// Create chart
 		var ordersChart = new Chart($chart, {
 			type: 'bar',
@@ -34,10 +31,8 @@ var BarsChart = (function() {
 		$chart.data('chart', ordersChart);
 	}
 
-
 	// Init chart
 	if ($chart.length) {
 		initChart($chart);
 	}
-
 })();

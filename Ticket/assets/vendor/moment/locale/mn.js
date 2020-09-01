@@ -7,7 +7,6 @@
    factory(global.moment)
 }(this, (function (moment) { 'use strict';
 
-
     function translate(number, withoutSuffix, key, isFuture) {
         switch (key) {
             case 's':
@@ -99,5 +98,4 @@
     });
 
     return mn;
-
 })));

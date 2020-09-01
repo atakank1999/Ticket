@@ -7,17 +7,16 @@
         img {
             width: 20px;
         }
-   }
+    }
 
-   .btn-inner--text:not(:first-child) {
-       margin-left: 0.75em;
-   }
+    .btn-inner--text:not(:first-child) {
+        margin-left: 0.75em;
+    }
 
-   .btn-inner--text:not(:last-child) {
-       margin-right: 0.75em;
-   }
+    .btn-inner--text:not(:last-child) {
+        margin-right: 0.75em;
+    }
 }
-
 
 // Button only with icon and NO text
 
@@ -35,7 +34,6 @@ a.btn-icon-only {
     width: 2rem;
     height: 2rem;
 }
-
 
 //
 // Clipboard button

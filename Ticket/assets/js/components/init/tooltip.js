@@ -5,11 +5,9 @@
 'use strict';
 
 var Tooltip = (function() {
-
 	// Variables
 
 	var $tooltip = $('[data-toggle="tooltip"]');
-
 
 	// Methods
 
@@ -17,11 +15,9 @@ var Tooltip = (function() {
 		$tooltip.tooltip();
 	}
 
-
 	// Events
 
 	if ($tooltip.length) {
 		init();
 	}
-
 })();

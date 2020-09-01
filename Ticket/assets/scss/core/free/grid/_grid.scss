@@ -2,14 +2,13 @@
 // Grid
 //
 
-
 // Example row
 
 .row-example {
     > .col,
     > [class^="col-"] {
         span {
-            display: block; 
+            display: block;
             padding: .75rem;
             color: rgb(57, 63, 73);
             background-color: rgb(255, 255, 255);

@@ -2,11 +2,11 @@
 // Sortable tables with list.js
 //
 
-.table  {
+.table {
     [data-sort] {
         cursor: pointer;
     }
-    
+
     .thead-dark {
         [data-sort] {
             &::after {

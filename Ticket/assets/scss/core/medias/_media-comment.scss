@@ -2,9 +2,8 @@
 // Media comment
 //
 
-
 .media-comment {
-	margin-top: 2rem;
+    margin-top: 2rem;
 }
 
 .media-comment-avatar {
@@ -17,17 +16,17 @@
 }
 
 .media-comment-text {
-	border-radius: $border-radius-lg;
-	border-top-left-radius: 0;
-	position: relative;
-	background-color: $gray-100;
-	padding: 1rem 1.25rem 1rem 2.5rem;
+    border-radius: $border-radius-lg;
+    border-top-left-radius: 0;
+    position: relative;
+    background-color: $gray-100;
+    padding: 1rem 1.25rem 1rem 2.5rem;
 }
 
 .media-comment {
-	&:hover {
-		.media-comment-avatar {
-			transform: scale(1.1);
-		}
-	}
+    &:hover {
+        .media-comment-avatar {
+            transform: scale(1.1);
+        }
+    }
 }

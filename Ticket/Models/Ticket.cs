@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 using System.Web.UI.WebControls;
 
 namespace Ticket.Models
@@ -15,7 +13,6 @@ namespace Ticket.Models
         Onemli,
         Orta,
         Dusuk
-
     }
 
     public enum Type
@@ -32,16 +29,19 @@ namespace Ticket.Models
         Sürüyor,
         Çözüldü
     }
+
     [Table("Tickets")]
     public class Ticket
     {
-        [Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        [Required(ErrorMessage = "Boş Geçilemez"),Display(Name = "Başlık")]
-        public string Title { get; set; }
-        [Required(ErrorMessage = "Boş Geçilemez"), Display(Name = "Biletinizin içeriği")]
 
+        [Required(ErrorMessage = "Boş Geçilemez"), Display(Name = "Başlık")]
+        public string Title { get; set; }
+
+        [Required(ErrorMessage = "Boş Geçilemez"), Display(Name = "Biletinizin içeriği")]
         public string Text { get; set; }
+
         public virtual Users Author { get; set; }
         public virtual List<Reply> Replies { get; set; }
         public string FilePath { get; set; }

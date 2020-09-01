@@ -7,7 +7,6 @@
    factory(global.moment)
 }(this, (function (moment) { 'use strict';
 
-
     var suffixes = {
         0: '-чү',
         1: '-чи',
@@ -82,5 +81,4 @@
     });
 
     return ky;
-
 })));

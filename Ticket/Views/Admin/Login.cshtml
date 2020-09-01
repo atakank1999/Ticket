@@ -4,11 +4,10 @@
     ViewBag.Title = "Login";
 }
 
-
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -34,4 +33,3 @@
         </div>
     </div>
 }
-

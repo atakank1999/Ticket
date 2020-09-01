@@ -7,7 +7,6 @@
    factory(global.moment)
 }(this, (function (moment) { 'use strict';
 
-
     var translator = {
         words: { //Different grammatical cases
             ss: ['sekund', 'sekunda', 'sekundi'],
@@ -107,5 +106,4 @@
     });
 
     return me;
-
 })));

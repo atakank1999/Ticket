@@ -3370,7 +3370,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Assignment.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
@@ -3422,7 +3421,6 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Assignment.cs" />
     <Compile Include="Models\Context\DatabaseContext.cs" />
-    <Compile Include="Models\Quartz\Email.cs" />
     <Compile Include="Models\Reply.cs" />
     <Compile Include="Models\Ticket.cs" />
     <Compile Include="Models\Users.cs" />

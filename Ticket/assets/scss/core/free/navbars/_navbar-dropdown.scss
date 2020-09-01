@@ -2,7 +2,6 @@
 // Navbar dropdown
 //
 
-
 .navbar {
     .dropdown-menu {
         opacity: 0;
@@ -72,10 +71,7 @@
         position: relative;
         padding: 1rem;
     }
-
-
     // Keyframes
-
     @keyframes show-navbar-dropdown {
         0% {
             opacity: 0;

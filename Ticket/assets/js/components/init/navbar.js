@@ -5,7 +5,6 @@
 'use strict';
 
 var Navbar = (function() {
-
 	// Variables
 
 	var $nav = $('.navbar-nav, .navbar-nav .nav');
@@ -28,7 +27,6 @@ var Navbar = (function() {
     	}, 200);
 	}
 
-
 	// Events
 
 	$collapse.on({
@@ -42,22 +40,17 @@ var Navbar = (function() {
 			closeDropdown($(this));
 		}
 	})
-
 })();
-
 
 //
 // Navbar collapse
 //
 
-
 var NavbarCollapse = (function() {
-
 	// Variables
 
 	var $nav = $('.navbar-nav'),
 		$collapse = $('.navbar .navbar-custom-collapse');
-
 
 	// Methods
 
@@ -68,7 +61,6 @@ var NavbarCollapse = (function() {
 	function hiddenNavbarCollapse($this) {
 		$this.removeClass('collapsing-out');
 	}
-
 
 	// Events
 
@@ -93,22 +85,16 @@ var NavbarCollapse = (function() {
 		  $('body').removeClass('nav-open');
 			navbar_menu_visible = 0;
 			$('.bodyClick').remove();
-
 		} else {
-
 		var div = '<div class="bodyClick"></div>';
 		$(div).appendTo('body').click(function() {
 				 $('body').removeClass('nav-open');
 					navbar_menu_visible = 0;
 					$('.bodyClick').remove();
-					
 			 });
 
 		 $('body').addClass('nav-open');
 			navbar_menu_visible = 1;
-
 		}
-
 	});
-
 })();

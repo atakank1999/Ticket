@@ -1,8 +1,7 @@
 ﻿namespace Ticket.Migrations
 {
-    using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class Assignment2 : DbMigration
     {
         public override void Up()
@@ -13,7 +12,7 @@
             CreateIndex("dbo.Assignments", "Admin_ID");
             AddForeignKey("dbo.Assignments", "Admin_ID", "dbo.Users", "ID", cascadeDelete: true);
         }
-        
+
         public override void Down()
         {
             DropForeignKey("dbo.Assignments", "Admin_ID", "dbo.Users");

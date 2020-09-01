@@ -1,7 +1,6 @@
 'use strict';
 
 Tinytest.add('Scrollbar integration', function (test) {
-
     var div = document.createElement('div');
     div.className = 'scrollbar-inner';
     div.value = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in.";

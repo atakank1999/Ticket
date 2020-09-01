@@ -5,7 +5,6 @@
 'use strict';
 
 var noUiSlider = (function() {
-
 	// Variables
 
 	// var $sliderContainer = $('.input-slider-container'),
@@ -13,7 +12,6 @@ var noUiSlider = (function() {
 	// 		$sliderId = $slider.attr('id'),
 	// 		$sliderMinValue = $slider.data('range-value-min');
 	// 		$sliderMaxValue = $slider.data('range-value-max');;
-
 
 	// // Methods
 	//
@@ -30,11 +28,8 @@ var noUiSlider = (function() {
 	// 	init($input);
 	// }
 
-
-
 	if ($(".input-slider-container")[0]) {
 			$('.input-slider-container').each(function() {
-
 					var slider = $(this).find('.input-slider');
 					var sliderId = slider.attr('id');
 					var minValue = slider.data('range-value-min');
@@ -80,5 +75,4 @@ var noUiSlider = (function() {
 					f[b].textContent = a[b]
 			})
 	}
-
 })();

@@ -95,9 +95,9 @@ svg {
     padding: 3px 3px 1px 3px;
 }
 
-.jvectormap-legend-cnt-h .jvectormap-legend .jvectormap-legend-tick {
-    float: left;
-}
+    .jvectormap-legend-cnt-h .jvectormap-legend .jvectormap-legend-tick {
+        float: left;
+    }
 
 .jvectormap-legend-cnt-v .jvectormap-legend {
     margin: 10px 10px 0 0;

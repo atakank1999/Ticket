@@ -25,10 +25,10 @@
         opacity: 1;
     }
 
-    .input-group-prepend{
-      .input-group-text{
-        border-color: red;
-      }
+    .input-group-prepend {
+        .input-group-text {
+            border-color: red;
+        }
     }
 }
 
@@ -45,10 +45,7 @@
         &:focus {
             //border-color: $input-focus-border-color;
         }
-
-
         // Placeholder
-
         &::placeholder {
             color: $form-feedback-valid-color;
         }
@@ -68,9 +65,7 @@
         &:focus {
             //border-color: $input-focus-border-color;
         }
-
         // Placeholder
-
         &::placeholder {
             color: $form-feedback-invalid-color;
         }

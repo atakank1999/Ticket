@@ -2,7 +2,6 @@
 // Full Calendar
 //
 
-
 .fc-header-toolbar {
     display: none;
 }
@@ -19,8 +18,6 @@
         color: $table-head-color;
         text-transform: uppercase;
     }
-
-
 
     div.fc-row {
         margin-right: 0;
@@ -71,6 +68,7 @@
         border: 0;
         overflow: hidden;
     }
+
     & > table {
         & > tbody {
             & > tr {
@@ -110,11 +108,11 @@
     }
 }
 
-
 // Main Calendar
 
 .calendar {
     z-index: 0;
+
     td, th {
         border-color: lighten($table-border-color,2%);
     }
@@ -126,6 +124,7 @@
         position: relative;
         margin-bottom: -2px;
         z-index: 2;
+
         @include media-breakpoint-down(xs) {
             height: 135px;
         }
@@ -135,20 +134,22 @@
         padding: .5rem 1rem;
         width: 100%;
         box-sizing: border-box;
+
         @include media-breakpoint-up(sm) {
             font-size: $font-size-sm;
             font-weight: $font-weight-bold;
             color: lighten($body-color,10%);
         }
     }
+
     .fc-day-header {
         text-align: left;
     }
+
     .fc-day-grid-event {
         margin: 1px 9px;
     }
 }
-
 
 // Main Calendar Seasonal headers
 
@@ -160,40 +161,50 @@
 [data-calendar-month="0"] {
     background-image: url('../img/calendar/january.jpg');
 }
+
 [data-calendar-month="1"] {
     background-image: url('../img/calendar/february.jpg');
 }
+
 [data-calendar-month="2"] {
     background-image: url('../img/calendar/march.jpg');
 }
+
 [data-calendar-month="3"] {
     background-image: url('../img/calendar/april.jpg');
 }
+
 [data-calendar-month="4"] {
     background-image: url('../img/calendar/may.jpg');
 }
+
 [data-calendar-month="5"] {
     background-image: url('../img/calendar/june.jpg');
 }
+
 [data-calendar-month="6"] {
     background-image: url('../img/calendar/july.jpg');
 }
+
 [data-calendar-month="7"] {
     background-image: url('../img/calendar/august.jpg');
 }
+
 [data-calendar-month="8"] {
     background-image: url('../img/calendar/september.jpg');
 }
+
 [data-calendar-month="9"] {
     background-image: url('../img/calendar/october.jpg');
 }
+
 [data-calendar-month="10"] {
     background-image: url('../img/calendar/november.jpg');
 }
+
 [data-calendar-month="11"] {
     background-image: url('../img/calendar/december.jpg');
 }
-
 
 // Calendar used inside a card
 
@@ -204,11 +215,13 @@
 
     table {
         background: transparent;
+
         tr {
             & > td {
                 &:first-child {
                     border-left-width: 0;
                 }
+
                 &:last-child {
                     border-right-width: 0;
                 }
@@ -246,6 +259,7 @@
         table {
             font-size: $font-size-sm;
         }
+
         th {
             padding: .75rem .5rem;
             font-size: $font-size-xs;

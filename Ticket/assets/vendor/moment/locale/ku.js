@@ -7,7 +7,6 @@
    factory(global.moment)
 }(this, (function (moment) { 'use strict';
 
-
     var symbolMap = {
         '1': '١',
         '2': '٢',
@@ -45,7 +44,6 @@
         'تشرینی دووەم',
         'كانونی یەکەم'
     ];
-
 
     var ku = moment.defineLocale('ku', {
         months : months,
@@ -114,5 +112,4 @@
     });
 
     return ku;
-
 })));

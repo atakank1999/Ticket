@@ -494,7 +494,6 @@ function parse (pattern, isSub) {
         }
 
         re += c
-
     } // switch
   } // for
 

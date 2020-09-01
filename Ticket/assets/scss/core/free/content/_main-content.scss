@@ -1,12 +1,10 @@
 .main-content {
     position: relative;
-
     // Navbar
     .navbar-top {
         padding-left: 0 !important;
         padding-right: 0 !important;
     }
-
     // Container
     .container-fluid {
         @include media-breakpoint-up(md) {

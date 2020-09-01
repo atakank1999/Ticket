@@ -7,7 +7,6 @@
    factory(global.moment)
 }(this, (function (moment) { 'use strict';
 
-
     var months = [
         'جنوري',
         'فيبروري',
@@ -93,5 +92,4 @@
     });
 
     return sd;
-
 })));

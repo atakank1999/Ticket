@@ -35,25 +35,23 @@
     background-color: $input-bg;
     background-clip: padding-box;
     border: $input-border-width solid $input-border-color;
-
     // Note: This has no effect on <select>s in some browsers, due to the limited stylability of `<select>`s in CSS.
     @if $enable-rounded {
         // Manually use the if/else instead of the mixin to account for iOS override
         border-radius: $input-border-radius;
-    } @else {
+    }
+    @else {
         // Otherwise undo the iOS default
         border-radius: 0;
     }
 
     @include box-shadow($input-box-shadow);
     @include transition($input-transition);
-
     // Unstyle the caret on `<select>`s in IE10+.
     &::-ms-expand {
         background-color: transparent;
         border: 0;
     }
-
     // Customize the `:focus` state to imitate native WebKit styles.
     @include form-control-focus($ignore-warning: true);
 
@@ -67,11 +65,11 @@
     transform: scale(0);
 }
 
-
 // Placeholder
 
 .ql-editor.ql-blank::before {
-    top: $input-padding-y; left: $input-padding-x;
+    top: $input-padding-y;
+    left: $input-padding-x;
     font-style: normal;
     color: $input-placeholder-color;
 }
@@ -79,7 +77,6 @@
 .ql-editor:focus::before {
     display: none;
 }
-
 
 // Toolbar
 
@@ -98,7 +95,8 @@
 
 .ql-toolbar button {
     padding: 0 .25rem;
-    background: none; border: none;
+    background: none;
+    border: none;
     color: $body-color;
     cursor: pointer;
     transition: $transition-base;
@@ -113,11 +111,12 @@
 }
 
 .ql-toolbar .ql-active {
-color: $primary;
+    color: $primary;
 }
 
 .ql-toolbar button svg {
-    height: $font-size-lg; width: $font-size-lg;
+    height: $font-size-lg;
+    width: $font-size-lg;
 }
 
 .ql-toolbar .ql-stroke {
@@ -141,7 +140,6 @@ color: $primary;
     transform: scale(0);
 }
 
-
 // Tooltip
 
 .ql-tooltip {
@@ -155,13 +153,12 @@ color: $primary;
     padding: $input-padding-y $input-padding-x;
     margin-top: .6rem; // arrow width
     box-shadow: $popover-box-shadow;
-
     // Arrow
-
     &:before, &:after {
         content: '';
         position: absolute;
-        left: 50%; bottom: 100%;
+        left: 50%;
+        bottom: 100%;
         transform: translateX(-50%);
     }
 
@@ -204,14 +201,13 @@ color: $primary;
     color: $input-color;
 
     &:focus {
-    outline: none;
+        outline: none;
     }
 }
 
 .ql-tooltip.ql-editing input {
     display: block;
 }
-
 
 .ql-tooltip .ql-action,
 .ql-tooltip .ql-remove {
@@ -230,7 +226,6 @@ color: $primary;
     cursor: pointer;
     @include button-size($btn-padding-y-sm, $btn-padding-x-sm, $font-size-sm, $btn-line-height-sm, $btn-border-radius-sm);
     @include transition($btn-transition);
-
     // Share hover and focus styles
     @include hover-focus {
         text-decoration: none;
@@ -265,7 +260,6 @@ color: $primary;
 .ql-tooltip.ql-editing .ql-remove::before {
     display: none;
 }
-
 
 // Formatting
 

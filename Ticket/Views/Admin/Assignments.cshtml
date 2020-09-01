@@ -57,7 +57,6 @@
                     <div class="form-row mb-2">
                         @Html.EnumDropDownListFor(x => x.Ticket.Priority, "Önemini Seçiniz", new { @class = "form-control form-control-sm" })
                         @Html.HiddenFor(x => x.Ticket.Id, new { @Value = a.Ticket.Id })
-                        
 
                         <input type="submit" value="Assign" class="btn btn-primary btn-sm" />
                         <span id="button2">
@@ -71,7 +70,7 @@
 
                             @Html.EnumDropDownListFor(x => x.Ticket.Status,  "Durumunu Seçiniz", new { @class = "form-control form-control-sm" })
                             @Html.HiddenFor(x => x.Ticket.Id, new { Value = a.Ticket.Id })
-                        
+
                         <input type="submit" value="Assign" class="btn btn-primary btn-sm" />
                         <span id="button3">
                         </span>

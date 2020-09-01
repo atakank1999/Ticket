@@ -7,7 +7,6 @@
    factory(global.moment)
 }(this, (function (moment) { 'use strict';
 
-
     function translate(number, withoutSuffix, key) {
         var result = number + ' ';
         switch (key) {
@@ -146,5 +145,4 @@
     });
 
     return bs;
-
 })));

@@ -91,7 +91,6 @@ var Emitter = function () {
     // Remove event listener for given event. If fn is not provided, all event
     // listeners for that event will be removed. If neither is provided, all
     // event listeners will be removed.
-
   }, {
     key: "off",
     value: function off(event, fn) {
@@ -134,7 +133,6 @@ var Dropzone = function (_Emitter) {
   _createClass(Dropzone, null, [{
     key: "initClass",
     value: function initClass() {
-
       // Exposing the emitter class, mainly for tests
       this.prototype.Emitter = Emitter;
 
@@ -494,7 +492,6 @@ var Dropzone = function (_Emitter) {
          */
         init: function init() {},
 
-
         /**
          * Can be an **object** of additional parameters to transfer to the server, **or** a `Function`
          * that gets invoked with the `files`, `xhr` and, if it's a chunked upload, `chunk` arguments. In case
@@ -518,7 +515,6 @@ var Dropzone = function (_Emitter) {
           }
         },
 
-
         /**
          * A function that gets a [file](https://developer.mozilla.org/en-US/docs/DOM/File)
          * and a `done` function as parameters.
@@ -531,7 +527,6 @@ var Dropzone = function (_Emitter) {
         accept: function accept(file, done) {
           return done();
         },
-
 
         /**
          * The callback that will be invoked when all chunks have been uploaded for a file.
@@ -589,7 +584,6 @@ var Dropzone = function (_Emitter) {
 
           return this.element.appendChild(this.getFallbackForm());
         },
-
 
         /**
          * Gets called to calculate the thumbnail dimensions.
@@ -660,7 +654,6 @@ var Dropzone = function (_Emitter) {
           return info;
         },
 
-
         /**
          * Can be used to transform the file (for example, resize an image if necessary).
          *
@@ -677,7 +670,6 @@ var Dropzone = function (_Emitter) {
             return done(file);
           }
         },
-
 
         /**
          * A string that contains the template used for each dropped
@@ -697,7 +689,6 @@ var Dropzone = function (_Emitter) {
 
         // END OPTIONS
         // (Required by the dropzone documentation parser)
-
 
         /*
          Those functions register themselves to the events on init and handle all
@@ -727,13 +718,11 @@ var Dropzone = function (_Emitter) {
         },
         paste: function paste(e) {},
 
-
         // Called whenever there are no files left in the dropzone anymore, and the
         // dropzone should be displayed as if in the initial state.
         reset: function reset() {
           return this.element.classList.remove("dz-started");
         },
-
 
         // Called when a file is added to the queue
         // Receives `file`
@@ -820,7 +809,6 @@ var Dropzone = function (_Emitter) {
           }
         },
 
-
         // Called whenever a file is removed.
         removedfile: function removedfile(file) {
           if (file.previewElement != null && file.previewElement.parentNode != null) {
@@ -828,7 +816,6 @@ var Dropzone = function (_Emitter) {
           }
           return this._updateMaxFilesReachedClass();
         },
-
 
         // Called when a thumbnail has been generated
         // Receives `file` and `dataUrl`
@@ -859,7 +846,6 @@ var Dropzone = function (_Emitter) {
           }
         },
 
-
         // Called whenever an error occurs
         // Receives `file` and `message`
         error: function error(file, message) {
@@ -888,7 +874,6 @@ var Dropzone = function (_Emitter) {
         },
         errormultiple: function errormultiple() {},
 
-
         // Called when a file gets processed. Since there is a cue, not all added
         // files are processed immediately.
         // Receives `file`
@@ -901,7 +886,6 @@ var Dropzone = function (_Emitter) {
           }
         },
         processingmultiple: function processingmultiple() {},
-
 
         // Called whenever the upload progress gets updated.
         // Receives `file`, `progress` (percentage 0-100) and `bytesSent`.
@@ -927,18 +911,15 @@ var Dropzone = function (_Emitter) {
           }
         },
 
-
         // Called whenever the total upload progress gets updated.
         // Called with totalUploadProgress (0-100), totalBytes and totalBytesSent
         totaluploadprogress: function totaluploadprogress() {},
-
 
         // Called just before the file is sent. Gets the `xhr` object as second
         // parameter, so you can modify it (for example to add a CSRF token) and a
         // `formData` object to add additional information.
         sending: function sending() {},
         sendingmultiple: function sendingmultiple() {},
-
 
         // When the complete upload is finished and successful
         // Receives `file`
@@ -949,13 +930,11 @@ var Dropzone = function (_Emitter) {
         },
         successmultiple: function successmultiple() {},
 
-
         // When the upload is canceled.
         canceled: function canceled(file) {
           return this.emit("error", file, this.options.dictUploadCanceled);
         },
         canceledmultiple: function canceledmultiple() {},
-
 
         // When the upload is finished, either with success or an error.
         // Receives `file`
@@ -979,7 +958,6 @@ var Dropzone = function (_Emitter) {
     }
 
     // global utility
-
   }, {
     key: "extend",
     value: function extend(target) {
@@ -1117,7 +1095,6 @@ var Dropzone = function (_Emitter) {
 
   // Returns all files that have been accepted
 
-
   _createClass(Dropzone, [{
     key: "getAcceptedFiles",
     value: function getAcceptedFiles() {
@@ -1130,7 +1107,6 @@ var Dropzone = function (_Emitter) {
 
     // Returns all files that have been rejected
     // Not sure when that's going to be useful, but added for completeness.
-
   }, {
     key: "getRejectedFiles",
     value: function getRejectedFiles() {
@@ -1151,7 +1127,6 @@ var Dropzone = function (_Emitter) {
     }
 
     // Returns all files that are in the queue
-
   }, {
     key: "getQueuedFiles",
     value: function getQueuedFiles() {
@@ -1169,7 +1144,6 @@ var Dropzone = function (_Emitter) {
     }
 
     // Files that are either queued or uploading
-
   }, {
     key: "getActiveFiles",
     value: function getActiveFiles() {
@@ -1182,7 +1156,6 @@ var Dropzone = function (_Emitter) {
 
     // The function that gets called when Dropzone is initialized. You
     // can (and should) setup event listeners inside this function.
-
   }, {
     key: "init",
     value: function init() {
@@ -1368,7 +1341,6 @@ var Dropzone = function (_Emitter) {
     }
 
     // Not fully tested yet
-
   }, {
     key: "destroy",
     value: function destroy() {
@@ -1418,7 +1390,6 @@ var Dropzone = function (_Emitter) {
 
     // @options.paramName can be a function taking one parameter rather than a string.
     // A parameter name for a file is obtained simply by calling this with an index number.
-
   }, {
     key: "_getParamName",
     value: function _getParamName(n) {
@@ -1431,7 +1402,6 @@ var Dropzone = function (_Emitter) {
 
     // If @options.renameFile is a function,
     // the function will be used to rename the file.name before appending it to the formData
-
   }, {
     key: "_renameFile",
     value: function _renameFile(file) {
@@ -1445,7 +1415,6 @@ var Dropzone = function (_Emitter) {
     //
     // If the dropzone is already a form, only the input field and button are returned. Otherwise a complete form element is provided.
     // This code has to pass in IE7 :(
-
   }, {
     key: "getFallbackForm",
     value: function getFallbackForm() {
@@ -1476,7 +1445,6 @@ var Dropzone = function (_Emitter) {
     // Returns the fallback elements if they exist already
     //
     // This code has to pass in IE7 :(
-
   }, {
     key: "getExistingFallback",
     value: function getExistingFallback() {
@@ -1512,7 +1480,6 @@ var Dropzone = function (_Emitter) {
     }
 
     // Activates all listeners stored in @listeners
-
   }, {
     key: "setupEventListeners",
     value: function setupEventListeners() {
@@ -1529,7 +1496,6 @@ var Dropzone = function (_Emitter) {
     }
 
     // Deactivates all listeners stored in @listeners
-
   }, {
     key: "removeEventListeners",
     value: function removeEventListeners() {
@@ -1546,7 +1512,6 @@ var Dropzone = function (_Emitter) {
     }
 
     // Removes all event listeners and cancels all files in the queue or being processed.
-
   }, {
     key: "disable",
     value: function disable() {
@@ -1573,7 +1538,6 @@ var Dropzone = function (_Emitter) {
     }
 
     // Returns a nicely formatted filesize
-
   }, {
     key: "filesize",
     value: function filesize(size) {
@@ -1601,7 +1565,6 @@ var Dropzone = function (_Emitter) {
     }
 
     // Adds or removes the `dz-max-files-reached` class from the form.
-
   }, {
     key: "_updateMaxFilesReachedClass",
     value: function _updateMaxFilesReachedClass() {
@@ -1655,7 +1618,6 @@ var Dropzone = function (_Emitter) {
       this.emit("paste", e);
       var items = e.clipboardData.items;
 
-
       if (items.length) {
         return this._addFilesFromItems(items);
       }
@@ -1683,7 +1645,6 @@ var Dropzone = function (_Emitter) {
 
     // When a folder is dropped (or files are pasted), items must be handled
     // instead of files.
-
   }, {
     key: "_addFilesFromItems",
     value: function _addFilesFromItems(items) {
@@ -1730,7 +1691,6 @@ var Dropzone = function (_Emitter) {
     }
 
     // Goes through the directory, and adds each file it finds recursively
-
   }, {
     key: "_addFilesFromDirectory",
     value: function _addFilesFromDirectory(directory, path) {
@@ -1792,7 +1752,6 @@ var Dropzone = function (_Emitter) {
     //
     // This function checks the filesize, and if the file.type passes the
     // `acceptedFiles` check.
-
   }, {
     key: "accept",
     value: function accept(file, done) {
@@ -1846,7 +1805,6 @@ var Dropzone = function (_Emitter) {
     }
 
     // Wrapper for enqueueFile
-
   }, {
     key: "enqueueFiles",
     value: function enqueueFiles(files) {
@@ -1915,7 +1873,6 @@ var Dropzone = function (_Emitter) {
     }
 
     // Can be called by the user to remove a file
-
   }, {
     key: "removeFile",
     value: function removeFile(file) {
@@ -1931,7 +1888,6 @@ var Dropzone = function (_Emitter) {
     }
 
     // Removes all files that aren't currently processed from the list
-
   }, {
     key: "removeAllFiles",
     value: function removeAllFiles(cancelIfNecessary) {
@@ -1963,7 +1919,6 @@ var Dropzone = function (_Emitter) {
     // Resizes an image before it gets sent to the server. This function is the default behavior of
     // `options.transformFile` if `resizeWidth` or `resizeHeight` are set. The callback is invoked with
     // the resized blob.
-
   }, {
     key: "resizeImage",
     value: function resizeImage(file, width, height, resizeMethod, callback) {
@@ -1996,7 +1951,6 @@ var Dropzone = function (_Emitter) {
       var fileReader = new FileReader();
 
       fileReader.onload = function () {
-
         file.dataURL = fileReader.result;
 
         // Don't bother creating a thumbnail for SVG images since they're vector
@@ -2112,7 +2066,6 @@ var Dropzone = function (_Emitter) {
     }
 
     // Goes through the queue and processes files if there aren't too many already.
-
   }, {
     key: "processQueue",
     value: function processQueue() {
@@ -2147,7 +2100,6 @@ var Dropzone = function (_Emitter) {
     }
 
     // Wrapper for `processFiles`
-
   }, {
     key: "processFile",
     value: function processFile(file) {
@@ -2155,7 +2107,6 @@ var Dropzone = function (_Emitter) {
     }
 
     // Loads the file, then calls finishedLoading()
-
   }, {
     key: "processFiles",
     value: function processFiles(files) {
@@ -2200,7 +2151,6 @@ var Dropzone = function (_Emitter) {
     // **if** the file is actually being uploaded.
     // If it's still in the queue, the file is being removed from it and the status
     // set to CANCELED.
-
   }, {
     key: "cancelUpload",
     value: function cancelUpload(file) {
@@ -2372,7 +2322,6 @@ var Dropzone = function (_Emitter) {
     }
 
     /// Returns the right chunk for given file and xhr
-
   }, {
     key: "_getChunk",
     value: function _getChunk(file, xhr) {
@@ -2386,7 +2335,6 @@ var Dropzone = function (_Emitter) {
     // This function actually uploads the file(s) to the server.
     // If dataBlocks contains the actual data to upload (meaning, that this could either be transformed
     // files, or individual chunks for chunked upload).
-
   }, {
     key: "_uploadData",
     value: function _uploadData(files, dataBlocks) {
@@ -2506,7 +2454,6 @@ var Dropzone = function (_Emitter) {
     }
 
     // Transforms all files with this.options.transformFile and invokes done with the transformed files when done.
-
   }, {
     key: "_transformFiles",
     value: function _transformFiles(files, done) {
@@ -2531,7 +2478,6 @@ var Dropzone = function (_Emitter) {
     }
 
     // Takes care of adding other input elements of the form to the AJAX request
-
   }, {
     key: "_addFormElementData",
     value: function _addFormElementData(formData) {
@@ -2587,7 +2533,6 @@ var Dropzone = function (_Emitter) {
 
     // Invoked when there is new progress information about given files.
     // If e is not provided, it is assumed that the upload is finished.
-
   }, {
     key: "_updateFilesUploadProgress",
     value: function _updateFilesUploadProgress(files, xhr, e) {
@@ -2783,7 +2728,6 @@ var Dropzone = function (_Emitter) {
 
     // Called internally when processing is finished.
     // Individual callbacks have to be called in the appropriate sections.
-
   }, {
     key: "_finished",
     value: function _finished(files, responseText, e) {
@@ -2817,7 +2761,6 @@ var Dropzone = function (_Emitter) {
 
     // Called internally when processing is finished.
     // Individual callbacks have to be called in the appropriate sections.
-
   }, {
     key: "_errorProcessing",
     value: function _errorProcessing(files, message, xhr) {
@@ -3251,7 +3194,6 @@ var detectVerticalSquash = function detectVerticalSquash(img) {
       data = _ctx$getImageData.data;
 
   // search image edge pixel position in case it is squashed vertically.
-
 
   var sy = 0;
   var ey = ih;

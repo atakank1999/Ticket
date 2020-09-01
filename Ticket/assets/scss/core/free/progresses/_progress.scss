@@ -2,14 +2,12 @@
 // Progress
 //
 
-
 // Progress container
 
 .progress-wrapper {
     position: relative;
     padding-top: 1.5rem;
 }
-
 
 // General styles
 
@@ -31,7 +29,6 @@
         font-size: 13px;
     }
 }
-
 
 // Size variations
 
@@ -58,7 +55,7 @@
     height: auto;
 }
 
-.progress-info{
+.progress-info {
     margin-bottom: .5rem;
     display: flex;
     align-items: center;
@@ -80,6 +77,7 @@
 
 .progress-percentage {
     text-align: right;
+
     span {
         display: inline-block;
         color: $gray-600;

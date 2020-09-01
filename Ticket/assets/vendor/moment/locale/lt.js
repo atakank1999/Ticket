@@ -7,7 +7,6 @@
    factory(global.moment)
 }(this, (function (moment) { 'use strict';
 
-
     var units = {
         'ss' : 'sekundė_sekundžių_sekundes',
         'm' : 'minutė_minutės_minutę',
@@ -113,5 +112,4 @@
     });
 
     return lt;
-
 })));

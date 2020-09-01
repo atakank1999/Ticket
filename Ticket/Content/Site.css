@@ -1,15 +1,15 @@
-﻿
-/* Set width on the form input elements since they're 100% wide by default */
+﻿/* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
 textarea {
     max-width: 280px;
 }
+
 #navbar-brand {
     color: rgba(255, 255, 255, 1);
-           font-size: 1.5rem;
+    font-size: 1.5rem;
 }
-#navbar-brand:hover
-{
-    color:rgba(255,255,255,0.5)
-}
+
+    #navbar-brand:hover {
+        color: rgba(255,255,255,0.5)
+    }

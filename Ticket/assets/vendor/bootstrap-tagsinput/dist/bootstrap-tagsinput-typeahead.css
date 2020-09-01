@@ -3,8 +3,7 @@
     margin-bottom: 0;
 }
 
-.twitter-typeahead .tt-hint
-{
+.twitter-typeahead .tt-hint {
     display: none;
 }
 
@@ -40,10 +39,10 @@
     white-space: nowrap;
 }
 
-.tt-suggestion:hover,
-.tt-suggestion:focus {
-    color: #ffffff;
-    text-decoration: none;
-    outline: 0;
-    background-color: #428bca;
-}
+    .tt-suggestion:hover,
+    .tt-suggestion:focus {
+        color: #ffffff;
+        text-decoration: none;
+        outline: 0;
+        background-color: #428bca;
+    }

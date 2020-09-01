@@ -5,12 +5,10 @@
 'use strict';
 
 var Popover = (function() {
-
 	// Variables
 
 	var $popover = $('[data-toggle="popover"]'),
 		$popoverClass = '';
-
 
 	// Methods
 
@@ -27,7 +25,6 @@ var Popover = (function() {
 		$this.popover(options);
 	}
 
-
 	// Events
 
 	if ($popover.length) {
@@ -35,5 +32,4 @@ var Popover = (function() {
 			init($(this));
 		});
 	}
-
 })();

@@ -7,7 +7,6 @@
    factory(global.moment)
 }(this, (function (moment) { 'use strict';
 
-
     function processRelativeTime(number, withoutSuffix, key, isFuture) {
         var format = {
             's': ['thodde secondanim', 'thodde second'],
@@ -118,5 +117,4 @@
     });
 
     return gomLatn;
-
 })));

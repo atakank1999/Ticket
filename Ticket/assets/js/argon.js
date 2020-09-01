@@ -1,9 +1,8 @@
-
 /*!
 
-=========================================================
+=
 * Argon Dashboard - v1.2.0
-=========================================================
+=
 
 * Product Page: https://www.creative-tim.com/product/argon-dashboard
 * Copyright 2020 Creative Tim (https://www.creative-tim.com)
@@ -11,13 +10,11 @@
 
 * Coded by www.creative-tim.com
 
-=========================================================
+=
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-
-
 
 //
 // Layout
@@ -26,7 +23,6 @@
 'use strict';
 
 var Layout = (function() {
-
     function pinSidenav() {
         $('.sidenav-toggler').addClass('active');
         $('.sidenav-toggler').data('action', 'sidenav-unpin');
@@ -77,16 +73,12 @@ var Layout = (function() {
       })
     }
 
-
-
     $("body").on("click", "[data-action]", function(e) {
-
         e.preventDefault();
 
         var $this = $(this);
         var action = $this.data('action');
         var target = $this.data('target');
-
 
         // Manage actions
 
@@ -131,7 +123,6 @@ var Layout = (function() {
         }
     })
 
-
     // Add sidenav modifier classes on mouse events
 
     $('.sidenav').on('mouseenter', function() {
@@ -150,7 +141,6 @@ var Layout = (function() {
         }
     })
 
-
     // Make the body full screen size if it has not enough content inside
     $(window).on('load resize', function() {
         if($('body').height() < 800) {
@@ -158,7 +148,6 @@ var Layout = (function() {
             $('#footer-main').addClass('footer-auto-bottom')
         }
     })
-
 })();
 
 //
@@ -168,7 +157,6 @@ var Layout = (function() {
 'use strict';
 
 var Charts = (function() {
-
 	// Variable
 
 	var $toggle = $('[data-toggle="chart"]');
@@ -204,12 +192,10 @@ var Charts = (function() {
 		transparent: 'transparent',
 	};
 
-
 	// Methods
 
 	// Chart.js global options
 	function chartOptions() {
-
 		// Options
 		var options = {
 			defaults: {
@@ -318,7 +304,6 @@ var Charts = (function() {
 		});
 
 		return options;
-
 	}
 
 	// Parse global options
@@ -365,14 +350,12 @@ var Charts = (function() {
 		var $chart = $target.data('chart');
 
 		if (elem.is(':checked')) {
-
 			// Add options
 			pushOptions($chart, options);
 
 			// Update chart
 			$chart.update();
 		} else {
-
 			// Remove options
 			popOptions($chart, options);
 
@@ -399,7 +382,6 @@ var Charts = (function() {
 
 	// Toggle ticks
 	function toggleTicks(elem, $chart) {
-
 		if (elem.data('prefix') !== undefined || elem.data('prefix') !== undefined) {
 			var prefix = elem.data('prefix') ? elem.data('prefix') : '';
 			var suffix = elem.data('suffix') ? elem.data('suffix') : '';
@@ -424,10 +406,8 @@ var Charts = (function() {
 				content += '<span class="popover-body-value">' + prefix + yLabel + suffix + '</span>';
 				return content;
 			}
-
 		}
 	}
-
 
 	// Events
 
@@ -454,7 +434,6 @@ var Charts = (function() {
 		}
 	});
 
-
 	// Return
 
 	return {
@@ -462,7 +441,6 @@ var Charts = (function() {
 		fonts: fonts,
 		mode: mode
 	};
-
 })();
 
 //
@@ -472,12 +450,10 @@ var Charts = (function() {
 'use strict';
 
 var CopyIcon = (function() {
-
 	// Variables
 
 	var $element = '.btn-icon-clipboard',
 		$btn = $($element);
-
 
 	// Methods
 
@@ -503,12 +479,10 @@ var CopyIcon = (function() {
 		});
 	}
 
-
 	// Events
 	if ($btn.length) {
 		init($btn);
 	}
-
 })();
 
 //
@@ -518,7 +492,6 @@ var CopyIcon = (function() {
 'use strict';
 
 var Navbar = (function() {
-
 	// Variables
 
 	var $nav = $('.navbar-nav, .navbar-nav .nav');
@@ -541,7 +514,6 @@ var Navbar = (function() {
     	}, 200);
 	}
 
-
 	// Events
 
 	$collapse.on({
@@ -555,22 +527,17 @@ var Navbar = (function() {
 			closeDropdown($(this));
 		}
 	})
-
 })();
-
 
 //
 // Navbar collapse
 //
 
-
 var NavbarCollapse = (function() {
-
 	// Variables
 
 	var $nav = $('.navbar-nav'),
 		$collapse = $('.navbar .navbar-custom-collapse');
-
 
 	// Methods
 
@@ -581,7 +548,6 @@ var NavbarCollapse = (function() {
 	function hiddenNavbarCollapse($this) {
 		$this.removeClass('collapsing-out');
 	}
-
 
 	// Events
 
@@ -606,24 +572,18 @@ var NavbarCollapse = (function() {
 		  $('body').removeClass('nav-open');
 			navbar_menu_visible = 0;
 			$('.bodyClick').remove();
-
 		} else {
-
 		var div = '<div class="bodyClick"></div>';
 		$(div).appendTo('body').click(function() {
 				 $('body').removeClass('nav-open');
 					navbar_menu_visible = 0;
 					$('.bodyClick').remove();
-					
 			 });
 
 		 $('body').addClass('nav-open');
 			navbar_menu_visible = 1;
-
 		}
-
 	});
-
 })();
 
 //
@@ -633,12 +593,10 @@ var NavbarCollapse = (function() {
 'use strict';
 
 var Popover = (function() {
-
 	// Variables
 
 	var $popover = $('[data-toggle="popover"]'),
 		$popoverClass = '';
-
 
 	// Methods
 
@@ -655,7 +613,6 @@ var Popover = (function() {
 		$this.popover(options);
 	}
 
-
 	// Events
 
 	if ($popover.length) {
@@ -663,7 +620,6 @@ var Popover = (function() {
 			init($(this));
 		});
 	}
-
 })();
 
 //
@@ -673,13 +629,11 @@ var Popover = (function() {
 'use strict';
 
 var ScrollTo = (function() {
-
 	//
 	// Variables
 	//
 
 	var $scrollTo = $('.scroll-me, [data-scroll-to], .toc-entry a');
-
 
 	//
 	// Methods
@@ -698,7 +652,6 @@ var ScrollTo = (function() {
         event.preventDefault();
 	}
 
-
 	//
 	// Events
 	//
@@ -708,7 +661,6 @@ var ScrollTo = (function() {
 			scrollTo($(this));
 		});
 	}
-
 })();
 
 //
@@ -718,11 +670,9 @@ var ScrollTo = (function() {
 'use strict';
 
 var Tooltip = (function() {
-
 	// Variables
 
 	var $tooltip = $('[data-toggle="tooltip"]');
-
 
 	// Methods
 
@@ -730,13 +680,11 @@ var Tooltip = (function() {
 		$tooltip.tooltip();
 	}
 
-
 	// Events
 
 	if ($tooltip.length) {
 		init();
 	}
-
 })();
 
 //
@@ -746,11 +694,9 @@ var Tooltip = (function() {
 'use strict';
 
 var FormControl = (function() {
-
 	// Variables
 
 	var $input = $('.form-control');
-
 
 	// Methods
 
@@ -760,13 +706,11 @@ var FormControl = (function() {
     }).trigger('blur');
 	}
 
-
 	// Events
 
 	if ($input.length) {
 		init($input);
 	}
-
 })();
 
 //
@@ -780,7 +724,6 @@ var $map = $('#map-default'),
     color = "#5e72e4";
 
 function initMap() {
-
     map = document.getElementById('map-default');
     lat = map.getAttribute('data-lat');
     lng = map.getAttribute('data-lng');
@@ -823,13 +766,11 @@ if($map.length) {
 //
 
 var BarsChart = (function() {
-
 	//
 	// Variables
 	//
 
 	var $chart = $('#chart-bars');
-
 
 	//
 	// Methods
@@ -837,7 +778,6 @@ var BarsChart = (function() {
 
 	// Init chart
 	function initChart($chart) {
-
 		// Create chart
 		var ordersChart = new Chart($chart, {
 			type: 'bar',
@@ -854,12 +794,10 @@ var BarsChart = (function() {
 		$chart.data('chart', ordersChart);
 	}
 
-
 	// Init chart
 	if ($chart.length) {
 		initChart($chart);
 	}
-
 })();
 
 'use strict';
@@ -869,16 +807,13 @@ var BarsChart = (function() {
 //
 
 var SalesChart = (function() {
-
   // Variables
 
   var $chart = $('#chart-sales-dark');
 
-
   // Methods
 
   function init($chart) {
-
     var salesChart = new Chart($chart, {
       type: 'line',
       options: {
@@ -927,16 +862,13 @@ var SalesChart = (function() {
     // Save to jQuery object
 
     $chart.data('chart', salesChart);
-
   };
-
 
   // Events
 
   if ($chart.length) {
     init($chart);
   }
-
 })();
 
 //
@@ -946,11 +878,9 @@ var SalesChart = (function() {
 'use strict';
 
 var Datepicker = (function() {
-
 	// Variables
 
 	var $datepicker = $('.datepicker');
-
 
 	// Methods
 
@@ -963,7 +893,6 @@ var Datepicker = (function() {
 		$this.datepicker(options);
 	}
 
-
 	// Events
 
 	if ($datepicker.length) {
@@ -971,7 +900,6 @@ var Datepicker = (function() {
 			init($(this));
 		});
 	}
-
 })();
 
 //
@@ -981,7 +909,6 @@ var Datepicker = (function() {
 'use strict';
 
 var noUiSlider = (function() {
-
 	// Variables
 
 	// var $sliderContainer = $('.input-slider-container'),
@@ -989,7 +916,6 @@ var noUiSlider = (function() {
 	// 		$sliderId = $slider.attr('id'),
 	// 		$sliderMinValue = $slider.data('range-value-min');
 	// 		$sliderMaxValue = $slider.data('range-value-max');;
-
 
 	// // Methods
 	//
@@ -1006,11 +932,8 @@ var noUiSlider = (function() {
 	// 	init($input);
 	// }
 
-
-
 	if ($(".input-slider-container")[0]) {
 			$('.input-slider-container').each(function() {
-
 					var slider = $(this).find('.input-slider');
 					var sliderId = slider.attr('id');
 					var minValue = slider.data('range-value-min');
@@ -1056,7 +979,6 @@ var noUiSlider = (function() {
 					f[b].textContent = a[b]
 			})
 	}
-
 })();
 
 //
@@ -1066,11 +988,9 @@ var noUiSlider = (function() {
 'use strict';
 
 var Scrollbar = (function() {
-
 	// Variables
 
 	var $scrollbar = $('.scrollbar-inner');
-
 
 	// Methods
 
@@ -1078,11 +998,9 @@ var Scrollbar = (function() {
 		$scrollbar.scrollbar().scrollLock()
 	}
 
-
 	// Events
 
 	if ($scrollbar.length) {
 		init();
 	}
-
 })();

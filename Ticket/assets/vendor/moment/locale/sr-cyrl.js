@@ -7,7 +7,6 @@
    factory(global.moment)
 }(this, (function (moment) { 'use strict';
 
-
     var translator = {
         words: { //Different grammatical cases
             ss: ['секунда', 'секунде', 'секунди'],
@@ -106,5 +105,4 @@
     });
 
     return srCyrl;
-
 })));

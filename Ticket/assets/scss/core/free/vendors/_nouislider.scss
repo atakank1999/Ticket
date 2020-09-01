@@ -2,7 +2,6 @@
 // NoUi Slider
 //
 
-
 // Original styles
 
 .noUi-target,
@@ -28,7 +27,6 @@
     z-index: 1;
 }
 
-
 // Wrapper for all connect elements
 
 .noUi-connects {
@@ -47,7 +45,6 @@
     width: 100%;
     transform-origin: 0 0;
 }
-
 
 html:not([dir="rtl"]) .noUi-horizontal .noUi-origin {
     left: auto;
@@ -131,7 +128,6 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     outline: none;
 }
 
-
 /* Disabled state;
  */
 
@@ -144,7 +140,6 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 [disabled] .noUi-handle {
     cursor: not-allowed;
 }
-
 
 /* Base;
  *
@@ -161,7 +156,6 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     color: #999;
 }
 
-
 /* Values;
  *
  */
@@ -176,7 +170,6 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     color: #ccc;
     font-size: 10px;
 }
-
 
 /* Markings;
  *
@@ -194,7 +187,6 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 .noUi-marker-large {
     background: #AAA;
 }
-
 
 /* Horizontal layout;
  *
@@ -229,7 +221,6 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 .noUi-marker-horizontal.noUi-marker-large {
     height: 15px;
 }
-
 
 /* Vertical layout;
  *
@@ -293,7 +284,6 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
     right: 120%;
 }
 
-
 //  Custom styles
 
 .noUi-target {
@@ -323,7 +313,6 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 }
 
 .noUi-handle {
-
 }
 
 .noUi-horizontal .noUi-handle,
@@ -347,7 +336,6 @@ html:not([dir="rtl"]) .noUi-horizontal .noUi-handle {
 .input-slider--cyan .noUi-connect {
     background: $cyan;
 }
-
 
 /* Disabled state */
 

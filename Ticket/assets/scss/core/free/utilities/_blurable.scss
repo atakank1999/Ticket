@@ -22,6 +22,7 @@
         transition: $transition-base;
         z-index: 100;
     }
+
     &:hover {
         .blur-item {
             opacity: .8;
@@ -29,6 +30,7 @@
             transform: scale(.95);
             z-index: 1;
         }
+
         .blur-hidden {
             opacity: 1;
             top: 50%;

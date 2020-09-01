@@ -5,11 +5,9 @@
 'use strict';
 
 var FormControl = (function() {
-
 	// Variables
 
 	var $input = $('.form-control');
-
 
 	// Methods
 
@@ -19,11 +17,9 @@ var FormControl = (function() {
     }).trigger('blur');
 	}
 
-
 	// Events
 
 	if ($input.length) {
 		init($input);
 	}
-
 })();

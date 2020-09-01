@@ -2,7 +2,6 @@
 // Navbar
 //
 
-
 // Navbar links
 
 .navbar-horizontal {
@@ -13,7 +12,6 @@
             text-transform: $navbar-nav-link-text-transform;
             letter-spacing: $navbar-nav-link-letter-spacing;
             // @include transition($navbar-transition);
-
             .nav-link-inner--text {
                 margin-left: .25rem;
             }
@@ -45,18 +43,17 @@
     }
 
     .navbar-nav {
-      .nav-item {
-        .media:not(:last-child){
-          margin-bottom: 1.5rem;
+        .nav-item {
+            .media:not(:last-child) {
+                margin-bottom: 1.5rem;
+            }
         }
-      }
     }
 
     @include media-breakpoint-up(lg) {
         // .navbar-main {
         //     padding: 1rem 0;
         // }
-
         .navbar-nav {
             .nav-item {
                 margin-right: .5rem;
@@ -71,6 +68,7 @@
                     }
                 }
             }
+
             .nav-link {
                 padding-top: $navbar-nav-link-padding-y;
                 padding-bottom: $navbar-nav-link-padding-y;
@@ -91,7 +89,6 @@
                     margin-right: 0;
                 }
             }
-
             // Dropdown menu
             .dropdown-menu {
                 opacity: 0;
@@ -161,7 +158,6 @@
             }
         }
     }
-
     // Transparent navbar
     &.navbar-transparent {
         position: absolute;
@@ -217,9 +213,7 @@
             }
         }
     }
-
     // Collapse
-
     .navbar-collapse-header {
         display: none;
     }
@@ -313,9 +307,7 @@
             animation: hide-navbar-collapse .2s ease forwards;
         }
     }
-
     // Keyframes
-
     @keyframes show-navbar-collapse {
         0% {
             opacity: 0;

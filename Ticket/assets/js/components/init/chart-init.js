@@ -5,7 +5,6 @@
 'use strict';
 
 var Charts = (function() {
-
 	// Variable
 
 	var $toggle = $('[data-toggle="chart"]');
@@ -41,12 +40,10 @@ var Charts = (function() {
 		transparent: 'transparent',
 	};
 
-
 	// Methods
 
 	// Chart.js global options
 	function chartOptions() {
-
 		// Options
 		var options = {
 			defaults: {
@@ -155,7 +152,6 @@ var Charts = (function() {
 		});
 
 		return options;
-
 	}
 
 	// Parse global options
@@ -202,14 +198,12 @@ var Charts = (function() {
 		var $chart = $target.data('chart');
 
 		if (elem.is(':checked')) {
-
 			// Add options
 			pushOptions($chart, options);
 
 			// Update chart
 			$chart.update();
 		} else {
-
 			// Remove options
 			popOptions($chart, options);
 
@@ -236,7 +230,6 @@ var Charts = (function() {
 
 	// Toggle ticks
 	function toggleTicks(elem, $chart) {
-
 		if (elem.data('prefix') !== undefined || elem.data('prefix') !== undefined) {
 			var prefix = elem.data('prefix') ? elem.data('prefix') : '';
 			var suffix = elem.data('suffix') ? elem.data('suffix') : '';
@@ -261,10 +254,8 @@ var Charts = (function() {
 				content += '<span class="popover-body-value">' + prefix + yLabel + suffix + '</span>';
 				return content;
 			}
-
 		}
 	}
-
 
 	// Events
 
@@ -291,7 +282,6 @@ var Charts = (function() {
 		}
 	});
 
-
 	// Return
 
 	return {
@@ -299,5 +289,4 @@ var Charts = (function() {
 		fonts: fonts,
 		mode: mode
 	};
-
 })();

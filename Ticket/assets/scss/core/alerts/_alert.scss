@@ -3,7 +3,6 @@
 //
 
 .alert {
-
     font-size: $font-size-sm;
 }
 
@@ -14,7 +13,6 @@
     font-size: $h4-font-size;
     margin-top: .15rem;
 }
-
 
 // Alert icon
 
@@ -30,14 +28,12 @@
     }
 }
 
-
 // Alert text next to an alert icon
 
 .alert-text {
     display: inline-block;
     vertical-align: middle;
 }
-
 
 // Alert links
 

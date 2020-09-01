@@ -7,7 +7,6 @@
    factory(global.moment)
 }(this, (function (moment) { 'use strict';
 
-
     var suffixes = {
         1: '-inci',
         5: '-inci',
@@ -100,5 +99,4 @@
     });
 
     return az;
-
 })));

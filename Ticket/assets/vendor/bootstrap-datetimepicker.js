@@ -1,9 +1,9 @@
 /*! version : 4.17.47
- =========================================================
+ =
  bootstrap-datetimejs
  https://github.com/Eonasdan/bootstrap-datetimepicker
  Copyright (c) 2015 Jonathan Peterson
- =========================================================
+ =
  */
 /*
  The MIT License (MIT)
@@ -523,7 +523,6 @@
         setTimeout(function() {
           widget.addClass('open');
         }, 180);
-
       },
 
       notifyEvent = function(e) {
@@ -1477,7 +1476,6 @@
           });
         });
 
-
         parseFormats = options.extraFormats ? options.extraFormats.slice() : [];
         if (parseFormats.indexOf(format) < 0 && parseFormats.indexOf(actualFormat) < 0) {
           parseFormats.push(actualFormat);
@@ -1505,7 +1503,7 @@
     /********************************************************************************
      *
      * Public API functions
-     * =====================
+     *
      *
      * Important: Do not expose direct references to private objects or the options
      * object to the outer world. Always return a clone when returning values or make

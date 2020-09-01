@@ -7,7 +7,6 @@
    factory(global.moment)
 }(this, (function (moment) { 'use strict';
 
-
     var symbolMap = {
         '1': '១',
         '2': '២',
@@ -105,5 +104,4 @@
     });
 
     return km;
-
 })));

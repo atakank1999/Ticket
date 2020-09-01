@@ -7,7 +7,6 @@
    factory(global.moment)
 }(this, (function (moment) { 'use strict';
 
-
     var symbolMap = {
         '1': '১',
         '2': '২',
@@ -114,5 +113,4 @@
     });
 
     return bn;
-
 })));

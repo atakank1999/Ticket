@@ -4,7 +4,6 @@
 //
 
 Chart.elements.Rectangle.prototype.draw = function() {
-
 	var ctx = this._chart.ctx;
 	var vm = this._view;
 	var left, right, top, bottom, signX, signY, borderSkipped, radius;
@@ -120,7 +119,6 @@ Chart.elements.Rectangle.prototype.draw = function() {
 		ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
 		ctx.lineTo(x, y + radius);
 		ctx.quadraticCurveTo(x, y, x + radius, y);
-
 	}
 
 	ctx.fill();

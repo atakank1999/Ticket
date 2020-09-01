@@ -20,9 +20,7 @@
     &:not(:last-child) {
         margin-right: .5rem;
     }
-
-   // Icons
-
+    // Icons
     i:not(:first-child),
     svg:not(:first-child) {
         margin-left: .5rem;
@@ -34,7 +32,6 @@
     }
 }
 
-
 // Remove translateY and margin animation when btn is included in a btn-group or input-group
 
 .btn-group,
@@ -45,7 +42,6 @@
     }
 }
 
-
 // Size variations
 
 .btn-sm {
@@ -55,7 +51,6 @@
 .btn-lg {
     font-size: $input-btn-font-size-lg;
 }
-
 
 // Some quick fixes (to revise)
 

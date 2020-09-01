@@ -7,7 +7,6 @@
    factory(global.moment)
 }(this, (function (moment) { 'use strict';
 
-
     // After the year there should be a slash and the amount of years since December 26, 1979 in Roman numerals.
     // This is currently too difficult (maybe even impossible) to add.
     var tzl = moment.defineLocale('tzl', {
@@ -86,5 +85,4 @@
     }
 
     return tzl;
-
 })));

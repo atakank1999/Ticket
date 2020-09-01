@@ -9,7 +9,6 @@ var $map = $('#map-default'),
     color = "#5e72e4";
 
 function initMap() {
-
     map = document.getElementById('map-default');
     lat = map.getAttribute('data-lat');
     lng = map.getAttribute('data-lng');

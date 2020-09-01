@@ -5,12 +5,10 @@
 'use strict';
 
 var CopyIcon = (function() {
-
 	// Variables
 
 	var $element = '.btn-icon-clipboard',
 		$btn = $($element);
-
 
 	// Methods
 
@@ -36,10 +34,8 @@ var CopyIcon = (function() {
 		});
 	}
 
-
 	// Events
 	if ($btn.length) {
 		init($btn);
 	}
-
 })();

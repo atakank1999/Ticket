@@ -7,7 +7,7 @@
         transition: $transition-base;
     }
 
-    &>span:not(.sr-only) {
+    & > span:not(.sr-only) {
         background-color: $close-bg;
         color: $close-color;
         line-height: 17px;
@@ -16,6 +16,7 @@
         border-radius: 50%;
         font-size: 1.25rem;
         display: block;
+
         @if $enable-transitions {
             transition: $transition-base;
         }

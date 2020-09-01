@@ -5,11 +5,9 @@
 'use strict';
 
 var Scrollbar = (function() {
-
 	// Variables
 
 	var $scrollbar = $('.scrollbar-inner');
-
 
 	// Methods
 
@@ -17,11 +15,9 @@ var Scrollbar = (function() {
 		$scrollbar.scrollbar().scrollLock()
 	}
 
-
 	// Events
 
 	if ($scrollbar.length) {
 		init();
 	}
-
 })();
