@@ -3450,6 +3450,8 @@
     <Content Include="Views\Tickets\EditProfile.cshtml" />
     <Content Include="Views\Tickets\EditTicket.cshtml" />
     <Content Include="Views\Admin\Assignments.cshtml" />
+    <Content Include="Views\Register\guid.cshtml" />
+    <Content Include="Views\Register\verify.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 using Ticket.Models;
@@ -47,7 +48,7 @@ namespace Ticket.Controllers
                 db.Users.Add(user);
                 int num = db.SaveChanges();
 
-                return RedirectToAction("Index", "Tickets");
+                return RedirectToAction("verify", "Register",new {id = user.ID});
 
             }
             else
@@ -57,6 +58,38 @@ namespace Ticket.Controllers
             }
 
 
+        }
+        public ActionResult verify(int id)
+        {
+            DatabaseContext db = new DatabaseContext();
+            Users u = db.Users.Find(id);
+            MailMessage message = new MailMessage();
+            message.To.Add(new MailAddress(u.Email.ToString()));
+            message.Subject ="Üyeliğinizi Onaylayın" ;
+            message.Body ="Üyeliğinizi Onaylamak İçin :" +
+                          "https://ticket20200831142313.azurewebsites.net/Register/guid/" + u.ConfirmGuid.ToString();
+            using (var smtp = new SmtpClient())
+            {
+                 smtp.Send(message);
+            }
+            return View(u);
+        }
+        public ActionResult guid(Guid? id)
+        {
+            DatabaseContext db = new DatabaseContext();
+            List<Users> userlist = db.Users.ToList();
+            foreach (Users u in userlist)
+            {
+                if (id == u.ConfirmGuid )
+                {
+                    u.IsConfirmed = true;
+                    Session["Login"] = u.Username;
+
+                }
+            }
+
+            db.SaveChanges();
+            return View();
         }
     }
 }

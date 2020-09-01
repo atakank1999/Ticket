@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Net.Configuration;
 
 namespace Ticket.Models
 {
@@ -45,5 +46,10 @@ namespace Ticket.Models
 
         public virtual List<Ticket> Tickets { get; set; }
         public virtual List<Reply> Replies { get; set; }
+
+        public Users()
+        {
+            ConfirmGuid = Guid.NewGuid();
+        }
     }
 }
