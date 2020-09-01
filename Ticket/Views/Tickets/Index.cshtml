@@ -16,16 +16,16 @@
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
-                            <a  class="dropdown-item" href="Tickets/EditTicket/@t.Id">
-                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
-                                </svg>Düzenle
-                            </a>
+                        <a class="dropdown-item" href="Tickets/EditTicket/@t.Id">
+                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
+                            </svg>Düzenle
+                        </a>
 
                         <!-- Button trigger modal -->
-                        <button type="button" class="dropdown-item" data-toggle="modal" data-target="#exampleModal" data-title ="@t.Title" data-id="@t.Id">
+                        <button type="button" class="dropdown-item" data-toggle="modal" data-target="#exampleModal" data-title="@t.Title" data-id="@t.Id">
                             <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
+                                <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z" />
                             </svg> Sil
                         </button>
 
@@ -42,7 +42,7 @@
                 {
                     <button class="btn btn-icon btn-outline-primary">
                         <span class="btn-inner--icon"><i class="ni ni-cloud-download-95"></i></span>
-                        @Html.ActionLink(Path.GetFileName(t.FilePath).ToString(), "Download", "Admin", new {id = t.Id}, new {@class = "btn-inner--text"})
+                        @Html.ActionLink(Path.GetFileName(t.FilePath).ToString(), "Download", "Admin", new { id = t.Id }, new { @class = "btn-inner--text" })
 
                     </button>
 
@@ -50,10 +50,10 @@
                 }
                 <p class="text-right">
 
-                    <span ><small >@t.DateTime.ToString("d")</small></span>
+                    <span><small>@t.DateTime.ToString("d")</small></span>
                 </p>
-                <br/>
-                <br/>
+                <br />
+                <br />
 
                 <p class="text-right">Bilet Tipi : @t.Type</p>
                 <p class="text-right text-danger">@t.Status</p>
@@ -95,4 +95,18 @@
         </div>
     </div>
 </div>
-
+@section Scripts
+{
+    <script>
+        $('#exampleModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var recipient = button.data('title')
+            var id = button.data('id')// Extract info from data-* attributes
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            var modal = $(this)
+            modal.find('.modal-title').text('Şu başlıklı Ticket Silinecek : ' + recipient)
+            modal.find('.modal-footer a').attr("href", "/Tickets/Delete/" + id)
+        })
+    </script>
+}

@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Mail;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.WebPages.Html;
+using Ticket.Migrations;
 using Ticket.Models;
 using Ticket.Models.Context;
 using Ticket.ViewModels;
+using Assignment = Ticket.Models.Assignment;
 using SelectListItem = System.Web.Mvc.SelectListItem;
 using Ticket = Ticket.Models.Ticket;
 
@@ -101,7 +105,7 @@ namespace Ticket.Controllers
         }
 
         [HttpPost,ValidateAntiForgeryToken]
-        public ActionResult Reply(int id,Reply reply)
+        public async Task<ActionResult> Reply(int id,Reply reply)
         {
             DatabaseContext db = new DatabaseContext();
             List<Users> userlist = db.Users.ToList();
@@ -123,9 +127,19 @@ namespace Ticket.Controllers
             }
             reply.date = DateTime.UtcNow;
             reply.RepliedTicket.Status = reply.RepliedTicket.Status;
-
             db.Replies.Add(reply);
-            db.SaveChanges();
+            int result =db.SaveChanges();
+            if (result>0)
+            {
+                var message = new MailMessage();
+                message.To.Add(new MailAddress(reply.RepliedTicket.Author.Email));
+                message.Subject = reply.RepliedTicket.Title+" başlıklı biletinize yanıt geldi";
+                message.Body = reply.Text;
+                using (var smtp = new SmtpClient())
+                {
+                    await smtp.SendMailAsync(message);
+                }
+            }
 
 
 

@@ -20,6 +20,9 @@ namespace Ticket.Models
         [DataType(DataType.Date)]
         public DateTime? Deadline { get; set; }
 
-        public Assignment() => Deadline = null;
+        public Assignment()
+        {
+            Deadline = null;
+        }
     }
 }
