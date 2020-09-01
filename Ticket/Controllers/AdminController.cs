@@ -131,8 +131,8 @@ namespace Ticket.Controllers
             int result =db.SaveChanges();
             if (result>0)
             {
-                var message = new MailMessage();
-                message.To.Add(new MailAddress(reply.RepliedTicket.Author.Email));
+                MailMessage message = new MailMessage();
+                message.To.Add(new MailAddress(reply.RepliedTicket.Author.Email.ToString()));
                 message.Subject = reply.RepliedTicket.Title+" başlıklı biletinize yanıt geldi";
                 message.Body = reply.Text;
                 using (var smtp = new SmtpClient())
