@@ -7,9 +7,13 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.WebPages.Html;
+using Quartz;
+using Quartz.Impl;
 using Ticket.Migrations;
 using Ticket.Models;
+using Ticket.Models.Automation;
 using Ticket.Models.Context;
+using Ticket.Models.Quartz;
 using Ticket.ViewModels;
 using Assignment = Ticket.Models.Assignment;
 using SelectListItem = System.Web.Mvc.SelectListItem;
@@ -189,9 +193,9 @@ namespace Ticket.Controllers
                     assignment.Ticket = t;
                     assignment.IsDone = false;
                     assignment.Admin = u;
-                    if (DateTime.Compare(p.Deadline, DateTime.UtcNow) > 0)
+                    if (DateTime.Compare(p.Deadline.Add(p.HourSpan), DateTime.UtcNow) > 0)
                     {
-                        assignment.Deadline = p.Deadline;
+                        assignment.Deadline = p.Deadline.Add(p.HourSpan);
                     }
                     else
                     {
@@ -207,6 +211,44 @@ namespace Ticket.Controllers
                 {
                     list.Add("success");
                     list.Add("Değişiklikler uygulanmıştır");
+
+                    //IJobDetail job = JobBuilder.Create<EmailClass>()  //send email every 6 hours
+                    //    .WithIdentity("myJob", "group1")
+                    //    .UsingJobData("Email", assignment.Admin.Email)
+                    //    .UsingJobData("Time", assignment.Deadline.Subtract(DateTime.Now).Hours.ToString())
+                    //    .UsingJobData("Body", assignment.Ticket.Text)
+                    //    .UsingJobData("Seconds",assignment.Deadline.Subtract(DateTime.Now).Seconds.ToString())
+                    //    .UsingJobData("Title",assignment.Ticket.Title).Build();
+                    //ISimpleTrigger trigger = (ISimpleTrigger) TriggerBuilder.Create()
+                    //    .WithIdentity("trigger1", "group1")
+                    //    .StartAt(assignment.Deadline.AddDays(-1))
+                    //    .WithSimpleSchedule(x=>x.WithIntervalInSeconds(2))
+                    //    .ForJob("myJob", "group1")
+                    //    .EndAt(assignment.Deadline)
+                    //    .Build();
+                    //StdSchedulerFactory factory = new StdSchedulerFactory();
+                    //IScheduler scheduler = await factory.GetScheduler();
+                    //await scheduler.Start();
+                    //await scheduler.ScheduleJob(job, trigger);
+                    //ISimpleTrigger trigger2 = (ISimpleTrigger) TriggerBuilder.Create()
+                    //    .WithIdentity("trigger2", "group1")
+                    //    .StartAt(assignment.Deadline.AddSeconds(-10))
+                    //    .WithSimpleSchedule(x => x.WithIntervalInSeconds(1).WithRepeatCount(0))
+                    //    .ForJob("myJob", "group1")
+                    //    .Build();
+                    //StdSchedulerFactory factory2 = new StdSchedulerFactory();
+
+                    //IScheduler scheduler2 = await factory2.GetScheduler();
+                    //await scheduler2.Start();
+                    //await scheduler2.ScheduleJob(job, trigger2);
+                    Email email = new Email();
+                    DateTime deadline = assignment.Deadline;
+                    deadline = DateTime.SpecifyKind(deadline, DateTimeKind.Local);
+                    DateTimeOffset deadline2 = deadline;
+                    long unixTimeSeconds = deadline2.ToUnixTimeSeconds();
+
+                    email.run_cmd(Server.MapPath("~/SendMail/sendmail.py"),assignment.Ticket.Author.Email.ToString()+" "+assignment.Ticket.Text+" "+assignment.Ticket.Title+" "+unixTimeSeconds);
+
                 }
                 else
                 {

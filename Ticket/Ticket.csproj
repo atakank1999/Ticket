@@ -3268,6 +3268,10 @@
     <None Include="Properties\PublishProfiles\Ticket-dev-as - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\Ticket20200831142313 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\Ticketappp - Web Deploy.pubxml" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />
@@ -3352,6 +3356,7 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Sendmail\sendmail.py" />
     <Content Include="Web.config" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
@@ -3424,11 +3429,18 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Assignment.cs" />
+    <Compile Include="Models\Automation\Email.cs" />
     <Compile Include="Models\Context\DatabaseContext.cs" />
+    <Compile Include="Models\Quartz\EmailClass.cs" />
     <Compile Include="Models\Reply.cs" />
     <Compile Include="Models\Ticket.cs" />
     <Compile Include="Models\Users.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\ListAssignmentAndTicket.cs" />
     <Compile Include="ViewModels\ListofUserAndTicketViewModel.cs" />
     <Compile Include="ViewModels\ReplyWithSelectlist.cs" />
@@ -3456,6 +3468,7 @@
     <Content Include="Views\Admin\Assignments.cshtml" />
     <Content Include="Views\Register\guid.cshtml" />
     <Content Include="Views\Register\verify.cshtml" />
+    <Content Include="Sendmail\.vscode\launch.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

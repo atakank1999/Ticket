@@ -12,7 +12,7 @@
     @foreach (Ticket t in Model.TicketsList)
     {
         <div class="row mt-2 ">
-            <div class="col-md-7 border shadow-sm">
+            <div class="col-md-7 border border-default rounded shadow-sm">
                 <h1>@t.Title</h1>
                 <h4 class="text-right">Önceliği: @t.Priority</h4>
                 <h5 class="text-right">Tipi: @t.Type</h5>
@@ -27,7 +27,7 @@
                         {
                             <button class="btn btn-icon btn-outline-primary">
                                 <span class="btn-inner--icon"><i class="ni ni-cloud-download-95"></i></span>
-                                @Html.ActionLink(Path.GetFileName(t.FilePath).ToString(),"Download",new{id = t.Id},new{@class= "btn-inner--text" })
+                                @Html.ActionLink(Path.GetFileName(t.FilePath).ToString(), "Download", new { id = t.Id }, new { @class = "btn-inner--text" })
                             </button>
 
                         }
@@ -40,74 +40,102 @@
                                 {
                                     @(t.assignedTo.Admin.Username + "'ya atandı")
                                     <br />
-                                    if (t.assignedTo.Deadline!=default(DateTime))
+                                    if (t.assignedTo.Deadline != default(DateTime))
                                     {
-                                        @(t.assignedTo.Deadline.ToString("d") + " Son tarih")
+                                        @(t.assignedTo.Deadline.ToString("f") + " Son tarih")
 
                                     }
 
                                 }
-                                <p class="text-right">
-                                    <small>Durumu:</small>
-                                    <small>@t.Status</small>
-                                </p>
-                            </small>
+                        <p class="text-right">
+                            <small>Durumu:</small>
+                            <small>@t.Status</small>
+                        </p>
+                        </small>
                         </p>
                     </div>
                 </div>
             </div>
             <div class="col-md-5">
                 @Html.ActionLink("Cevapla", "Reply", new { id = @t.Id }, new { @class = "btn btn-danger btn-sm mt-3 mb-3" })
-                @using (Ajax.BeginForm("Assign", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "button", InsertionMode = InsertionMode.Replace }))
-                {
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            @if (Model.AssignList != null)
-                            {
-                                @Html.DropDownListFor(x => x.Admin.ID, Model.AssignList, "Atanacak Kişiyi Seçiniz", new { @class = "form-control form-control-sm" })
+                <div class="container-fluid border border-default rounded mb-2">
 
-                            }
-                            @Html.HiddenFor(x => x.ID, new { @Value = t.Id })
-                        </div>
+                    @using (Ajax.BeginForm("Assign", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "button", InsertionMode = InsertionMode.Replace }))
+                    {
+                        <div class="form-row">
+                            <div class=" form-group col-7 p-3 mt-auto mb-auto">
+                                <div class="form-row mb-2 ">
+                                    <div class="form-group mt-auto mb-auto ">
+                                        @if (Model.AssignList != null)
+                                        {
+                                            @Html.DropDownListFor(x => x.Admin.ID, Model.AssignList, "Atanacak Kişiyi Seçiniz", new { @class = "form-control form-control-sm" })
 
-                        <div class="form-group col-md-6">
-                            <div class="input-group">
-                                @Html.EditorFor(x => x.Deadline, new { htmlAttributes = new { @class = "form-control form-control-sm datepicker", placeholder = "Select date", type = "date", value = DateTime.UtcNow.ToString("dd/MM/yyyy ") } })
-                                <input type="submit" value="Assign" class="btn btn-primary btn-sm" />
-                                <span id="button">
-                                </span>
+                                        }
+                                        @Html.HiddenFor(x => x.ID, new { @Value = t.Id })
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group mt-auto mb-auto ">
+                                        <div class="input-group">
+                                            @Html.EditorFor(x => x.Deadline, new { htmlAttributes = new { @class = "form-control form-control-sm ", placeholder = "Select date", type = "date" } })
+
+                                            @Html.EditorFor(x => x.HourSpan, new { htmlAttributes = new { @class = "form-control form-control-sm ", placeholder = "Select date", type = "time" } })
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+                            <div class="col-3  mt-auto mb-auto ">
+
+                                <input type="submit" value="Ata" class="btn btn-primary btn-block"/>
+
+                            </div>
+                            <span id="button">
+                            </span>
                         </div>
-                    </div>
-                }
+                    
+
+                    }
+                </div>
 
                 @using (Ajax.BeginForm("PriorityResult", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "button2", InsertionMode = InsertionMode.Replace }))
                 {
-                    <div class="form-row mb-2">
-                        @if (Model.PriorityList != null)
-                        {
-                        @Html.DropDownListFor(x => x.Tickets.Priority, Model.PriorityList, "Önemini Seçiniz", new { @class = "form-control form-control-sm" })
-                        @Html.HiddenFor(x => x.TicketID, new { @Value = t.Id })
-                        }
+                    <div class="form-row form-group mb-2 p-3 border border-default rounded">
+                        <div class="form-group col-7 mt-auto mb-auto">
+                            @if (Model.PriorityList != null)
+                            {
+                                @Html.DropDownListFor(x => x.Tickets.Priority, Model.PriorityList, "Önemini Seçiniz", new {@class = "form-control form-control"})
+                                @Html.HiddenFor(x => x.TicketID, new {@Value = t.Id})
+                            }
+                        </div>
+                        <div class="form-group col-3 mt-auto mb-auto">
+                            <input type="submit" value="Seç" class="btn btn-primary btn-block"/>
+                            <span id="button2">
+                            </span>
+                        </div>
 
-                        <input type="submit" value="Assign" class="btn btn-primary btn-sm" />
-                        <span id="button2">
-                        </span>
+
+     
                     </div>
 
                 }
                 @using (Ajax.BeginForm("StatusResult", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "button3", InsertionMode = InsertionMode.Replace }))
                 {
-                    <div class="form-row">
+                    <div class="form-row form-group p-3 border border-default rounded">
+                        <div class="form-group col-7 mt-auto mb-auto">
+                            @if (Model.StatusList != null)
+                            {
+                                @Html.DropDownListFor(x => x.Tickets.Status, Model.StatusList, "Durumunu Seçiniz", new { @class = "form-control form-control" })
+                                @Html.HiddenFor(x => x.TicketID, new { @Value = t.Id })
+                            }
+                        </div>
+                        <div class="col-3 form-group mt-auto mb-auto">
+                            
+                            <input type="submit" value="Seç" class="btn btn-primary btn-block btn" />
+                            <span id="button3">
+                            </span>
+                        </div>
 
-                        @if (Model.StatusList != null)
-                        {
-                        @Html.DropDownListFor(x => x.Tickets.Status, Model.StatusList, "Durumunu Seçiniz", new { @class = "form-control form-control-sm" })
-                        @Html.HiddenFor(x => x.TicketID, new { @Value = t.Id })
-                        }
-                        <input type="submit" value="Assign" class="btn btn-primary btn-sm" />
-                        <span id="button3">
-                        </span>
                     </div>
 
                 }
@@ -115,9 +143,9 @@
         </div>
         foreach (Reply r in t.Replies)
         {
-            <div class="row mt-2">
+            <div class="row mt-2 ">
                 <div class="col-5"></div>
-                <div class="col-7 border shadow-sm align-self-end bg-green text-right">
+                <div class="col-7 border shadow-sm align-self-end text-right border rounded border-default" style="        background-color: rgb(52, 235, 143)">
                     <blockquote class="blockquote ">
                         <p class="pl-2 ">@r.Text </p>
                         <footer class="blockquote-footer text-right"><cite> <small>@r.WriterAdmin.Username</small> </cite> </footer>
