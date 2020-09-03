@@ -1,7 +1,19 @@
 {
-   "scripts": {
-      "preinstall": "npm list bower -g || npm install bower -g",
-      "postinstall": "bower cache clean"
-   },
-   "dependencies": {}
+  "name": "ticket",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/atakank1999/Ticket.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/atakank1999/Ticket/issues"
+  },
+  "homepage": "https://github.com/atakank1999/Ticket#readme"
 }
