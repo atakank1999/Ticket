@@ -4,16 +4,17 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Ticket.Models.Context;
+using Ticket.Filters;
 using Ticket.Models;
+using Ticket.Models.Context;
 using Ticket.ViewModels;
-using Type = Ticket.Models.Type;
 
 namespace Ticket.Controllers
 {
+    [AuthFilter]
     public class TicketsController : Controller
     {
-        List<string> acceptedExtensions = new List<string>()
+        private List<string> acceptedExtensions = new List<string>()
         {
             ".pdf",
             ".xls",
@@ -23,45 +24,41 @@ namespace Ticket.Controllers
             ".doc",
             ".jpeg"
         };
+
         // GET: Tickets
         public ActionResult Index()
         {
-            if (Session["Login"]==null)
+            if (Session["Login"] == null)
             {
                 return RedirectToAction("Index", "SignIn");
             }
             DatabaseContext db = new DatabaseContext();
-            List<Models.Users> users= db.Users.ToList();
+            List<Models.Users> users = db.Users.ToList();
             foreach (Users u in users)
             {
-                if (Session["Login"].ToString()==u.Username)
+                if (Session["Login"].ToString() == u.Username)
                 {
-
                     return View(u);
-
-
                 }
-
             }
 
             return RedirectToAction("Index", "SignIn");
-
         }
+
         public ActionResult Create()
         {
             TicketwithListViewModel model = new TicketwithListViewModel();
 
-
             return View(model);
         }
-        [HttpPost,ValidateAntiForgeryToken]
-        public ActionResult Create(TicketwithListViewModel t,HttpPostedFileBase file)
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult Create(TicketwithListViewModel t, HttpPostedFileBase file)
         {
             if (!ModelState.IsValid)
             {
                 return View(t);
             }
-
 
             if (file != null)
             {
@@ -82,8 +79,6 @@ namespace Ticket.Controllers
                         return View(t.Ticket);
                     }
                 }
-
-
             }
             DatabaseContext db = new DatabaseContext();
             List<Users> userslist = db.Users.ToList();
@@ -98,6 +93,15 @@ namespace Ticket.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        public ActionResult Ticket(int id)
+        {
+            DatabaseContext db = new DatabaseContext();
+            Models.Ticket t = db.Tickets.Find(id);
+
+            return View(t);
+        }
+
         public ActionResult EditProfile()
         {
             DatabaseContext db = new DatabaseContext();
@@ -106,18 +110,18 @@ namespace Ticket.Controllers
                 if (users.Username == Session["Login"].ToString())
                 {
                     return View(users);
-
                 }
             }
 
             return RedirectToAction("Index", "SignIn");
         }
-        [HttpPost,ValidateAntiForgeryToken]
+
+        [HttpPost, ValidateAntiForgeryToken]
         public ActionResult EditProfile(Users model)
         {
             DatabaseContext db = new DatabaseContext();
             List<Users> userslList = db.Users.ToList();
- 
+
             Users updateUser = new Users();
             foreach (Users u in userslList)
             {
@@ -135,7 +139,6 @@ namespace Ticket.Controllers
                 updateUser.Surname = model.Surname;
                 updateUser.Email = model.Email;
             }
-
 
             int result = db.SaveChanges();
             if (model.Password != updateUser.Password)
@@ -155,6 +158,7 @@ namespace Ticket.Controllers
             }
             return View(updateUser);
         }
+
         public ActionResult EditTicket(int id)
         {
             DatabaseContext db = new DatabaseContext();
@@ -162,8 +166,9 @@ namespace Ticket.Controllers
 
             return View(model);
         }
-        [HttpPost,ValidateAntiForgeryToken]
-        public ActionResult EditTicket(Models.Ticket model,int id, HttpPostedFileBase file)
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult EditTicket(Models.Ticket model, int id, HttpPostedFileBase file)
         {
             DatabaseContext db = new DatabaseContext();
 
@@ -175,7 +180,7 @@ namespace Ticket.Controllers
                 updateTicket.Text = model.Text;
                 updateTicket.Title = model.Title;
                 updateTicket.EditedOn = DateTime.UtcNow;
-                if (file!=null)
+                if (file != null)
                 {
                     if (acceptedExtensions.Contains(Path.GetExtension(file.FileName)))
                     {
@@ -193,24 +198,22 @@ namespace Ticket.Controllers
                         return View(updateTicket);
                     }
                 }
-
-                
-            } 
+            }
             db.SaveChanges();
 
             return RedirectToAction("Index");
         }
+
         public ActionResult Delete(int id)
         {
-            DatabaseContext db =new DatabaseContext();
+            DatabaseContext db = new DatabaseContext();
             Models.Ticket t = db.Tickets.Find(id);
-            if (t.assignedTo!=null)
+            if (t.assignedTo != null)
             {
-            db.Assignments.Remove(t.assignedTo);
-
+                db.Assignments.Remove(t.assignedTo);
             }
 
-            if (t.Replies.Count!=0)
+            if (t.Replies.Count != 0)
             {
                 foreach (Reply reply in t.Replies.ToList())
                 {
@@ -223,6 +226,5 @@ namespace Ticket.Controllers
 
             return RedirectToAction("Index");
         }
-
     }
 }

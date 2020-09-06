@@ -5,10 +5,12 @@ using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.WebPages.Html;
 using Quartz;
 using Quartz.Impl;
+using Ticket.Filters;
 using Ticket.Migrations;
 using Ticket.Models;
 using Ticket.Models.Automation;
@@ -21,6 +23,7 @@ using Ticket = Ticket.Models.Ticket;
 
 namespace Ticket.Controllers
 {
+    [AdminFilter]
     public class AdminController : Controller
     {
         // GET: Admin
@@ -28,50 +31,50 @@ namespace Ticket.Controllers
         {
             DatabaseContext db = new DatabaseContext();
             ListofUserAndTicketViewModel model = new ListofUserAndTicketViewModel();
-             model.TicketsList = db.Tickets.ToList();
-             foreach (Users u in db.Users.ToList())
-             {
-                 if (u.IsAdmin)
-                 {
-                     model.AssignList.Add(new SelectListItem{Text = u.Username,Value = u.ID.ToString()});
-                 }
-             }
-             model.PriorityList.Add(new SelectListItem{Text = "Düşük",Value = Priority.Dusuk.ToString(), Selected = false });
-             model.PriorityList.Add(new SelectListItem {Text = "Orta", Value = Priority.Orta.ToString() , Selected = false });
-             model.PriorityList.Add(new SelectListItem {Text = "Önemli",Value = Priority.Onemli.ToString(), Selected = false });
-             model.PriorityList.Add(new SelectListItem {Text = "Acil", Value = Priority.Acil.ToString() ,Selected = false});
-             model.StatusList.Add(new SelectListItem()
-             {
-                 Value = Status.Başlamadı.ToString(),
-                 Text = "Başlamadı"
-             });
-             model.StatusList.Add(new SelectListItem()
-             {
-                 Value = Status.Sürüyor.ToString(),
-                 Text = "Sürüyor"
-             });
-             model.StatusList.Add(new SelectListItem()
-             {
-                 Value = Status.Çözüldü.ToString(),
-                 Text = "Çözüldü"
-             });
-
-
+            model.TicketsList = db.Tickets.ToList();
+            foreach (Users u in db.Users.ToList())
+            {
+                if (u.IsAdmin)
+                {
+                    model.AssignList.Add(new SelectListItem { Text = u.Username, Value = u.ID.ToString() });
+                }
+            }
+            model.PriorityList.Add(new SelectListItem { Text = "Düşük", Value = Priority.Dusuk.ToString(), Selected = false });
+            model.PriorityList.Add(new SelectListItem { Text = "Orta", Value = Priority.Orta.ToString(), Selected = false });
+            model.PriorityList.Add(new SelectListItem { Text = "Önemli", Value = Priority.Onemli.ToString(), Selected = false });
+            model.PriorityList.Add(new SelectListItem { Text = "Acil", Value = Priority.Acil.ToString(), Selected = false });
+            model.StatusList.Add(new SelectListItem()
+            {
+                Value = Status.Başlamadı.ToString(),
+                Text = "Başlamadı"
+            });
+            model.StatusList.Add(new SelectListItem()
+            {
+                Value = Status.Sürüyor.ToString(),
+                Text = "Sürüyor"
+            });
+            model.StatusList.Add(new SelectListItem()
+            {
+                Value = Status.Çözüldü.ToString(),
+                Text = "Çözüldü"
+            });
 
             return View(model);
         }
+
         public ActionResult Login()
         {
             return View(new Users());
         }
-        [HttpPost,ValidateAntiForgeryToken]
+
+        [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Login(Users admin)
         {
             DatabaseContext db = new DatabaseContext();
-            List<Users>usersList =db.Users.ToList();
+            List<Users> usersList = db.Users.ToList();
             foreach (Users u in usersList)
             {
-                if (admin.Email== u.Email && admin.Password == u.Password && u.IsAdmin)
+                if (admin.Email == u.Email && Crypto.Hash(admin.Password) == u.Password && u.IsAdmin)
                 {
                     Session["Admin"] = u.Username;
                     Session["Login"] = u.Username;
@@ -81,6 +84,7 @@ namespace Ticket.Controllers
 
             return View(admin);
         }
+
         public ActionResult Reply()
         {
             ReplyWithSelectlist replyWithSelectlist = new ReplyWithSelectlist();
@@ -108,8 +112,8 @@ namespace Ticket.Controllers
             return View(replyWithSelectlist);
         }
 
-        [HttpPost,ValidateAntiForgeryToken]
-        public async Task<ActionResult> Reply(int id,Reply reply)
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<ActionResult> Reply(int id, Reply reply)
         {
             DatabaseContext db = new DatabaseContext();
             List<Users> userlist = db.Users.ToList();
@@ -132,12 +136,12 @@ namespace Ticket.Controllers
             reply.date = DateTime.UtcNow;
             reply.RepliedTicket.Status = reply.RepliedTicket.Status;
             db.Replies.Add(reply);
-            int result =db.SaveChanges();
-            if (result>0)
+            int result = db.SaveChanges();
+            if (result > 0)
             {
                 MailMessage message = new MailMessage();
                 message.To.Add(new MailAddress(reply.RepliedTicket.Author.Email.ToString()));
-                message.Subject = reply.RepliedTicket.Title+" başlıklı biletinize yanıt geldi";
+                message.Subject = reply.RepliedTicket.Title + " başlıklı biletinize yanıt geldi";
                 message.Body = reply.Text;
                 using (var smtp = new SmtpClient())
                 {
@@ -145,16 +149,15 @@ namespace Ticket.Controllers
                 }
             }
 
-
-
             return RedirectToAction("Index");
         }
+
         [HttpPost]
         public PartialViewResult Assign(ListofUserAndTicketViewModel p)
         {
             List<String> list = new List<String>();
 
-            if (p.Admin.ID!=0)
+            if (p.Admin.ID != 0)
             {
                 DatabaseContext db = new DatabaseContext();
                 Models.Ticket t = db.Tickets.Find(p.ID);
@@ -176,7 +179,6 @@ namespace Ticket.Controllers
                         {
                             assignment.Deadline = default(DateTime);
                         }
-
                     }
                 }
 
@@ -186,7 +188,6 @@ namespace Ticket.Controllers
                 }
                 else if (u != null)
                 {
-
                 }
                 {
                     assignment = new Assignment();
@@ -203,7 +204,6 @@ namespace Ticket.Controllers
                     }
 
                     db.Assignments.Add(assignment);
-
                 }
                 int result = db.SaveChanges();
 
@@ -247,8 +247,7 @@ namespace Ticket.Controllers
                     DateTimeOffset deadline2 = deadline;
                     long unixTimeSeconds = deadline2.ToUnixTimeSeconds();
 
-                    email.run_cmd(Server.MapPath("~/SendMail/sendmail.py"),assignment.Ticket.Author.Email.ToString()+" "+assignment.Ticket.Text+" "+assignment.Ticket.Title+" "+unixTimeSeconds);
-
+                    email.run_cmd(Server.MapPath("~/SendMail/sendmail.py"), assignment.Ticket.Author.Email.ToString() + " " + assignment.Ticket.Text + " " + assignment.Ticket.Title + " " + unixTimeSeconds);
                 }
                 else
                 {
@@ -262,10 +261,9 @@ namespace Ticket.Controllers
                 list.Add("Değişikler uygulanamamıştır ya da değişiklik olmamıştır");
             }
 
-
-
-            return PartialView("_Success",list);
+            return PartialView("_Success", list);
         }
+
         [HttpPost]
         public PartialViewResult PriorityResult(ListofUserAndTicketViewModel model)
         {
@@ -280,16 +278,11 @@ namespace Ticket.Controllers
                     ticket.Priority = model.Tickets.Priority;
                     result = db.SaveChanges();
                 }
-
-
-
             }
-            if (result != 0 )
+            if (result != 0)
             {
-               
                 list.Add("success");
                 list.Add("Değişiklikler uygulanmıştır");
-
             }
             else
             {
@@ -297,8 +290,9 @@ namespace Ticket.Controllers
                 list.Add("Değişikler uygulanamamıştır");
             }
 
-            return PartialView("_Success",list);
+            return PartialView("_Success", list);
         }
+
         [HttpPost]
         public PartialViewResult PriorityResultAssignment(ListAssignmentAndTicket model)
         {
@@ -313,16 +307,11 @@ namespace Ticket.Controllers
                     ticket.Priority = model.Ticket.Priority;
                     result = db.SaveChanges();
                 }
-
-
-
             }
             if (result != 0)
             {
-
                 list.Add("success");
                 list.Add("Değişiklikler uygulanmıştır");
-
             }
             else
             {
@@ -332,6 +321,7 @@ namespace Ticket.Controllers
 
             return PartialView("_Success", list);
         }
+
         [HttpPost]
         public ActionResult StatusResult(ListofUserAndTicketViewModel model)
         {
@@ -346,16 +336,11 @@ namespace Ticket.Controllers
                     ticket.Status = model.Tickets.Status;
                     result = db.SaveChanges();
                 }
-
-
-
             }
             if (result != 0)
             {
-
                 list.Add("success");
                 list.Add("Değişiklikler uygulanmıştır");
-
             }
             else
             {
@@ -365,6 +350,7 @@ namespace Ticket.Controllers
 
             return PartialView("_Success", list);
         }
+
         [HttpPost]
         public ActionResult StatusResultAssignments(ListAssignmentAndTicket model)
         {
@@ -379,16 +365,11 @@ namespace Ticket.Controllers
                     ticket.Status = model.Ticket.Status;
                     result = db.SaveChanges();
                 }
-
-
-
             }
             if (result != 0)
             {
-
                 list.Add("success");
                 list.Add("Değişiklikler uygulanmıştır");
-
             }
             else
             {
@@ -398,25 +379,27 @@ namespace Ticket.Controllers
 
             return PartialView("_Success", list);
         }
+
         public ActionResult Download(int id)
         {
             DatabaseContext db = new DatabaseContext();
             Models.Ticket ticket = db.Tickets.Find(id);
             string path = ticket.FilePath;
-            return File(path, "application/force-download",Path.GetFileName(path));
+            return File(path, "application/force-download", Path.GetFileName(path));
         }
+
         public ActionResult Assignments()
         {
-            DatabaseContext db =new DatabaseContext();
+            DatabaseContext db = new DatabaseContext();
             Users modeluser = null;
             foreach (Users u in db.Users.ToList())
             {
-                if (Session["Login"].ToString()==u.Username)
+                if (Session["Login"].ToString() == u.Username)
                 {
                     modeluser = u;
                 }
             }
-            
+
             ListAssignmentAndTicket model = new ListAssignmentAndTicket();
             model.Assignments = modeluser.Assignments;
 

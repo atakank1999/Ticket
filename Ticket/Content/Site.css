@@ -11,5 +11,14 @@ textarea {
 }
 
     #navbar-brand:hover {
-        color: rgba(255,255,255,0.5)
+        color: rgb(84, 76, 76)
+    }
+
+.table-link {
+    color: black;
+    font-size: 1rem;
+
+}
+    .table-link:hover {
+        color: rgb(163, 153, 153)
     }

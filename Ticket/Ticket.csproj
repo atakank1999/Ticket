@@ -3380,6 +3380,8 @@
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\SignInController.cs" />
     <Compile Include="Controllers\TicketsController.cs" />
+    <Compile Include="Filters\AdminFilter.cs" />
+    <Compile Include="Filters\AuthFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -3469,6 +3471,7 @@
     <Content Include="Views\Register\guid.cshtml" />
     <Content Include="Views\Register\verify.cshtml" />
     <Content Include="Sendmail\.vscode\launch.json" />
+    <Content Include="Views\Tickets\Ticket.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

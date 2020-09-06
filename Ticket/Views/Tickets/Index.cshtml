@@ -4,80 +4,68 @@
     ViewBag.Title = "Index";
 }
 
-<h1 class="mb-2">Gönderilerim</h1>
-<div class="container-fluid mt-2">
-    @foreach (Ticket t in Model.Tickets)
-    {
-        <div class="row mt-2 ">
-            <div class="col-md-8 border rounded align-self-center bg-white">
-                <div class="dropdown float-right">
-                    <button class="btn btn-icon dropdown-toggle btn-sm " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="btn-inner--icon"><i class="ni ni-settings-gear-65"></i></span>
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+<div class="table-responsive ">
 
-                        <a class="dropdown-item" href="Tickets/EditTicket/@t.Id">
-                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
-                            </svg>Düzenle
-                        </a>
-
-                        <!-- Button trigger modal -->
-                        <button type="button" class="dropdown-item" data-toggle="modal" data-target="#exampleModal" data-title="@t.Title" data-id="@t.Id">
-                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z" />
-                            </svg> Sil
-                        </button>
-
-                        <!-- Modal -->
-
-
-                    </div>
-                </div>
-
-
-                <h2>@t.Title</h2>
-                <p>@t.Text</p>
-                @if (!t.FilePath.IsEmpty())
+    <div>
+        <table class="table  table-striped align-items-center ">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col" class="sort" data-sort="name">Başlık</th>
+                    <th scope="col" class="sort" data-sort="status">Durumu</th>
+                    <th scope="col" class="sort" data-sort="type">Türü</th>
+                    <th scope="col" class="sort" data-sort="date">Tarihi</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody class="list">
+                @foreach (Ticket t in Model.Tickets)
                 {
-                    <button class="btn btn-icon btn-outline-primary">
-                        <span class="btn-inner--icon"><i class="ni ni-cloud-download-95"></i></span>
-                        @Html.ActionLink(Path.GetFileName(t.FilePath).ToString(), "Download", "Admin", new { id = t.Id }, new { @class = "btn-inner--text" })
+                    <tr>
+                        <th scope="row">
 
-                    </button>
+                          <a class="table-link" href="Tickets/Ticket/@t.Id"> @t.Title </a>
+                        </th>
+                        <td class="status">
+                            @t.Status
+                        </td>
+                        <td class=" type">
+                            @t.Type
+                        </td>
+                        <td class="date">
 
+                            @t.DateTime.ToString("d")
+                        </td>
+                        <td class="text-right">
+                            <div class="dropdown">
+                                <button class="btn btn-icon btn-sm " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="btn-inner--icon"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-three-dots-vertical" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                                    </svg></span>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow" aria-labelledby="dropdownMenuButton">
 
+                                    <a class="dropdown-item" href="Tickets/EditTicket/@t.Id">
+                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
+                                        </svg>Düzenle
+                                    </a>
+
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="dropdown-item" data-toggle="modal" data-target="#exampleModal" data-title="@t.Title" data-id="@t.Id">
+                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z" />
+                                        </svg> Sil
+                                    </button>
+
+                                    <!-- Modal -->
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
                 }
-                <p class="text-right">
-
-                    <span><small>@t.DateTime.ToString("d")</small></span> <br />
-                    @if (t.DateTime.Date != t.EditedOn.Date)
-                    {
-                <small><i>@("Düzenlenme Tarihi : "+t.EditedOn.ToString("d"))</i>  </small>
-                    }
-                </p>
-                <br />
-                <br />
-
-                <p class="text-right">Bilet Tipi : @t.Type</p>
-                <p class="text-right text-danger">@t.Status</p>
-            </div>
-            <div class="col-md-5">
-            </div>
-        </div>
-        foreach (Reply r in t.Replies)
-        {
-            <div class="row mt-2 ">
-                <div class="col-md-4"></div>
-                <div class="col-md-8 border rounded bg-success">
-                    <blockquote class="blockquote ">
-                        <p class="pl-2 ">@r.Text </p>
-                        <footer class="blockquote-footer text-right"><cite> <small>@r.WriterAdmin.Username @r.date.ToLocalTime().ToString("g") tarihinde yanıtladı</small> </cite> </footer>
-                    </blockquote>
-                </div>
-            </div>
-        }
-    }
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -99,6 +87,8 @@
         </div>
     </div>
 </div>
+
+
 @section Scripts
 {
     <script>
