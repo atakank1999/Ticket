@@ -26,7 +26,7 @@ namespace Ticket.Controllers
         };
 
         // GET: Tickets
-        public ActionResult Index()
+        public ActionResult Index(string sortby = "date")
         {
             if (Session["Login"] == null)
             {
@@ -38,6 +38,38 @@ namespace Ticket.Controllers
             {
                 if (Session["Login"].ToString() == u.Username)
                 {
+                    if (sortby == "name")
+                    {
+                        u.Tickets = u.Tickets.OrderBy(o => o.Title).ToList();
+                    }
+                    else if (sortby == "-name")
+                    {
+                        u.Tickets = u.Tickets.OrderByDescending(o => o.Title).ToList();
+                    }
+                    else if (sortby == "date")
+                    {
+                        u.Tickets = u.Tickets.OrderBy(o => o.DateTime).ToList();
+                    }
+                    if (sortby == "-date")
+                    {
+                        u.Tickets = u.Tickets.OrderByDescending(o => o.DateTime).ToList();
+                    }
+                    else if (sortby == "status")
+                    {
+                        u.Tickets = u.Tickets.OrderBy(o => o.Status).ToList();
+                    }
+                    else if (sortby == "-status")
+                    {
+                        u.Tickets = u.Tickets.OrderByDescending(o => o.Status).ToList();
+                    }
+                    else if (sortby == "type")
+                    {
+                        u.Tickets = u.Tickets.OrderBy(o => o.Type).ToList();
+                    }
+                    else if (sortby == "-type")
+                    {
+                        u.Tickets = u.Tickets.OrderByDescending(o => o.Type).ToList();
+                    }
                     return View(u);
                 }
             }

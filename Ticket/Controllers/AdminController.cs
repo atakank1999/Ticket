@@ -7,9 +7,12 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using System.Web.UI.WebControls.Expressions;
 using System.Web.WebPages.Html;
 using Quartz;
 using Quartz.Impl;
+using Quartz.Util;
+using Ticket.Comparer;
 using Ticket.Filters;
 using Ticket.Migrations;
 using Ticket.Models;
@@ -27,37 +30,86 @@ namespace Ticket.Controllers
     public class AdminController : Controller
     {
         // GET: Admin
-        public ActionResult Index()
+        public ActionResult Index(string sortby)
         {
             DatabaseContext db = new DatabaseContext();
-            ListofUserAndTicketViewModel model = new ListofUserAndTicketViewModel();
-            model.TicketsList = db.Tickets.ToList();
-            foreach (Users u in db.Users.ToList())
+
+            List<Models.Ticket> model = db.Tickets.ToList();
+
+            //foreach (Users u in db.Users.ToList())
+            //{
+            //    if (u.IsAdmin)
+            //    {
+            //        model.AssignList.Add(new SelectListItem { Text = u.Username, Value = u.ID.ToString() });
+            //    }
+            //}
+            //model.PriorityList.Add(new SelectListItem { Text = "Düşük", Value = Priority.Dusuk.ToString(), Selected = false });
+            //model.PriorityList.Add(new SelectListItem { Text = "Orta", Value = Priority.Orta.ToString(), Selected = false });
+            //model.PriorityList.Add(new SelectListItem { Text = "Önemli", Value = Priority.Onemli.ToString(), Selected = false });
+            //model.PriorityList.Add(new SelectListItem { Text = "Acil", Value = Priority.Acil.ToString(), Selected = false });
+            //model.StatusList.Add(new SelectListItem()
+            //{
+            //    Value = Status.Başlamadı.ToString(),
+            //    Text = "Başlamadı"
+            //});
+            //model.StatusList.Add(new SelectListItem()
+            //{
+            //    Value = Status.Sürüyor.ToString(),
+            //    Text = "Sürüyor"
+            //});
+            //model.StatusList.Add(new SelectListItem()
+            //{
+            //    Value = Status.Çözüldü.ToString(),
+            //    Text = "Çözüldü"
+            //});
+            if (sortby == "name")
             {
-                if (u.IsAdmin)
-                {
-                    model.AssignList.Add(new SelectListItem { Text = u.Username, Value = u.ID.ToString() });
-                }
+                model = model.OrderBy(o => o.Title).ToList();
             }
-            model.PriorityList.Add(new SelectListItem { Text = "Düşük", Value = Priority.Dusuk.ToString(), Selected = false });
-            model.PriorityList.Add(new SelectListItem { Text = "Orta", Value = Priority.Orta.ToString(), Selected = false });
-            model.PriorityList.Add(new SelectListItem { Text = "Önemli", Value = Priority.Onemli.ToString(), Selected = false });
-            model.PriorityList.Add(new SelectListItem { Text = "Acil", Value = Priority.Acil.ToString(), Selected = false });
-            model.StatusList.Add(new SelectListItem()
+            else if (sortby == "-name")
             {
-                Value = Status.Başlamadı.ToString(),
-                Text = "Başlamadı"
-            });
-            model.StatusList.Add(new SelectListItem()
+                model = model.OrderByDescending(o => o.Title).ToList();
+            }
+            else if (sortby == "date")
             {
-                Value = Status.Sürüyor.ToString(),
-                Text = "Sürüyor"
-            });
-            model.StatusList.Add(new SelectListItem()
+                model = model.OrderBy(o => o.DateTime).ToList();
+            }
+            if (sortby == "-date")
             {
-                Value = Status.Çözüldü.ToString(),
-                Text = "Çözüldü"
-            });
+                model = model.OrderByDescending(o => o.DateTime).ToList();
+            }
+            else if (sortby == "status")
+            {
+                model = model.OrderBy(o => o.Status).ToList();
+            }
+            else if (sortby == "-status")
+            {
+                model = model.OrderByDescending(o => o.Status).ToList();
+            }
+            else if (sortby == "type")
+            {
+                model = model.OrderBy(o => o.Type).ToList();
+            }
+            else if (sortby == "-type")
+            {
+                model = model.OrderByDescending(o => o.Type).ToList();
+            }
+            else if (sortby == "admin")
+            {
+                model = model.OrderBy(o => o.assignedTo, new AdminComparer()).ToList();
+            }
+            else if (sortby == "-admin")
+            {
+                model = model = model.OrderByDescending(o => o.assignedTo, new AdminComparer()).ToList();
+            }
+            else if (sortby == "deadline")
+            {
+                model = model.OrderBy(o => o.assignedTo, new DeadlineComparer()).ToList();
+            }
+            else if (sortby == "-deadline")
+            {
+                model = model.OrderByDescending(o => o.assignedTo, new DeadlineComparer()).ToList();
+            }
 
             return View(model);
         }
@@ -153,15 +205,15 @@ namespace Ticket.Controllers
         }
 
         [HttpPost]
-        public PartialViewResult Assign(ListofUserAndTicketViewModel p)
+        public ActionResult Assign(AdminTicketViewModel p)
         {
             List<String> list = new List<String>();
 
-            if (p.Admin.ID != 0)
+            if (p.Ticket.assignedTo.Admin.ID != 0)
             {
                 DatabaseContext db = new DatabaseContext();
-                Models.Ticket t = db.Tickets.Find(p.ID);
-                Users u = db.Users.Find(p.Admin.ID);
+                Models.Ticket t = db.Tickets.Find(p.Ticket.Id);
+                Users u = db.Users.Find(p.Ticket.assignedTo.Admin.ID);
                 Assignment assignment = null;
 
                 List<Assignment> alList = db.Assignments.ToList();
@@ -171,13 +223,15 @@ namespace Ticket.Controllers
                     {
                         assignment = a;
 
-                        if (DateTime.Compare(p.Deadline, DateTime.UtcNow) > 0)
+                        if (DateTime.Compare(p.Ticket.assignedTo.Deadline.Date.Add(p.TimeSpan), DateTime.Now) > 0)
                         {
-                            assignment.Deadline = p.Deadline;
+                            assignment.Deadline = p.Ticket.assignedTo.Deadline.Date.Add(p.TimeSpan);
                         }
                         else
                         {
-                            assignment.Deadline = default(DateTime);
+                            list.Add("danger");
+                            list.Add("Lütfen geçerli bir tarih giriniz");
+                            return PartialView("_Success", list);
                         }
                     }
                 }
@@ -188,19 +242,19 @@ namespace Ticket.Controllers
                 }
                 else if (u != null)
                 {
-                }
-                {
                     assignment = new Assignment();
                     assignment.Ticket = t;
                     assignment.IsDone = false;
                     assignment.Admin = u;
-                    if (DateTime.Compare(p.Deadline.Add(p.HourSpan), DateTime.UtcNow) > 0)
+                    if (DateTime.Compare(p.Ticket.assignedTo.Deadline.Date.Add(p.TimeSpan), DateTime.Now) > 0)
                     {
-                        assignment.Deadline = p.Deadline.Add(p.HourSpan);
+                        assignment.Deadline = p.Ticket.assignedTo.Deadline.Date.Add(p.TimeSpan);
                     }
                     else
                     {
-                        assignment.Deadline = default(DateTime);
+                        list.Add("danger");
+                        list.Add("Geçerli bir tarih giriniz");
+                        return PartialView("_Success", list);
                     }
 
                     db.Assignments.Add(assignment);
@@ -264,37 +318,39 @@ namespace Ticket.Controllers
             return PartialView("_Success", list);
         }
 
-        [HttpPost]
-        public PartialViewResult PriorityResult(ListofUserAndTicketViewModel model)
+        public ActionResult Ticket(int id)
         {
+            AdminTicketViewModel model = new AdminTicketViewModel();
             DatabaseContext db = new DatabaseContext();
-            int result = -1;
-            Models.Ticket ticket = db.Tickets.Find(model.TicketID);
-            List<String> list = new List<String>();
-            if (ticket != null)
+            model.Admins = new List<Users>();
+            foreach (Users u in db.Users)
             {
-                if (ticket.Priority != model.Tickets.Priority)
+                if (u.IsAdmin)
                 {
-                    ticket.Priority = model.Tickets.Priority;
-                    result = db.SaveChanges();
+                    model.Admins.Add(u);
                 }
             }
-            if (result != 0)
+
+            model.Ticket = db.Tickets.Find(id);
+            if (model.Ticket.assignedTo != null)
             {
-                list.Add("success");
-                list.Add("Değişiklikler uygulanmıştır");
+                model.TimeSpan = model.Ticket.assignedTo.Deadline.TimeOfDay;
             }
-            else
+            model.AdminList = new List<SelectListItem>();
+            foreach (Users u in model.Admins)
             {
-                list.Add("danger");
-                list.Add("Değişikler uygulanamamıştır");
+                model.AdminList.Add(new SelectListItem()
+                {
+                    Text = u.Username,
+                    Value = u.ID.ToString(),
+                });
             }
 
-            return PartialView("_Success", list);
+            return View(model);
         }
 
         [HttpPost]
-        public PartialViewResult PriorityResultAssignment(ListAssignmentAndTicket model)
+        public PartialViewResult PriorityResult(AdminTicketViewModel model)
         {
             DatabaseContext db = new DatabaseContext();
             int result = -1;
@@ -323,17 +379,46 @@ namespace Ticket.Controllers
         }
 
         [HttpPost]
-        public ActionResult StatusResult(ListofUserAndTicketViewModel model)
+        public PartialViewResult PriorityResultAssignment(AdminTicketViewModel model)
         {
             DatabaseContext db = new DatabaseContext();
             int result = -1;
-            Models.Ticket ticket = db.Tickets.Find(model.TicketID);
+            Models.Ticket ticket = db.Tickets.Find(model.Ticket.Id);
             List<String> list = new List<String>();
             if (ticket != null)
             {
-                if (ticket.Status != model.Tickets.Status)
+                if (ticket.Priority != model.Ticket.Priority)
                 {
-                    ticket.Status = model.Tickets.Status;
+                    ticket.Priority = model.Ticket.Priority;
+                    result = db.SaveChanges();
+                }
+            }
+            if (result != 0)
+            {
+                list.Add("success");
+                list.Add("Değişiklikler uygulanmıştır");
+            }
+            else
+            {
+                list.Add("danger");
+                list.Add("Değişikler uygulanamamıştır");
+            }
+
+            return PartialView("_Success", list);
+        }
+
+        [HttpPost]
+        public ActionResult StatusResult(AdminTicketViewModel model)
+        {
+            DatabaseContext db = new DatabaseContext();
+            int result = -1;
+            Models.Ticket ticket = db.Tickets.Find(model.Ticket.Id);
+            List<String> list = new List<String>();
+            if (ticket != null)
+            {
+                if (ticket.Status != model.Ticket.Status)
+                {
+                    ticket.Status = model.Ticket.Status;
                     result = db.SaveChanges();
                 }
             }

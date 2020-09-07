@@ -1,159 +1,158 @@
 ﻿@using System.Web.Mvc.Html
 @using Ticket.Models
-@using ListofUserAndTicketViewModel = Ticket.ViewModels.ListofUserAndTicketViewModel
-@model ListofUserAndTicketViewModel
+@model List<Ticket>
 @{
     ViewBag.Title = "Index";
 
 }
 
 <hr />
-<div class="container-fluid">
-    @foreach (Ticket t in Model.TicketsList)
-    {
-        <div class="row mt-2 ">
-            <div class="col-md-7 border border-default rounded shadow-sm">
-                <h1>@t.Title</h1>
-                <h4 class="text-right">Önceliği: @t.Priority</h4>
-                <h5 class="text-right">Tipi: @t.Type</h5>
 
-                <blockquote class="blockquote ">
-                    <p class="pl-2 ">@t.Text </p>
-                    <footer class="blockquote-footer text-right"><cite> <small>@t.Author.Username</small> </cite> </footer>
-                </blockquote>
-                <div class="row">
-                    <div class="col-6">
-                        @if (!t.FilePath.IsEmpty())
+
+<div class="table-responsive ">
+
+    <div>
+        <table class="table  table-striped align-items-center ">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col" class="sort" data-sort="name">
+                        @if (Request.QueryString["sortby"] != null && Request.QueryString["sortby"].ToString() == "name")
                         {
-                            <button class="btn btn-icon btn-outline-primary">
-                                <span class="btn-inner--icon"><i class="ni ni-cloud-download-95"></i></span>
-                                @Html.ActionLink(Path.GetFileName(t.FilePath).ToString(), "Download", new { id = t.Id }, new { @class = "btn-inner--text" })
-                            </button>
+                            @Html.ActionLink("İSİM", "Index", new { sortby = "-name" }, new { @class = "text-default" })
 
                         }
-                    </div>
-                    <div class="col-6">
-                        <p class="text-right ">
+                        else
+                        {
+                            @Html.ActionLink("İSİM", "Index", new { sortby = "name" }, new { @class = "text-default" })
 
-                            <small class="text-danger">
-                                @if (t.assignedTo != null)
-                                {
-                                    @(t.assignedTo.Admin.Username + "'ya atandı")
-                                    <br />
-                                    if (t.assignedTo.Deadline != default(DateTime))
-                                    {
-                                        @(t.assignedTo.Deadline.ToString("f") + " Son tarih")
+                        }
+                    </th>
+                    <th scope="col" class="sort" data-sort="status">
+                        @if (Request.QueryString["sortby"] != null && Request.QueryString["sortby"].ToString() == "status")
+                        {
+                            @Html.ActionLink("DURUMU", "Index", new { sortby = "-status" }, new { @class = "text-default" })
 
-                                    }
+                        }
+                        else
+                        {
+                            @Html.ActionLink("DURUMU", "Index", new { sortby = "status" }, new { @class = "text-default" })
 
-                                }
-                        <p class="text-right">
-                            <small>Durumu:</small>
-                            <small>@t.Status</small>
-                        </p>
-                        </small>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-5">
-                @Html.ActionLink("Cevapla", "Reply", new { id = @t.Id }, new { @class = "btn btn-danger btn-sm mt-3 mb-3" })
-                <div class="container-fluid border border-default rounded mb-2">
+                        }
+                    </th>
+                    <th scope="col" class="sort" data-sort="type">
+                        @if (Request.QueryString["sortby"] != null && Request.QueryString["sortby"].ToString() == "type")
+                        {
+                            @Html.ActionLink("TÜRÜ", "Index", new { sortby = "-type" }, new { @class = "text-default" })
 
-                    @using (Ajax.BeginForm("Assign", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "button", InsertionMode = InsertionMode.Replace }))
-                    {
-                        <div class="form-row">
-                            <div class=" form-group col-7 p-3 mt-auto mb-auto">
-                                <div class="form-row mb-2 ">
-                                    <div class="form-group mt-auto mb-auto ">
-                                        @if (Model.AssignList != null)
-                                        {
-                                            @Html.DropDownListFor(x => x.Admin.ID, Model.AssignList, "Atanacak Kişiyi Seçiniz", new { @class = "form-control form-control-sm" })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("TÜRÜ", "Index", new { sortby = "type" }, new { @class = "text-default" })
 
-                                        }
-                                        @Html.HiddenFor(x => x.ID, new { @Value = t.Id })
-                                    </div>
-                                </div>
+                        }
+                    </th>
+                    <th scope="col" class="sort" data-sort="date">
+                        @if (Request.QueryString["sortby"] != null && Request.QueryString["sortby"].ToString() == "date")
+                        {
+                            @Html.ActionLink("TARİHİ", "Index", new { sortby = "-date" }, new { @class = "text-default" })
 
-                                <div class="form-row">
-                                    <div class="form-group mt-auto mb-auto ">
-                                        <div class="input-group">
-                                            @Html.EditorFor(x => x.Deadline, new { htmlAttributes = new { @class = "form-control form-control-sm ", placeholder = "Select date", type = "date" } })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("TARİHİ", "Index", new { sortby = "date" }, new { @class = "text-default" })
 
-                                            @Html.EditorFor(x => x.HourSpan, new { htmlAttributes = new { @class = "form-control form-control-sm ", placeholder = "Select date", type = "time" } })
-                                        </div>
-                                    </div>
+                        }
+                    </th>
+                    <th scope="col" class="sort" data-sort="deadline">
+                        @if (Request.QueryString["sortby"] != null && Request.QueryString["sortby"].ToString() == "deadline")
+                        {
+                            @Html.ActionLink("SON TARİHİ", "Index", new { sortby = "-deadline" }, new { @class = "text-default" })
+
+                        }
+                        else
+                        {
+                            @Html.ActionLink("SON TARİHİ", "Index", new { sortby = "deadline" }, new { @class = "text-default" })
+
+                        }
+                    </th>
+                    <th scope="col" class="sort" data-sort="admin">
+                        @if (Request.QueryString["sortby"] != null && Request.QueryString["sortby"].ToString() == "admin")
+                        {
+                            @Html.ActionLink("ADMIN", "Index", new { sortby = "-admin" }, new { @class = "text-default" })
+
+                        }
+                        else
+                        {
+                            @Html.ActionLink("ADMIN", "Index", new { sortby = "admin" }, new { @class = "text-default" })
+
+                        }
+                    </th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody class="list">
+                @foreach (Ticket t in Model)
+                {
+                    <tr>
+                        <th scope="row">
+
+                            <a class="table-link" href="Admin/Ticket/@t.Id"> @t.Title </a>
+                        </th>
+                        <td class="status">
+                            @t.Status
+                        </td>
+                        <td class=" type">
+                            @t.Type
+                        </td>
+                        <td class="date">
+
+                            @t.DateTime.ToString("d")
+                        </td>
+                        <td class="deadline">
+                            @if (t.assignedTo != null && t.assignedTo.Deadline != null)
+                            {
+                                @t.assignedTo.Deadline.ToString("d")
+
+                            }
+                        </td>
+                        <td class="admin">
+                            @if (t.assignedTo != null && t.assignedTo.Admin != null)
+                            {
+                                @t.assignedTo.Admin.Username.ToString()
+
+                            }
+                        </td>
+                        <td class="text-right">
+                            <div class="dropdown">
+                                <button class="btn btn-icon btn-sm " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="btn-inner--icon">
+                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-three-dots-vertical" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                                        </svg>
+                                    </span>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow" aria-labelledby="dropdownMenuButton">
+
+                                    <a class="dropdown-item" href="Tickets/EditTicket/@t.Id">
+                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
+                                        </svg>Düzenle
+                                    </a>
+
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="dropdown-item" data-toggle="modal" data-target="#exampleModal" data-title="@t.Title" data-id="@t.Id">
+                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z" />
+                                        </svg> Sil
+                                    </button>
+
+                                    <!-- Modal -->
                                 </div>
                             </div>
-                            <div class="col-3  mt-auto mb-auto ">
-
-                                <input type="submit" value="Ata" class="btn btn-primary btn-block"/>
-
-                            </div>
-                            <span id="button">
-                            </span>
-                        </div>
-                    
-
-                    }
-                </div>
-
-                @using (Ajax.BeginForm("PriorityResult", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "button2", InsertionMode = InsertionMode.Replace }))
-                {
-                    <div class="form-row form-group mb-2 p-3 border border-default rounded">
-                        <div class="form-group col-7 mt-auto mb-auto">
-                            @if (Model.PriorityList != null)
-                            {
-                                @Html.DropDownListFor(x => x.Tickets.Priority, Model.PriorityList, "Önemini Seçiniz", new {@class = "form-control form-control"})
-                                @Html.HiddenFor(x => x.TicketID, new {@Value = t.Id})
-                            }
-                        </div>
-                        <div class="form-group col-3 mt-auto mb-auto">
-                            <input type="submit" value="Seç" class="btn btn-primary btn-block"/>
-                            <span id="button2">
-                            </span>
-                        </div>
-
-
-     
-                    </div>
-
+                        </td>
+                    </tr>
                 }
-                @using (Ajax.BeginForm("StatusResult", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "button3", InsertionMode = InsertionMode.Replace }))
-                {
-                    <div class="form-row form-group p-3 border border-default rounded">
-                        <div class="form-group col-7 mt-auto mb-auto">
-                            @if (Model.StatusList != null)
-                            {
-                                @Html.DropDownListFor(x => x.Tickets.Status, Model.StatusList, "Durumunu Seçiniz", new { @class = "form-control form-control" })
-                                @Html.HiddenFor(x => x.TicketID, new { @Value = t.Id })
-                            }
-                        </div>
-                        <div class="col-3 form-group mt-auto mb-auto">
-                            
-                            <input type="submit" value="Seç" class="btn btn-primary btn-block btn" />
-                            <span id="button3">
-                            </span>
-                        </div>
-
-                    </div>
-
-                }
-            </div>
-        </div>
-        foreach (Reply r in t.Replies)
-        {
-            <div class="row mt-2 ">
-                <div class="col-5"></div>
-                <div class="col-7 border shadow-sm align-self-end text-right border rounded border-default" style="        background-color: rgb(52, 235, 143)">
-                    <blockquote class="blockquote ">
-                        <p class="pl-2 ">@r.Text </p>
-                        <footer class="blockquote-footer text-right"><cite> <small>@r.WriterAdmin.Username</small> </cite> </footer>
-                    </blockquote>
-                </div>
-            </div>
-        }
-        <hr />
-
-    }
+            </tbody>
+        </table>
+    </div>
 </div>

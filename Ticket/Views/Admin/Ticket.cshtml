@@ -1,0 +1,163 @@
+﻿@using System.Globalization
+@using Ticket.Models
+@model global::Ticket.ViewModels.AdminTicketViewModel
+@{
+    ViewBag.Title = "Ticket";
+}
+
+<div class="container-fluid">
+    <div class="row mt-2 ">
+        <div class="col-md-7 border border-default rounded shadow-sm">
+            <h1>@Model.Ticket.Title</h1>
+            <h4 class="text-right">Önceliği: @Model.Ticket.Priority</h4>
+            <h5 class="text-right">Tipi: @Model.Ticket.Type</h5>
+
+            <blockquote class="blockquote ">
+                <p class="pl-2 ">@Model.Ticket.Text </p>
+                <footer class="blockquote-footer text-right"><cite> <small>@Model.Ticket.Author.Username</small> </cite> </footer>
+            </blockquote>
+            <div class="row">
+                <div class="col-6">
+                    @if (!Model.Ticket.FilePath.IsEmpty())
+                    {
+                        <button class="btn btn-icon btn-outline-primary">
+                            <span class="btn-inner--icon"><i class="ni ni-cloud-download-95"></i></span>
+                            @Html.ActionLink(Path.GetFileName(Model.Ticket.FilePath).ToString(), "Download", new { id = Model.Ticket.Id }, new { @class = "btn-inner--text" })
+                        </button>
+
+                    }
+                </div>
+                <div class="col-6">
+                    <p class="text-right ">
+
+                        <small class="text-danger">
+                            @if (Model.Ticket.assignedTo != null)
+                            {
+                                @(Model.Ticket.assignedTo.Admin.Username + "'ya atandı")
+                                <br />
+                                if (Model.Ticket.assignedTo.Deadline != default(DateTime))
+                                {
+                                    @(Model.Ticket.assignedTo.Deadline.ToString("f") + " Son tarih")
+
+                                }
+
+                            }
+                    <p class="text-right">
+                        <small>Durumu:</small>
+                        <small>@Model.Ticket.Status</small>
+                    </p>
+                    </small>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            @Html.ActionLink("Cevapla", "Reply", new { id = Model.Ticket.Id }, new { @class = "btn btn-danger btn-sm mt-3 mb-3" })
+            <div class="container-fluid border border-default rounded mb-2">
+
+                @using (Ajax.BeginForm("Assign", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "button", InsertionMode = InsertionMode.Replace }))
+                {
+                    <div class="form-row">
+                        <div class=" form-group col-7 p-3 mt-auto mb-auto">
+                            <div class="form-row mb-2 ">
+                                <div class="form-group mt-auto mb-auto ">
+                                    @Html.DropDownListFor(x => x.Ticket.assignedTo.Admin.ID, Model.AdminList, "Atanacak Kişiyi Seçiniz", new { @class = "form-control form-control-sm" })
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                @Html.ValidationSummary()
+
+                                <div class="form-group mt-auto mb-auto ">
+                                    <div class="input-group">
+                                        @Html.EditorFor(x => x.Ticket.assignedTo.Deadline, new {htmlAttributes = new {@class = "form-control form-control-sm datepicker", @Value = Convert.ToString(Model.Ticket.assignedTo.Deadline.Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)), placeholder = "Tarih Seçin", type = "text"}})
+
+                                        @Html.EditorFor(x => x.TimeSpan, new {htmlAttributes = new {@class = "form-control form-control-sm bg-white ", id = "timepicker", placeholder = "Saat Seçin", type = "text", @Value = Convert.ToString(Model.Ticket.assignedTo.Deadline.ToString("t"))}})
+                                        @Html.HiddenFor(x => x.Ticket.Id)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3  mt-auto mb-auto ">
+
+                            <input type="submit" value="Ata" class="btn btn-primary btn-block" />
+                        </div>
+                        <span id="button">
+                        </span>
+                    </div>
+
+                }
+            </div>
+
+            @using (Ajax.BeginForm("PriorityResult", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "button2", InsertionMode = InsertionMode.Replace }))
+            {
+                <div class="form-row form-group mb-2 p-3 border border-default rounded">
+                    <div class="form-group col-7 mt-auto mb-auto">
+                        @Html.EnumDropDownListFor(x => x.Ticket.Priority, "Önemini Seçiniz", new { @class = "form-control form-control" })
+                        @Html.HiddenFor(x => x.Ticket.Id)
+
+                    </div>
+                    <div class="form-group col-3 mt-auto mb-auto">
+                        <input type="submit" value="Seç" class="btn btn-primary btn-block" />
+                        <span id="button2">
+                        </span>
+                    </div>
+                </div>
+
+            }
+            @using (Ajax.BeginForm("StatusResult", new AjaxOptions() { HttpMethod = "POST", UpdateTargetId = "button3", InsertionMode = InsertionMode.Replace }))
+            {
+                <div class="form-row form-group p-3 border border-default rounded">
+                    <div class="form-group col-7 mt-auto mb-auto">
+
+                        @Html.EnumDropDownListFor(x => x.Ticket.Status, "Durumunu Seçiniz", new { @class = "form-control form-control" })
+                        @Html.HiddenFor(x => x.Ticket.Id)
+
+                    </div>
+                    <div class="col-3 form-group mt-auto mb-auto">
+
+                        <input type="submit" value="Seç" class="btn btn-primary btn-block btn" />
+                        <span id="button3">
+                        </span>
+                    </div>
+                </div>
+
+            }
+        </div>
+    </div>
+    @foreach (Reply r in Model.Ticket.Replies)
+    {
+        <div class="row mt-2 ">
+            <div class="col-5"></div>
+            <div class="col-7 border shadow-sm align-self-end text-right border rounded border-default" style="        background-color: rgb(52, 235, 143)">
+                <blockquote class="blockquote ">
+                    <p class="pl-2 ">@r.Text </p>
+                    <footer class="blockquote-footer text-right"><cite> <small>@r.WriterAdmin.Username</small> </cite> </footer>
+                </blockquote>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts
+{
+    <script src="~/Scripts/locales/bootstrap-datepicker.tr.min.js"></script>
+    <script src="~/assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <script src="~/Material-Time-Picker-Plugin-jQuery-MDTimePicker/mdtimepicker.js"></script>
+    <script>
+
+        $(document).ready(function () {
+
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+            }
+            );
+            $('#timepicker').mdtimepicker({
+                format: 'hh:mm tt',
+                hourPadding: true,
+
+            });
+
+        });
+    </script>
+}
