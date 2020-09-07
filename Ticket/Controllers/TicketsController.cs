@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using Ticket.Filters;
 using Ticket.Models;
@@ -108,7 +109,7 @@ namespace Ticket.Controllers
                     else
                     {
                         @ViewBag.file = "Bu dosya tipi Desteklenmemektedir";
-                        return View(t.Ticket);
+                        return View(t);
                     }
                 }
             }
@@ -155,6 +156,8 @@ namespace Ticket.Controllers
             List<Users> userslList = db.Users.ToList();
 
             Users updateUser = new Users();
+            int result = 0;
+            int changes = 0;
             foreach (Users u in userslList)
             {
                 if (u.Username == Session["Login"].ToString())
@@ -163,30 +166,42 @@ namespace Ticket.Controllers
                 }
             }
 
-            if (ModelState.IsValid && model.Password == updateUser.Password)
+            if (ModelState.IsValid && Crypto.Hash(model.Password) == updateUser.Password)
             {
                 Session["Login"] = model.Username;
                 updateUser.Username = model.Username;
                 updateUser.Name = model.Name;
                 updateUser.Surname = model.Surname;
                 updateUser.Email = model.Email;
+                changes = db.ChangeTracker.Entries().ToList().Count;
+
+                result = db.SaveChanges();
             }
 
-            int result = db.SaveChanges();
-            if (model.Password != updateUser.Password)
+            if (Crypto.Hash(model.Password) != updateUser.Password)
             {
                 ViewBag.status = "danger";
                 ViewBag.result = "Şifre Yanlış.";
+                return View(updateUser);
             }
-            else if (result > 0)
+
+            if (changes > 0)
             {
-                ViewBag.status = "success";
-                ViewBag.result = "Değişiklikler Kaydedilmiştir.";
+                if (result > 0)
+                {
+                    ViewBag.status = "success";
+                    ViewBag.result = "Değişiklikler Kaydedilmiştir.";
+                }
+                else
+                {
+                    ViewBag.status = "danger";
+                    ViewBag.result = "Değişiklikler Kaydedilememiştir.";
+                }
             }
             else
             {
-                ViewBag.status = "danger";
-                ViewBag.result = "Değişiklikler Kaydedilememiştir.";
+                ViewBag.status = "warning";
+                ViewBag.result = "Değişiklik Olmamıştır.";
             }
             return View(updateUser);
         }

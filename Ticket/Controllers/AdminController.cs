@@ -312,7 +312,7 @@ namespace Ticket.Controllers
             else
             {
                 list.Add("danger");
-                list.Add("Değişikler uygulanamamıştır ya da değişiklik olmamıştır");
+                list.Add("Lütfen geçerli bir kişi seçiniz");
             }
 
             return PartialView("_Success", list);

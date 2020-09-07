@@ -67,15 +67,47 @@
 
                             <div class="form-row">
                                 @Html.ValidationSummary()
+                                @if (Model.Ticket.assignedTo != null)
+                                {
+                                    <div class="form-group mt-auto mb-auto ">
+                                        <div class="input-group">
+                                            @Html.EditorFor(x => x.Ticket.assignedTo.Deadline, new
+                                            {
+                                                htmlAttributes = new
+                                                {
+                                                    @class = "form-control form-control-sm datepicker",
+                                                    @Value = Convert.ToString(Model.Ticket.assignedTo.Deadline.Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)),
+                                                    placeholder = "Tarih Seçin",
+                                                    type = "text"
+                                                }
+                                            })
 
-                                <div class="form-group mt-auto mb-auto ">
-                                    <div class="input-group">
-                                        @Html.EditorFor(x => x.Ticket.assignedTo.Deadline, new {htmlAttributes = new {@class = "form-control form-control-sm datepicker", @Value = Convert.ToString(Model.Ticket.assignedTo.Deadline.Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)), placeholder = "Tarih Seçin", type = "text"}})
-
-                                        @Html.EditorFor(x => x.TimeSpan, new {htmlAttributes = new {@class = "form-control form-control-sm bg-white ", id = "timepicker", placeholder = "Saat Seçin", type = "text", @Value = Convert.ToString(Model.Ticket.assignedTo.Deadline.ToString("t"))}})
-                                        @Html.HiddenFor(x => x.Ticket.Id)
+                                            @Html.EditorFor(x => x.TimeSpan, new { htmlAttributes = new { @class = "form-control form-control-sm bg-white ", id = "timepicker", placeholder = "Saat Seçin", type = "text", @Value = Convert.ToString(Model.Ticket.assignedTo.Deadline.ToString("t")) } })
+                                            @Html.HiddenFor(x => x.Ticket.Id)
+                                        </div>
                                     </div>
-                                </div>
+                                }
+                                else
+                                {
+                                    <div class="form-group mt-auto mb-auto ">
+                                        <div class="input-group">
+                                            @Html.EditorFor(x => x.Ticket.assignedTo.Deadline, new
+                                            {
+                                                htmlAttributes = new
+                                                {
+                                                    @class = "form-control form-control-sm datepicker",
+                                                    @Value = Convert.ToString(DateTime.Now.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)),
+                                                    placeholder = "Tarih Seçin",
+                                                    type = "text"
+                                                }
+                                            })
+
+                                            @Html.EditorFor(x => x.TimeSpan, new { htmlAttributes = new { @class = "form-control form-control-sm bg-white ", id = "timepicker", placeholder = "Saat Seçin", type = "text", @Value = Convert.ToString(DateTime.Now.ToString("t")) } })
+                                            @Html.HiddenFor(x => x.Ticket.Id)
+                                        </div>
+                                    </div>
+                                }
+
                             </div>
                         </div>
                         <div class="col-3  mt-auto mb-auto ">
@@ -95,13 +127,13 @@
                     <div class="form-group col-7 mt-auto mb-auto">
                         @Html.EnumDropDownListFor(x => x.Ticket.Priority, "Önemini Seçiniz", new { @class = "form-control form-control" })
                         @Html.HiddenFor(x => x.Ticket.Id)
-
                     </div>
                     <div class="form-group col-3 mt-auto mb-auto">
                         <input type="submit" value="Seç" class="btn btn-primary btn-block" />
-                        <span id="button2">
-                        </span>
+
                     </div>
+                    <span id="button2" class="mt-2">
+                    </span>
                 </div>
 
             }
@@ -112,14 +144,14 @@
 
                         @Html.EnumDropDownListFor(x => x.Ticket.Status, "Durumunu Seçiniz", new { @class = "form-control form-control" })
                         @Html.HiddenFor(x => x.Ticket.Id)
-
                     </div>
                     <div class="col-3 form-group mt-auto mb-auto">
 
                         <input type="submit" value="Seç" class="btn btn-primary btn-block btn" />
-                        <span id="button3">
-                        </span>
+
                     </div>
+                    <span id="button3" class="mt-2">
+                    </span>
                 </div>
 
             }

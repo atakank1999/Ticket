@@ -35,6 +35,10 @@
                 <div class="custom-file">
                     <label for="file">Eklenecek Dosyayı Seçiniz</label>
                     <input type="file" class="form-control-file" id="file" name="file">
+                    @if (Model.FilePath != null)
+                    {
+                        <p><small>Şu an yüklü olan dosya : @Path.GetFileName(Model.FilePath)</small> </p>
+                    }
 
                 </div>
                 <p class="text-danger">@ViewBag.file</p>

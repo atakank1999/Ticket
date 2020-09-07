@@ -46,7 +46,9 @@ namespace Ticket.Models
         public virtual List<Reply> Replies { get; set; }
         public string FilePath { get; set; }
         public Priority Priority { get; set; }
+        [Display(Name = "Biletinizin Tipi")]
         public Type Type { get; set; }
+
         public virtual Assignment assignedTo { get; set; }
         public DateTime DateTime { get; set; }
         public Status Status { get; set; }
