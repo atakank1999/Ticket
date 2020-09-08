@@ -14,7 +14,6 @@ using Quartz.Impl;
 using Quartz.Util;
 using Ticket.Comparer;
 using Ticket.Filters;
-using Ticket.Migrations;
 using Ticket.Models;
 using Ticket.Models.Automation;
 using Ticket.Models.Context;
@@ -488,6 +487,13 @@ namespace Ticket.Controllers
             ListAssignmentAndTicket model = new ListAssignmentAndTicket();
             model.Assignments = modeluser.Assignments;
 
+            return View(model);
+        }
+
+        public ActionResult Logs(string sortby)
+        {
+            DatabaseContext db = new DatabaseContext();
+            List<Log> model = db.Logs.ToList();
             return View(model);
         }
     }

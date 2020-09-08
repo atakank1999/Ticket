@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -18,10 +19,11 @@ namespace Ticket.Models
         public string Text { get; set; }
 
         public DateTime date { get; set; }
+        public virtual List<Log> Logs { get; set; }
 
         public Reply()
         {
-            date = DateTime.UtcNow;
+            date = DateTime.Now;
         }
     }
 }

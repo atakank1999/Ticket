@@ -273,5 +273,13 @@ namespace Ticket.Controllers
 
             return RedirectToAction("Index");
         }
+
+        public ActionResult Download(int id)
+        {
+            DatabaseContext db = new DatabaseContext();
+            Models.Ticket ticket = db.Tickets.Find(id);
+            string path = ticket.FilePath;
+            return File(path, "application/force-download", Path.GetFileName(path));
+        }
     }
 }

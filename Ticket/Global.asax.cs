@@ -10,9 +10,12 @@ namespace Ticket
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            var configuration = new Migrations.Configuration();
-            var migrator = new DbMigrator(configuration);
-            migrator.Update();
+            //var configuration = new Migrations.Configuration()
+            //{
+            //    AutomaticMigrationDataLossAllowed = true
+            //};
+            //var migrator = new DbMigrator(configuration);
+            //migrator.Update();
         }
     }
 }

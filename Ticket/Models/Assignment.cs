@@ -12,13 +12,20 @@ namespace Ticket.Models
     {
         [Key]
         public int ID { get; set; }
+
         [Required]
         public virtual Ticket Ticket { get; set; }
+
         [Required(ErrorMessage = "Lütfen Bir Kişi Seçiniz.")]
         public virtual Users Admin { get; set; }
+
         public bool IsDone { get; set; }
+
         [DataType(DataType.Date)]
         public DateTime Deadline { get; set; }
+
+        public virtual List<Log> Logs { get; set; }
+
         public Assignment()
         {
             Deadline = default(DateTime);

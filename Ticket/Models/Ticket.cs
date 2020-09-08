@@ -46,6 +46,7 @@ namespace Ticket.Models
         public virtual List<Reply> Replies { get; set; }
         public string FilePath { get; set; }
         public Priority Priority { get; set; }
+
         [Display(Name = "Biletinizin Tipi")]
         public Type Type { get; set; }
 
@@ -53,11 +54,12 @@ namespace Ticket.Models
         public DateTime DateTime { get; set; }
         public Status Status { get; set; }
         public DateTime EditedOn { get; set; }
+        public virtual List<Log> Logs { get; set; }
 
         public Ticket()
         {
-            DateTime = DateTime.UtcNow;
-            EditedOn = DateTime.UtcNow;
+            DateTime = DateTime.Now;
+            EditedOn = DateTime.Now;
         }
     }
 }

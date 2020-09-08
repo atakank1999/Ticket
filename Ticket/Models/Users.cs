@@ -46,6 +46,7 @@ namespace Ticket.Models
 
         public virtual List<Ticket> Tickets { get; set; }
         public virtual List<Reply> Replies { get; set; }
+        public virtual List<Log> Logs { get; set; }
 
         public Users()
         {

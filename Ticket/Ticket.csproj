@@ -107,14 +107,32 @@
     <Reference Include="Microsoft.Data.SqlClient, Version=2.0.20168.4, Culture=neutral, PublicKeyToken=23ec7fc2d6eaa4a5, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Data.SqlClient.2.0.1\lib\net46\Microsoft.Data.SqlClient.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration, Version=3.1.7.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.3.1.7\lib\netstandard2.0\Microsoft.Extensions.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=3.1.7.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Abstractions.3.1.7\lib\netstandard2.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Binder, Version=3.1.7.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Binder.3.1.7\lib\netstandard2.0\Microsoft.Extensions.Configuration.Binder.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Extensions.DependencyInjection, Version=3.1.7.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.3.1.7\lib\net461\Microsoft.Extensions.DependencyInjection.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=3.1.7.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.3.1.7\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Extensions.Logging, Version=3.1.7.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.3.1.7\lib\netstandard2.0\Microsoft.Extensions.Logging.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=3.1.7.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.3.1.7\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options, Version=3.1.7.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Options.3.1.7\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=3.1.7.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.3.1.7\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Identity.Client, Version=4.17.1.0, Culture=neutral, PublicKeyToken=0a613f4dd989e8ae, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Identity.Client.4.17.1\lib\net461\Microsoft.Identity.Client.dll</HintPath>
@@ -145,6 +163,9 @@
     </Reference>
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.4.7.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.7.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
@@ -3532,57 +3553,19 @@
     <Compile Include="Controllers\TicketsController.cs" />
     <Compile Include="Filters\AdminFilter.cs" />
     <Compile Include="Filters\AuthFilter.cs" />
+    <Compile Include="Filters\LogActionFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202008281024541_InitialCreate.cs" />
-    <Compile Include="Migrations\202008281024541_InitialCreate.designer.cs">
-      <DependentUpon>202008281024541_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008281657187_Assignment.cs" />
-    <Compile Include="Migrations\202008281657187_Assignment.designer.cs">
-      <DependentUpon>202008281657187_Assignment.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008290815067_Assignment1.cs" />
-    <Compile Include="Migrations\202008290815067_Assignment1.designer.cs">
-      <DependentUpon>202008290815067_Assignment1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008291313148_Assignment2.cs" />
-    <Compile Include="Migrations\202008291313148_Assignment2.designer.cs">
-      <DependentUpon>202008291313148_Assignment2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008291330495_Assignment3.cs" />
-    <Compile Include="Migrations\202008291330495_Assignment3.designer.cs">
-      <DependentUpon>202008291330495_Assignment3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008292015334_tickets.cs" />
-    <Compile Include="Migrations\202008292015334_tickets.designer.cs">
-      <DependentUpon>202008292015334_tickets.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008301628422_reply.cs" />
-    <Compile Include="Migrations\202008301628422_reply.designer.cs">
-      <DependentUpon>202008301628422_reply.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008301958065_AddProperty.cs" />
-    <Compile Include="Migrations\202008301958065_AddProperty.designer.cs">
-      <DependentUpon>202008301958065_AddProperty.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008302003075_AddProperty1.cs" />
-    <Compile Include="Migrations\202008302003075_AddProperty1.designer.cs">
-      <DependentUpon>202008302003075_AddProperty1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202008311957249_ticketdate.cs" />
-    <Compile Include="Migrations\202008311957249_ticketdate.designer.cs">
-      <DependentUpon>202008311957249_ticketdate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202009011921435_assignmentdate.cs" />
-    <Compile Include="Migrations\202009011921435_assignmentdate.designer.cs">
-      <DependentUpon>202009011921435_assignmentdate.cs</DependentUpon>
+    <Compile Include="Migrations\202009081838087_Initial.cs" />
+    <Compile Include="Migrations\202009081838087_Initial.designer.cs">
+      <DependentUpon>202009081838087_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Assignment.cs" />
     <Compile Include="Models\Automation\Email.cs" />
     <Compile Include="Models\Context\DatabaseContext.cs" />
+    <Compile Include="Models\Log.cs" />
     <Compile Include="Models\Quartz\EmailClass.cs" />
     <Compile Include="Models\Reply.cs" />
     <Compile Include="Models\Ticket.cs" />
@@ -3624,6 +3607,7 @@
     <Content Include="Sendmail\.vscode\launch.json" />
     <Content Include="Views\Tickets\Ticket.cshtml" />
     <Content Include="Views\Admin\Ticket.cshtml" />
+    <Content Include="Views\Admin\Logs.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3642,38 +3626,8 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202008281024541_InitialCreate.resx">
-      <DependentUpon>202008281024541_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008281657187_Assignment.resx">
-      <DependentUpon>202008281657187_Assignment.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008290815067_Assignment1.resx">
-      <DependentUpon>202008290815067_Assignment1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008291313148_Assignment2.resx">
-      <DependentUpon>202008291313148_Assignment2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008291330495_Assignment3.resx">
-      <DependentUpon>202008291330495_Assignment3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008292015334_tickets.resx">
-      <DependentUpon>202008292015334_tickets.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008301628422_reply.resx">
-      <DependentUpon>202008301628422_reply.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008301958065_AddProperty.resx">
-      <DependentUpon>202008301958065_AddProperty.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008302003075_AddProperty1.resx">
-      <DependentUpon>202008302003075_AddProperty1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202008311957249_ticketdate.resx">
-      <DependentUpon>202008311957249_ticketdate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202009011921435_assignmentdate.resx">
-      <DependentUpon>202009011921435_assignmentdate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202009081838087_Initial.resx">
+      <DependentUpon>202009081838087_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

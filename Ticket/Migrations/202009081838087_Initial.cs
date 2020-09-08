@@ -1,8 +1,9 @@
 ﻿namespace Ticket.Migrations
 {
+    using System;
     using System.Data.Entity.Migrations;
 
-    public partial class InitialCreate : DbMigration
+    public partial class Initial : DbMigration
     {
         public override void Up()
         {
@@ -12,10 +13,11 @@
                 {
                     ID = c.Int(nullable: false),
                     IsDone = c.Boolean(nullable: false),
-                    Admin_ID = c.Int(),
+                    Deadline = c.DateTime(nullable: false),
+                    Admin_ID = c.Int(nullable: false),
                 })
                 .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.Users", t => t.Admin_ID)
+                .ForeignKey("dbo.Users", t => t.Admin_ID, cascadeDelete: true)
                 .ForeignKey("dbo.Tickets", t => t.ID)
                 .Index(t => t.ID)
                 .Index(t => t.Admin_ID);
@@ -37,11 +39,37 @@
                 .PrimaryKey(t => t.ID);
 
             CreateTable(
+                "dbo.Logs",
+                c => new
+                {
+                    ID = c.Int(nullable: false, identity: true),
+                    ObjecType = c.String(),
+                    routevalues = c.String(nullable: false),
+                    IP = c.String(),
+                    Time = c.DateTime(nullable: false),
+                    Type = c.String(),
+                    Assignment_ID = c.Int(),
+                    Reply_ID = c.Int(),
+                    Ticket_Id = c.Int(),
+                    Users_ID = c.Int(),
+                })
+                .PrimaryKey(t => t.ID)
+                .ForeignKey("dbo.Assignments", t => t.Assignment_ID)
+                .ForeignKey("dbo.Replies", t => t.Reply_ID)
+                .ForeignKey("dbo.Tickets", t => t.Ticket_Id)
+                .ForeignKey("dbo.Users", t => t.Users_ID)
+                .Index(t => t.Assignment_ID)
+                .Index(t => t.Reply_ID)
+                .Index(t => t.Ticket_Id)
+                .Index(t => t.Users_ID);
+
+            CreateTable(
                 "dbo.Replies",
                 c => new
                 {
                     ID = c.Int(nullable: false, identity: true),
                     Text = c.String(nullable: false),
+                    date = c.DateTime(nullable: false),
                     RepliedTicket_Id = c.Int(),
                     WriterAdmin_ID = c.Int(),
                 })
@@ -56,12 +84,14 @@
                 c => new
                 {
                     Id = c.Int(nullable: false, identity: true),
-                    Title = c.String(),
-                    Text = c.String(),
+                    Title = c.String(nullable: false),
+                    Text = c.String(nullable: false),
                     FilePath = c.String(),
-                    IsSolved = c.Boolean(nullable: false),
                     Priority = c.Int(nullable: false),
                     Type = c.Int(nullable: false),
+                    DateTime = c.DateTime(nullable: false),
+                    Status = c.Int(nullable: false),
+                    EditedOn = c.DateTime(nullable: false),
                     Author_ID = c.Int(),
                 })
                 .PrimaryKey(t => t.Id)
@@ -71,20 +101,6 @@
 
         public override void Down()
         {
-            DropForeignKey("dbo.Assignments", "ID", "dbo.Tickets");
-            DropForeignKey("dbo.Replies", "WriterAdmin_ID", "dbo.Users");
-            DropForeignKey("dbo.Replies", "RepliedTicket_Id", "dbo.Tickets");
-            DropForeignKey("dbo.Tickets", "Author_ID", "dbo.Users");
-            DropForeignKey("dbo.Assignments", "Admin_ID", "dbo.Users");
-            DropIndex("dbo.Tickets", new[] { "Author_ID" });
-            DropIndex("dbo.Replies", new[] { "WriterAdmin_ID" });
-            DropIndex("dbo.Replies", new[] { "RepliedTicket_Id" });
-            DropIndex("dbo.Assignments", new[] { "Admin_ID" });
-            DropIndex("dbo.Assignments", new[] { "ID" });
-            DropTable("dbo.Tickets");
-            DropTable("dbo.Replies");
-            DropTable("dbo.Users");
-            DropTable("dbo.Assignments");
         }
     }
 }
