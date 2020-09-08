@@ -31,8 +31,7 @@ namespace Ticket.Models.Context
         public override int SaveChanges()
         {
             string username = string.Empty;
-            var ticketList = ChangeTracker.Entries().Where(x => x.State != EntityState.Unchanged);
-            Log log = new Log();
+            var ticketList = ChangeTracker.Entries().Where((x => x.State != EntityState.Unchanged && !(x.Entity is Log)));
             Users user = new Users();
             if (HttpContext.Current.Session != null)
             {
@@ -52,9 +51,16 @@ namespace Ticket.Models.Context
 
             foreach (var entity in ticketList)
             {
+                Log log = new Log();
+
                 if (entity.Entity is Ticket)
                 {
+
                     var t = entity.Entity as Ticket;
+                    if (t.IsDeleted)
+                    {
+                        return base.SaveChanges();
+                    }
                     log.ObjecType = typeof(Ticket).ToString();
                     log.Ticket = t;
                     log.Users = user;

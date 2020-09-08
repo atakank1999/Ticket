@@ -20,6 +20,7 @@ namespace Ticket.Models
 
         public DateTime date { get; set; }
         public virtual List<Log> Logs { get; set; }
+        public bool IsDeleted { get; set; }
 
         public Reply()
         {

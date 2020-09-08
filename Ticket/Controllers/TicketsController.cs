@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -71,6 +72,8 @@ namespace Ticket.Controllers
                     {
                         u.Tickets = u.Tickets.OrderByDescending(o => o.Type).ToList();
                     }
+
+                    u.Tickets = u.Tickets.Where(t => !t.IsDeleted).ToList();
                     return View(u);
                 }
             }
@@ -131,6 +134,10 @@ namespace Ticket.Controllers
         {
             DatabaseContext db = new DatabaseContext();
             Models.Ticket t = db.Tickets.Find(id);
+            if (t.IsDeleted)
+            {
+                return View();
+            }
 
             return View(t);
         }
@@ -210,6 +217,10 @@ namespace Ticket.Controllers
         {
             DatabaseContext db = new DatabaseContext();
             Models.Ticket model = db.Tickets.Find(id);
+            if (model.IsDeleted)
+            {
+                return View();
+            }
 
             return View(model);
         }
@@ -221,7 +232,7 @@ namespace Ticket.Controllers
 
             Models.Ticket updateTicket = db.Tickets.Find(id);
 
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && !updateTicket.IsDeleted)
             {
                 updateTicket.Type = model.Type;
                 updateTicket.Text = model.Text;
@@ -255,20 +266,18 @@ namespace Ticket.Controllers
         {
             DatabaseContext db = new DatabaseContext();
             Models.Ticket t = db.Tickets.Find(id);
-            if (t.assignedTo != null)
-            {
-                db.Assignments.Remove(t.assignedTo);
-            }
-
-            if (t.Replies.Count != 0)
-            {
-                foreach (Reply reply in t.Replies.ToList())
-                {
-                    db.Replies.Remove(reply);
-                }
-            }
-
-            db.Tickets.Remove(t);
+            t.IsDeleted = true;
+            Log log = new Log();
+            log.Ticket = null;
+            string username = Session["Login"].ToString();
+            log.Users = db.Users.FirstOrDefault(x => x.Username == username.ToString());
+            log.ObjecType = typeof(Models.Ticket).ToString();
+            log.Type = "Deleted";
+            log.IP = HttpContext.Request.UserHostAddress;
+            log.Previous = t;
+            log.Time = DateTime.Now;
+            log.routevalues = HttpContext.Request.Url.PathAndQuery;
+            db.Logs.Add(log);
             db.SaveChanges();
 
             return RedirectToAction("Index");
@@ -278,7 +287,11 @@ namespace Ticket.Controllers
         {
             DatabaseContext db = new DatabaseContext();
             Models.Ticket ticket = db.Tickets.Find(id);
-            string path = ticket.FilePath;
+            string path = String.Empty;
+            if (!ticket.IsDeleted)
+            {
+                path = ticket.FilePath;
+            }
             return File(path, "application/force-download", Path.GetFileName(path));
         }
     }

@@ -3561,6 +3561,10 @@
     <Compile Include="Migrations\202009081838087_Initial.designer.cs">
       <DependentUpon>202009081838087_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202009082155015_delete.cs" />
+    <Compile Include="Migrations\202009082155015_delete.designer.cs">
+      <DependentUpon>202009082155015_delete.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Assignment.cs" />
     <Compile Include="Models\Automation\Email.cs" />
@@ -3628,6 +3632,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202009081838087_Initial.resx">
       <DependentUpon>202009081838087_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202009082155015_delete.resx">
+      <DependentUpon>202009082155015_delete.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

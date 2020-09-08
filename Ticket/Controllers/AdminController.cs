@@ -110,6 +110,8 @@ namespace Ticket.Controllers
                 model = model.OrderByDescending(o => o.assignedTo, new DeadlineComparer()).ToList();
             }
 
+            model = model.Where(x => !x.IsDeleted).ToList();
+
             return View(model);
         }
 
@@ -212,6 +214,12 @@ namespace Ticket.Controllers
             {
                 DatabaseContext db = new DatabaseContext();
                 Models.Ticket t = db.Tickets.Find(p.Ticket.Id);
+                if (t.IsDeleted)
+                {
+                    list.Add("danger");
+                    list.Add("Bu bilet silinmiş.");
+                    return PartialView("_Success", list);
+                }
                 Users u = db.Users.Find(p.Ticket.assignedTo.Admin.ID);
                 Assignment assignment = null;
 
@@ -331,6 +339,7 @@ namespace Ticket.Controllers
             }
 
             model.Ticket = db.Tickets.Find(id);
+
             if (model.Ticket.assignedTo != null)
             {
                 model.TimeSpan = model.Ticket.assignedTo.Deadline.TimeOfDay;
@@ -345,6 +354,10 @@ namespace Ticket.Controllers
                 });
             }
 
+            if (model.Ticket.IsDeleted)
+            {
+                return RedirectToAction("Index");
+            }
             return View(model);
         }
 
@@ -355,7 +368,7 @@ namespace Ticket.Controllers
             int result = -1;
             Models.Ticket ticket = db.Tickets.Find(model.Ticket.Id);
             List<String> list = new List<String>();
-            if (ticket != null)
+            if (ticket != null && !ticket.IsDeleted)
             {
                 if (ticket.Priority != model.Ticket.Priority)
                 {
@@ -384,7 +397,7 @@ namespace Ticket.Controllers
             int result = -1;
             Models.Ticket ticket = db.Tickets.Find(model.Ticket.Id);
             List<String> list = new List<String>();
-            if (ticket != null)
+            if (ticket != null && !ticket.IsDeleted)
             {
                 if (ticket.Priority != model.Ticket.Priority)
                 {
@@ -413,7 +426,7 @@ namespace Ticket.Controllers
             int result = -1;
             Models.Ticket ticket = db.Tickets.Find(model.Ticket.Id);
             List<String> list = new List<String>();
-            if (ticket != null)
+            if (ticket != null && !ticket.IsDeleted)
             {
                 if (ticket.Status != model.Ticket.Status)
                 {
@@ -442,7 +455,7 @@ namespace Ticket.Controllers
             int result = -1;
             Models.Ticket ticket = db.Tickets.Find(model.Ticket.Id);
             List<String> list = new List<String>();
-            if (ticket != null)
+            if (ticket != null && !ticket.IsDeleted)
             {
                 if (ticket.Status != model.Ticket.Status)
                 {
@@ -469,6 +482,10 @@ namespace Ticket.Controllers
             DatabaseContext db = new DatabaseContext();
             Models.Ticket ticket = db.Tickets.Find(id);
             string path = ticket.FilePath;
+            if (ticket.IsDeleted)
+            {
+                return RedirectToAction("Index");
+            }
             return File(path, "application/force-download", Path.GetFileName(path));
         }
 
@@ -490,10 +507,104 @@ namespace Ticket.Controllers
             return View(model);
         }
 
-        public ActionResult Logs(string sortby)
+        public ActionResult Logs(string sortby = "date")
         {
             DatabaseContext db = new DatabaseContext();
-            List<Log> model = db.Logs.ToList();
+            List<Log> model = db.Logs.OrderBy(x => x.Time).ToList();
+            if (sortby == "date")
+            {
+                model = db.Logs.OrderBy(x => x.Time).ToList();
+            }
+            else if (sortby == "-date")
+            {
+                model = db.Logs.OrderByDescending(x => x.Time).ToList();
+            }
+            else if (sortby == "-process")
+            {
+                model = db.Logs.OrderByDescending(x => x.Type).ToList();
+            }
+            else if (sortby == "process")
+            {
+                model = db.Logs.OrderBy(x => x.Type).ToList();
+            }
+            else if (sortby == "user")
+            {
+                model = db.Logs.OrderBy(x => x.Users.Username).ToList();
+            }
+            else if (sortby == "-user")
+            {
+                model = db.Logs.OrderByDescending(x => x.Users.Username).ToList();
+            }
+            else if (sortby == "-type")
+            {
+                model = db.Logs.OrderByDescending(x => x.ObjecType).ToList();
+            }
+            else if (sortby == "type")
+            {
+                model = db.Logs.OrderBy(x => x.ObjecType).ToList();
+            }
+            else if (sortby == "url")
+            {
+                model = db.Logs.OrderBy(x => x.routevalues).ToList();
+            }
+            else if (sortby == "-url")
+            {
+                model = db.Logs.OrderByDescending(x => x.routevalues).ToList();
+            }
+            else if (sortby == "admin")
+            {
+                model = db.Logs.OrderBy(x => x.Users.IsAdmin).ToList();
+            }
+            else if (sortby == "-admin")
+            {
+                model = db.Logs.OrderByDescending(x => x.Users.IsAdmin).ToList();
+            }
+            else if (sortby == "-IP")
+            {
+                model = db.Logs.OrderByDescending(x => x.IP).ToList();
+            }
+            else if (sortby == "IP")
+            {
+                model = db.Logs.OrderBy(x => x.IP).ToList();
+            }
+
+            foreach (Log log in model)
+            {
+                switch (log.Type)
+                {
+                    case "Added":
+                        log.Type = "Eklendi";
+                        break;
+
+                    case "Modified":
+                        log.Type = "Düzenlendi";
+                        break;
+
+                    case "Deleted":
+                        log.Type = "Silindi";
+                        break;
+                }
+
+                switch (log.ObjecType)
+                {
+                    case "Ticket.Models.Users":
+                        log.ObjecType = "Kullanıcı";
+                        break;
+
+                    case "Ticket.Models.Ticket":
+                        log.ObjecType = "Bilet";
+                        break;
+
+                    case "Ticket.Models.Assignment":
+                        log.ObjecType = "Atama";
+                        break;
+
+                    case "Ticket.Models.Reply":
+                        log.ObjecType = "Yanıt";
+                        break;
+                }
+            }
+
             return View(model);
         }
     }

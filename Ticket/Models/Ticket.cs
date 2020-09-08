@@ -55,6 +55,7 @@ namespace Ticket.Models
         public Status Status { get; set; }
         public DateTime EditedOn { get; set; }
         public virtual List<Log> Logs { get; set; }
+        public bool IsDeleted { get; set; }
 
         public Ticket()
         {

@@ -5,70 +5,70 @@
     ViewBag.Title = "Logs";
 }
 
-
 <div class="table-responsive ">
 
     <div>
         <table class="table  table-striped align-items-center ">
             <thead class="thead-light">
                 <tr>
-                    <th scope="col" class="sort" data-sort="name">
-                        @if (Request.QueryString["sortby"] != null && Request.QueryString["sortby"].ToString() == "name")
+                    <th scope="col" class="sort" data-sort="user">
+                        @if (Request.QueryString["sortby"] != null && Request.QueryString["sortby"].ToString() == "user")
                         {
-                            @Html.ActionLink("İSİM", "Logs", new { sortby = "-name" }, new { @class = "text-default" })
+                            @Html.ActionLink("KULLANICI", "Logs", new { sortby = "-user" }, new { @class = "text-default" })
 
                         }
                         else
                         {
-                            @Html.ActionLink("İSİM", "Logs", new { sortby = "name" }, new { @class = "text-default" })
-
-                        }
-                    </th>
-                    <th scope="col" class="sort" data-sort="status">
-                        @if (Request.QueryString["sortby"] != null && Request.QueryString["sortby"].ToString() == "status")
-                        {
-                            @Html.ActionLink("DURUMU", "Logs", new { sortby = "-status" }, new { @class = "text-default" })
-
-                        }
-                        else
-                        {
-                            @Html.ActionLink("DURUMU", "Logs", new { sortby = "status" }, new { @class = "text-default" })
-
-                        }
-                    </th>
-                    <th scope="col" class="sort" data-sort="type">
-                        @if (Request.QueryString["sortby"] != null && Request.QueryString["sortby"].ToString() == "type")
-                        {
-                            @Html.ActionLink("TÜRÜ", "Logs", new { sortby = "-type" }, new { @class = "text-default" })
-
-                        }
-                        else
-                        {
-                            @Html.ActionLink("TÜRÜ", "Logs", new { sortby = "type" }, new { @class = "text-default" })
+                            @Html.ActionLink("KULLANICI", "Logs", new { sortby = "user" }, new { @class = "text-default" })
 
                         }
                     </th>
                     <th scope="col" class="sort" data-sort="date">
                         @if (Request.QueryString["sortby"] != null && Request.QueryString["sortby"].ToString() == "date")
                         {
-                            @Html.ActionLink("TARİHİ", "Logs", new { sortby = "-date" }, new { @class = "text-default" })
+                            @Html.ActionLink("TARİH", "Logs", new { sortby = "-date" }, new { @class = "text-default" })
 
                         }
                         else
                         {
-                            @Html.ActionLink("TARİHİ", "Logs", new { sortby = "date" }, new { @class = "text-default" })
+                            @Html.ActionLink("TARİH", "Logs", new { sortby = "date" }, new { @class = "text-default" })
 
                         }
                     </th>
-                    <th scope="col" class="sort" data-sort="deadline">
-                        @if (Request.QueryString["sortby"] != null && Request.QueryString["sortby"].ToString() == "deadline")
+                    <th scope="col" class="sort" data-sort="process">
+                        @if (Request.QueryString["sortby"] != null && Request.QueryString["sortby"].ToString() == "process")
                         {
-                            @Html.ActionLink("SON TARİHİ", "Logs", new { sortby = "-deadline" }, new { @class = "text-default" })
+                            @Html.ActionLink("İŞLEM", "Logs", new { sortby = "-process" }, new { @class = "text-default" })
 
                         }
                         else
                         {
-                            @Html.ActionLink("SON TARİHİ", "Logs", new { sortby = "deadline" }, new { @class = "text-default" })
+                            @Html.ActionLink("İŞLEM", "Logs", new { sortby = "process" }, new { @class = "text-default" })
+
+                        }
+                    </th>
+
+                    <th scope="col" class="sort" data-sort="type">
+                        @if (Request.QueryString["sortby"] != null && Request.QueryString["sortby"].ToString() == "type")
+                        {
+                            @Html.ActionLink("TİPİ", "Logs", new { sortby = "-type" }, new { @class = "text-default" })
+
+                        }
+                        else
+                        {
+                            @Html.ActionLink("TİPİ", "Logs", new { sortby = "type" }, new { @class = "text-default" })
+
+                        }
+                    </th>
+                    <th scope="col" class="sort" data-sort="url">
+                        @if (Request.QueryString["sortby"] != null && Request.QueryString["sortby"].ToString() == "url")
+                        {
+                            @Html.ActionLink("URL", "Logs", new { sortby = "-url" }, new { @class = "text-default" })
+
+                        }
+                        else
+                        {
+                            @Html.ActionLink("URL", "Logs", new { sortby = "url" }, new { @class = "text-default" })
 
                         }
                     </th>
@@ -84,6 +84,18 @@
 
                         }
                     </th>
+                    <th class="sort" data-sort="IP">
+                        @if (Request.QueryString["sortby"] != null && Request.QueryString["sortby"].ToString() == "IP")
+                        {
+                            @Html.ActionLink("IP", "Logs", new { sortby = "-IP" }, new { @class = "text-default" })
+
+                        }
+                        else
+                        {
+                            @Html.ActionLink("IP", "Logs", new { sortby = "IP" }, new { @class = "text-default" })
+
+                        }
+                    </th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -93,59 +105,34 @@
                     <tr>
                         <th scope="row">
 
-                            <a class="table-link" href="Admin/Ticket/@l.ID"> @(l.Users==null?"Anon":l.Users.Username) </a>
+                            <a class="table-link" href="Admin/Ticket/@l.ID"> @(l.Users==null?"Anonim":l.Users.Username) </a>
                         </th>
-                        <td class="status">
-                            @l.ObjecType
+                        <td class="date">
+                            @l.Time.ToString("g")
                         </td>
-                        <td class=" type">
+                        <td class=" process">
                             @l.Type
                         </td>
-                        <td class="date">
-
-                            @l.Time.ToString("d")
+                        <td class="type">
+                            @l.ObjecType
                         </td>
-                        <td class="deadline">
-                            @if (l.Assignment != null && l.Assignment.Deadline != null)
-                            {
-                                @l.Assignment.Deadline.ToString("d")
-
-                            }
+                        <td class="url">
+                            @l.routevalues
                         </td>
                         <td class="admin">
-                            @if (l.Reply != null)
-                            {
-                                @l.Reply.Text
 
+                            @if (l.Users.IsAdmin)
+                            {
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-file-check-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm-1.146 6.854a.5.5 0 0 0-.708-.708L7.5 8.793 6.354 7.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z" />
+                                </svg>
                             }
                         </td>
+                        <td class="IP">
+                            @l.IP
+                        </td>
                         <td class="text-right">
-                            <!--<div class="dropdown">
-                                <button class="btn btn-icon btn-sm " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="btn-inner--icon">
-                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-three-dots-vertical" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
-                                        </svg>
-                                    </span>
-                                </button>
-                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow" aria-labelledby="dropdownMenuButton">
-
-                                    <a class="dropdown-item" href="Tickets/EditTicket/">
-                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
-                                        </svg>Düzenle
-                                    </a>-->
-
-                                    <!-- Button trigger modal -->
-                                    <!--<button type="button" class="dropdown-item" data-toggle="modal" data-target="#exampleModal" data-titl" data-id="">
-                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z" />
-                                        </svg> Sil
-                                    </button>-->
-
-                                    <!-- Modal -->
-                                <!--</div>
-                            </div>-->
+                            @Html.ActionLink("Detaylar", "Log", new { id = l.ID }, new { @class = "btn btn-outline-default btn-sm" })
                         </td>
                     </tr>
                 }

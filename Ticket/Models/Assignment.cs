@@ -20,6 +20,7 @@ namespace Ticket.Models
         public virtual Users Admin { get; set; }
 
         public bool IsDone { get; set; }
+        public bool IsDeleted { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime Deadline { get; set; }
