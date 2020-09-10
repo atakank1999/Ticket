@@ -53,5 +53,22 @@ namespace Ticket.Models
         {
             ConfirmGuid = Guid.NewGuid();
         }
+
+        public Users(Users u)
+        {
+            this.Name = u.Name;
+            this.Surname = u.Surname;
+            this.Username = u.Username;
+            this.Email = u.Email;
+            this.Password = u.Password;
+            this.ConfirmGuid = u.ConfirmGuid;
+            this.IsConfirmed = u.IsConfirmed;
+            this.IsAdmin = u.IsAdmin;
+            this.Assignments = u.Assignments;
+            this.Tickets = u.Tickets;
+            this.Replies = u.Replies;
+            this.Logs = u.Logs;
+            this.IsDeleted = u.IsDeleted;
+        }
     }
 }

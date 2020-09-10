@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Data.OleDb;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -10,6 +12,7 @@ using Ticket.Filters;
 using Ticket.Models;
 using Ticket.Models.Context;
 using Ticket.ViewModels;
+using Ticket = Ticket.Models.Ticket;
 
 namespace Ticket.Controllers
 {
@@ -28,14 +31,14 @@ namespace Ticket.Controllers
         };
 
         // GET: Tickets
-        public ActionResult Index(string sortby = "date")
+        public ActionResult Index(string sortby = "-date")
         {
             if (Session["Login"] == null)
             {
                 return RedirectToAction("Index", "SignIn");
             }
             DatabaseContext db = new DatabaseContext();
-            List<Models.Users> users = db.Users.ToList();
+            List<Models.Users> users = db.Users.Where(x => !x.IsDeleted).ToList();
             foreach (Users u in users)
             {
                 if (Session["Login"].ToString() == u.Username)
@@ -117,7 +120,7 @@ namespace Ticket.Controllers
                 }
             }
             DatabaseContext db = new DatabaseContext();
-            List<Users> userslist = db.Users.ToList();
+            List<Users> userslist = db.Users.Where(x => !x.IsDeleted).ToList();
             foreach (Users u in userslist)
             {
                 if (u.Username == Session["Login"].ToString())
@@ -145,7 +148,7 @@ namespace Ticket.Controllers
         public ActionResult EditProfile()
         {
             DatabaseContext db = new DatabaseContext();
-            foreach (Users users in db.Users.ToList())
+            foreach (Users users in db.Users.Where(x => !x.IsDeleted).ToList())
             {
                 if (users.Username == Session["Login"].ToString())
                 {
@@ -160,40 +163,76 @@ namespace Ticket.Controllers
         public ActionResult EditProfile(Users model)
         {
             DatabaseContext db = new DatabaseContext();
-            List<Users> userslList = db.Users.ToList();
+            List<Users> userslList = db.Users.Where(x => !x.IsDeleted).ToList();
+            Users old = null;
+            Log l = null;
 
             Users updateUser = new Users();
             int result = 0;
             int changes = 0;
             foreach (Users u in userslList)
             {
-                if (u.Username == Session["Login"].ToString())
+                if (u.Username != Session["Login"].ToString() && u.Email == model.Email && !u.IsDeleted)
+                {
+                    ViewBag.status = "warning";
+                    ViewBag.result = "Bu E-mail adresi kullanılmaktadır.";
+                    return View(updateUser);
+                }
+
+                if (u.Username != Session["Login"].ToString() && u.Username == model.Username && !u.IsDeleted)
+                {
+                    ViewBag.status = "warning";
+                    ViewBag.result = "Bu kullanıcı adı kullanılmaktadır.";
+                    return View(updateUser);
+                }
+                if (u.Username == Session["Login"].ToString() && !u.IsDeleted)
                 {
                     updateUser = u;
                 }
             }
 
-            if (ModelState.IsValid && Crypto.Hash(model.Password) == updateUser.Password)
+            if (ModelState.IsValid)
             {
-                Session["Login"] = model.Username;
-                updateUser.Username = model.Username;
-                updateUser.Name = model.Name;
-                updateUser.Surname = model.Surname;
-                updateUser.Email = model.Email;
-                changes = db.ChangeTracker.Entries().ToList().Count;
+                if (Crypto.Hash(model.Password) != updateUser.Password)
+                {
+                    ViewBag.status = "danger";
+                    ViewBag.result = "Şifre Yanlış.";
+                    return View(updateUser);
+                }
+                else
+                {
+                    old = new Users(updateUser);
+                    old.IsDeleted = true;
+                    l = new Log();
+                    l.ObjecType = typeof(Users).ToString();
+                    l.Type = "Modified";
+                    l.PreviousUsers = old;
+                    l.IP = HttpContext.Request.UserHostAddress;
+                    l.Time = DateTime.Now;
+                    l.routevalues = HttpContext.Request.Url.PathAndQuery;
+                    l.Users = updateUser;
+                    Session["Login"] = model.Username;
+                    updateUser.Name = model.Name;
+                    updateUser.Surname = model.Surname;
+                    updateUser.Username = model.Username;
+                    updateUser.Email = model.Email;
+                    changes = db.ChangeTracker.Entries().Where(x => x.State != EntityState.Unchanged).ToList().Count;
 
-                result = db.SaveChanges();
-            }
-
-            if (Crypto.Hash(model.Password) != updateUser.Password)
-            {
-                ViewBag.status = "danger";
-                ViewBag.result = "Şifre Yanlış.";
-                return View(updateUser);
+                    result = db.SaveChanges();
+                }
             }
 
             if (changes > 0)
             {
+                if (old != null)
+                {
+                    db.Users.Add(old);
+                }
+
+                if (l != null)
+                {
+                    db.Logs.Add(l);
+                }
                 if (result > 0)
                 {
                     ViewBag.status = "success";
@@ -210,6 +249,8 @@ namespace Ticket.Controllers
                 ViewBag.status = "warning";
                 ViewBag.result = "Değişiklik Olmamıştır.";
             }
+            db.SaveChanges();
+
             return View(updateUser);
         }
 
@@ -231,13 +272,25 @@ namespace Ticket.Controllers
             DatabaseContext db = new DatabaseContext();
 
             Models.Ticket updateTicket = db.Tickets.Find(id);
-
+            Models.Ticket old = null;
             if (ModelState.IsValid && !updateTicket.IsDeleted)
             {
+                string user = Session["Login"].ToString();
+                old = new Models.Ticket(updateTicket);
+                old.IsDeleted = true;
+
                 updateTicket.Type = model.Type;
                 updateTicket.Text = model.Text;
                 updateTicket.Title = model.Title;
-                updateTicket.EditedOn = DateTime.UtcNow;
+                updateTicket.EditedOn = DateTime.Now;
+                Log l = new Log();
+                l.ObjecType = typeof(Models.Ticket).ToString();
+                l.Type = "Modified";
+                l.Users = db.Users.Where(x => x.Username == user && x.IsDeleted == false).FirstOrDefault();
+                l.PreviousTicket = old;
+                l.IP = HttpContext.Request.UserHostAddress;
+                l.Time = DateTime.Now;
+                l.routevalues = HttpContext.Request.Url.PathAndQuery;
                 if (file != null)
                 {
                     if (acceptedExtensions.Contains(Path.GetExtension(file.FileName)))
@@ -256,7 +309,18 @@ namespace Ticket.Controllers
                         return View(updateTicket);
                     }
                 }
+                int changes = db.ChangeTracker.Entries().Where(x => x.State != EntityState.Unchanged).ToList().Count;
+                if (changes == 0)
+                {
+                    ModelState.AddModelError("", "Değişiklik Olmamıştır.");
+                    return View(updateTicket);
+                }
+                db.Tickets.Add(old);
+
+                l.Ticket = updateTicket;
+                db.Logs.Add(l);
             }
+
             db.SaveChanges();
 
             return RedirectToAction("Index");
@@ -266,19 +330,22 @@ namespace Ticket.Controllers
         {
             DatabaseContext db = new DatabaseContext();
             Models.Ticket t = db.Tickets.Find(id);
-            t.IsDeleted = true;
-            Log log = new Log();
-            log.Ticket = null;
-            string username = Session["Login"].ToString();
-            log.Users = db.Users.FirstOrDefault(x => x.Username == username.ToString());
-            log.ObjecType = typeof(Models.Ticket).ToString();
-            log.Type = "Deleted";
-            log.IP = HttpContext.Request.UserHostAddress;
-            log.Previous = t;
-            log.Time = DateTime.Now;
-            log.routevalues = HttpContext.Request.Url.PathAndQuery;
-            db.Logs.Add(log);
-            db.SaveChanges();
+            if (!t.IsDeleted)
+            {
+                t.IsDeleted = true;
+                Log log = new Log();
+                log.Ticket = null;
+                string username = Session["Login"].ToString();
+                log.Users = db.Users.FirstOrDefault(x => x.Username == username.ToString());
+                log.ObjecType = typeof(Models.Ticket).ToString();
+                log.Type = "Deleted";
+                log.IP = HttpContext.Request.UserHostAddress;
+                log.PreviousTicket = t;
+                log.Time = DateTime.Now;
+                log.routevalues = HttpContext.Request.Url.PathAndQuery;
+                db.Logs.Add(log);
+                db.SaveChanges();
+            }
 
             return RedirectToAction("Index");
         }
@@ -291,8 +358,10 @@ namespace Ticket.Controllers
             if (!ticket.IsDeleted)
             {
                 path = ticket.FilePath;
+                return File(path, "application/force-download", Path.GetFileName(path));
             }
-            return File(path, "application/force-download", Path.GetFileName(path));
+
+            return RedirectToAction("Index");
         }
     }
 }

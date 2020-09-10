@@ -30,13 +30,13 @@ namespace Ticket.Controllers
             DatabaseContext db = new DatabaseContext();
             foreach (var u in db.Users.ToList())
             {
-                if (user.Email == u.Email)
+                if (user.Email == u.Email && !u.IsDeleted)
                 {
                     ModelState.AddModelError("", "Bu e-posta adresi zaten kullanılıyor");
                     return View(user);
                 }
 
-                if (user.Username == u.Username)
+                if (user.Username == u.Username && !u.IsDeleted)
                 {
                     ModelState.AddModelError("", "Bu kullanıcı adı zaten kullanılıyor");
                     return View(user);
@@ -77,7 +77,7 @@ namespace Ticket.Controllers
         public ActionResult guid(Guid? id)
         {
             DatabaseContext db = new DatabaseContext();
-            List<Users> userlist = db.Users.ToList();
+            List<Users> userlist = db.Users.Where(x => !x.IsDeleted).ToList();
             foreach (Users u in userlist)
             {
                 if (id == u.ConfirmGuid)

@@ -62,5 +62,21 @@ namespace Ticket.Models
             DateTime = DateTime.Now;
             EditedOn = DateTime.Now;
         }
+
+        public Ticket(Ticket oldticket)
+        {
+            this.Title = oldticket.Title;
+            this.Text = oldticket.Text;
+            this.Author = oldticket.Author;
+            this.Replies = oldticket.Replies;
+            this.FilePath = oldticket.FilePath;
+            this.Priority = oldticket.Priority;
+            this.Type = oldticket.Type;
+            this.assignedTo = oldticket.assignedTo;
+            this.DateTime = oldticket.DateTime;
+            this.Status = oldticket.Status;
+            this.EditedOn = oldticket.EditedOn;
+            this.Logs = oldticket.Logs;
+        }
     }
 }

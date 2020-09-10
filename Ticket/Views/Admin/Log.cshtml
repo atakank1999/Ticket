@@ -1,0 +1,242 @@
+﻿@using Ticket.Models
+@using Type = System.Type
+@model Log
+
+@{
+    ViewBag.Title = "Log";
+    Type type = null;
+    switch (Model.ObjecType)
+    {
+        case "Ticket.Models.Ticket":
+            type = typeof(Ticket);
+            break;
+        case "Ticket.Models.Reply":
+            type = typeof(Reply);
+            break;
+        case "Ticket.Models.Assignment":
+            type = typeof(Assignment);
+            break;
+        case "Ticket.Models.Users":
+            type = typeof(Users);
+            break;
+    }
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <ul>
+            <li>
+                Log ID : @Model.ID
+            </li>
+            <li>
+                Tarih : @Model.Time.ToString("g")
+            </li>
+            <li>
+                IP Adresi : @Model.IP
+            </li>
+            <li>
+                İşlem : @Model.Type
+            </li>
+            <li>
+                İşlemi Yapan kullanıcı @Model.Users.Username
+            </li>
+            <li>
+                Cinsi: @Model.ObjecType
+            </li>
+        </ul>
+    </div>
+    <div class="row">
+        @if (Model.Type == "Düzenlendi" || Model.Type == "Silindi")
+        {
+            <div class="col-md-5 ml-2 border rounded border-dark ">
+                @if (Model.ObjecType == "Bilet")
+                {
+                    Ticket prev = Model.PreviousTicket as Ticket;
+                    if (Model.Ticket!=null&& prev.Title != Model.Ticket.Title)
+                    {
+                        <h4 class="text-red">Eski Başlığı : @prev.Title</h4>
+                    }
+                    else
+                    {
+                        <h4>Başlığı : @prev.Title</h4>
+
+                    }
+                    if (Model.Ticket != null && prev.Text != Model.Ticket.Text)
+                    {
+                        <p class="text-red">Eski İçeriği : @prev.Text</p>
+                    }
+                    else
+                    {
+                        <p>İçeriği : @prev.Text</p>
+
+                    }
+                    if (Model.Ticket != null && prev.Priority != Model.Ticket.Priority)
+                    {
+            <p class="text-red"> Eski Önceliği  : @prev.Priority</p>
+                    }
+                    else
+                    {
+            <p>Önceliği  : @prev.Priority</p>
+
+                    }
+                    if (Model.Ticket != null && prev.Status != Model.Ticket.Status)
+                    {
+                        <p class="text-red">Eski Durumu : @prev.Status</p>
+                    }
+                    else
+                    {
+                        <p>Durumu : @prev.Status</p>
+
+                    }
+                    if (Model.Ticket != null && prev.Type != Model.Ticket.Type)
+                    {
+                        <p class="text-red">Eski Tipi : @prev.Type</p>
+                    }
+                    else
+                    {
+                        <p>Tipi : @prev.Type</p>
+
+                    }
+
+                }
+                else if (Model.ObjecType == "Atama")
+                {
+                    Assignment prev = Model.PreviousAssignment as Assignment;
+                    if (Model.Assignment != null && prev.Admin.Username != Model.Assignment.Admin.Username)
+                    {
+                        <p class="text-red">Eski Admini :  @prev.Admin.Username</p>
+                    }
+                    else
+                    {
+                        <p>Admini : @prev.Admin.Username</p>
+
+                    }
+                    if (Model.Assignment != null && prev.Deadline != Model.Assignment.Deadline)
+                    {
+                        <p class="text-red">Eski Son Tarihi : @prev.Deadline</p>
+                    }
+                    else
+                    {
+                        <p>Son Tarihi : @prev.Deadline</p>
+
+                    }
+                    if (Model.Assignment != null && prev.IsDone != Model.Assignment.IsDone)
+                    {
+                        <p class="text-red">Eski Yapılma Durumu : @prev.IsDone</p>
+                    }
+                    else
+                    {
+                        <p>Yapılma Durumu : @prev.IsDone</p>
+
+                    }
+                }
+                else if (Model.ObjecType == "Kullanıcı")
+                {
+                    Users prev = Model.PreviousUsers as Users;
+                    if (Model.Users != null && prev.Username != Model.Users.Username)
+                    {
+                        <p class="text-red">Eski Kullanıcı Adı : @prev.Username</p>
+                    }
+                    else
+                    {
+                        <p>Kullanıcı Adı : @prev.Username</p>
+
+                    }
+                    if (Model.Users != null && prev.Email != Model.Users.Email)
+                    {
+                        <p class="text-red">Eski e-postası : @prev.Email</p>
+                    }
+                    else
+                    {
+                        <p>E-posta :  @prev.Email</p>
+
+                    }
+                    if (Model.Users != null && prev.IsConfirmed != Model.Users.IsConfirmed)
+                    {
+                        <p class="text-red">Eski Onaylanma Durumu : @prev.IsConfirmed</p>
+                    }
+                    else
+                    {
+                        <p>Onaylanma Durumu : @prev.IsConfirmed</p>
+
+                    }
+                    if (Model.Users != null && prev.Name != Model.Users.Name)
+                    {
+                        <p class="text-red">Eski Adı : @prev.Name</p>
+                    }
+                    else
+                    {
+                        <p>Adı : @prev.Name</p>
+
+                    }
+                    if (Model.Users != null && prev.Surname != Model.Users.Surname)
+                    {
+                        <p class="text-red">Eski Soyadı : @prev.Surname</p>
+                    }
+                    else
+                    {
+                        <p>Soyadı : @prev.Surname</p>
+
+                    }
+                }
+                else
+                {
+                    Reply prev = Model.PreviousReply as Reply;
+                    if (Model.Reply != null && prev.Text != Model.Reply.Text)
+                    {
+                        <p class="text-red">Eski İçeriği : @prev.Text</p>
+                    }
+                    else
+                    {
+                        <p>İçeriği : @prev.Text</p>
+
+                    }
+                    if (Model.Reply != null && prev.date != Model.Reply.date)
+                    {
+                        <p class="text-red">Eski Tarihi :@prev.date</p>
+                    }
+                    else
+                    {
+                        <p>Tarihi : @prev.date</p>
+
+                    }
+
+                }
+            </div>
+        }
+        @if (Model.Type != "Silindi")
+        {
+            <div class="col-md-5 border rounded border-dark ml-auto">
+                @if (Model.ObjecType == "Bilet")
+                {
+                    <h4>Başlığı : @Model.Ticket.Title</h4>
+                    <p>İçeriği : @Model.Ticket.Text </p>
+                    <p>Önceliği : @Model.Ticket.Priority</p>
+                    <p>Durumu : @Model.Ticket.Status</p>
+                    <p>Tipi : @Model.Ticket.Type</p>
+                }
+                else if (Model.ObjecType == "Atama")
+                {
+                    <p> Admini : @Model.Assignment.Admin.Username</p>
+                    <p>Son Tarihi : @Model.Assignment.Deadline</p>
+                    <p>Yapılma Durumu : @Model.Assignment.IsDone</p>
+                }
+                else if (Model.ObjecType == "Kullanıcı")
+                {
+                    <p>Kullanıcı Adı : @Model.Users.Username</p>
+                    <p>E-postası : @Model.Users.Email</p>
+                    <p>Onaylanma Durumu : @Model.Users.IsConfirmed</p>
+                    <p>Adı : @Model.Users.Name</p>
+                    <p>Soyadı : @Model.Users.Surname</p>
+                }
+                else
+                {
+                    <p>İçeriği : @Model.Reply.Text</p>
+                    <p>Tarihi : @Model.Reply.date</p>
+
+                }
+            </div>
+        }
+        
+    </div>
+</div>

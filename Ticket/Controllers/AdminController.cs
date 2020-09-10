@@ -7,17 +7,11 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
-using System.Web.UI.WebControls.Expressions;
-using System.Web.WebPages.Html;
-using Quartz;
-using Quartz.Impl;
-using Quartz.Util;
 using Ticket.Comparer;
 using Ticket.Filters;
 using Ticket.Models;
 using Ticket.Models.Automation;
 using Ticket.Models.Context;
-using Ticket.Models.Quartz;
 using Ticket.ViewModels;
 using Assignment = Ticket.Models.Assignment;
 using SelectListItem = System.Web.Mvc.SelectListItem;
@@ -29,11 +23,11 @@ namespace Ticket.Controllers
     public class AdminController : Controller
     {
         // GET: Admin
-        public ActionResult Index(string sortby)
+        public ActionResult Index(string sortby = "-date")
         {
             DatabaseContext db = new DatabaseContext();
 
-            List<Models.Ticket> model = db.Tickets.ToList();
+            List<Models.Ticket> model = db.Tickets.Where(x => !x.IsDeleted).ToList();
 
             //foreach (Users u in db.Users.ToList())
             //{
@@ -124,7 +118,7 @@ namespace Ticket.Controllers
         public ActionResult Login(Users admin)
         {
             DatabaseContext db = new DatabaseContext();
-            List<Users> usersList = db.Users.ToList();
+            List<Users> usersList = db.Users.Where(x => !x.IsDeleted).ToList();
             foreach (Users u in usersList)
             {
                 if (admin.Email == u.Email && Crypto.Hash(admin.Password) == u.Password && u.IsAdmin)
@@ -169,11 +163,11 @@ namespace Ticket.Controllers
         public async Task<ActionResult> Reply(int id, Reply reply)
         {
             DatabaseContext db = new DatabaseContext();
-            List<Users> userlist = db.Users.ToList();
-            List<Models.Ticket> ticketlList = db.Tickets.ToList();
+            List<Users> userlist = db.Users.Where(x => !x.IsDeleted).ToList();
+            List<Models.Ticket> ticketlList = db.Tickets.Where(x => !x.IsDeleted).ToList();
             foreach (Users u in userlist)
             {
-                if (u.Username == Session["Admin"].ToString())
+                if (u.Username == Session["Admin"].ToString() && !u.IsDeleted)
                 {
                     reply.WriterAdmin = u;
                 }
@@ -181,7 +175,7 @@ namespace Ticket.Controllers
 
             foreach (Models.Ticket t in ticketlList)
             {
-                if (t.Id == id)
+                if (t.Id == id && !t.IsDeleted)
                 {
                     reply.RepliedTicket = t;
                 }
@@ -233,6 +227,21 @@ namespace Ticket.Controllers
                         if (DateTime.Compare(p.Ticket.assignedTo.Deadline.Date.Add(p.TimeSpan), DateTime.Now) > 0)
                         {
                             assignment.Deadline = p.Ticket.assignedTo.Deadline.Date.Add(p.TimeSpan);
+                            Assignment old = new Assignment(a);
+                            old.IsDeleted = true;
+                            assignment.Admin = u;
+                            Log l = new Log();
+                            l.ObjecType = typeof(Assignment).ToString();
+                            l.Assignment = assignment;
+                            l.Type = "Modified";
+                            string user = Session["Login"].ToString();
+                            l.Users = db.Users.Where(x => x.Username == user && x.IsDeleted == false).FirstOrDefault();
+                            l.PreviousAssignment = old;
+                            l.IP = HttpContext.Request.UserHostAddress;
+                            l.Time = DateTime.Now;
+                            l.routevalues = HttpContext.Request.Url.PathAndQuery;
+                            db.Assignments.Add(old);
+                            db.Logs.Add(l);
                         }
                         else
                         {
@@ -243,11 +252,7 @@ namespace Ticket.Controllers
                     }
                 }
 
-                if (assignment != null)
-                {
-                    assignment.Admin = u;
-                }
-                else if (u != null)
+                if (u != null && assignment == null)
                 {
                     assignment = new Assignment();
                     assignment.Ticket = t;
@@ -330,7 +335,7 @@ namespace Ticket.Controllers
             AdminTicketViewModel model = new AdminTicketViewModel();
             DatabaseContext db = new DatabaseContext();
             model.Admins = new List<Users>();
-            foreach (Users u in db.Users)
+            foreach (Users u in db.Users.Where(x => !x.IsDeleted))
             {
                 if (u.IsAdmin)
                 {
@@ -367,41 +372,28 @@ namespace Ticket.Controllers
             DatabaseContext db = new DatabaseContext();
             int result = -1;
             Models.Ticket ticket = db.Tickets.Find(model.Ticket.Id);
+            Models.Ticket oldticket = new Models.Ticket(ticket);
+            oldticket.IsDeleted = true;
+            db.Tickets.Add(oldticket);
+            Log l = new Log();
+            l.ObjecType = typeof(Models.Ticket).ToString();
+            l.Type = "Modified";
+            string user = Session["Login"].ToString();
+            l.Users = db.Users.Where(x => x.Username == user && x.IsDeleted == false).FirstOrDefault();
+            l.PreviousTicket = oldticket;
+            l.IP = HttpContext.Request.UserHostAddress;
+            l.Time = DateTime.Now;
+            l.routevalues = HttpContext.Request.Url.PathAndQuery;
+
             List<String> list = new List<String>();
             if (ticket != null && !ticket.IsDeleted)
             {
                 if (ticket.Priority != model.Ticket.Priority)
                 {
                     ticket.Priority = model.Ticket.Priority;
-                    result = db.SaveChanges();
-                }
-            }
-            if (result != 0)
-            {
-                list.Add("success");
-                list.Add("Değişiklikler uygulanmıştır");
-            }
-            else
-            {
-                list.Add("danger");
-                list.Add("Değişikler uygulanamamıştır");
-            }
-
-            return PartialView("_Success", list);
-        }
-
-        [HttpPost]
-        public PartialViewResult PriorityResultAssignment(AdminTicketViewModel model)
-        {
-            DatabaseContext db = new DatabaseContext();
-            int result = -1;
-            Models.Ticket ticket = db.Tickets.Find(model.Ticket.Id);
-            List<String> list = new List<String>();
-            if (ticket != null && !ticket.IsDeleted)
-            {
-                if (ticket.Priority != model.Ticket.Priority)
-                {
-                    ticket.Priority = model.Ticket.Priority;
+                    ticket.EditedOn = DateTime.Now;
+                    l.Ticket = ticket;
+                    db.Logs.Add(l);
                     result = db.SaveChanges();
                 }
             }
@@ -425,41 +417,27 @@ namespace Ticket.Controllers
             DatabaseContext db = new DatabaseContext();
             int result = -1;
             Models.Ticket ticket = db.Tickets.Find(model.Ticket.Id);
+            Models.Ticket oldticket = new Models.Ticket(ticket);
+            oldticket.IsDeleted = true;
+            db.Tickets.Add(oldticket);
+            Log l = new Log();
+            l.ObjecType = typeof(Models.Ticket).ToString();
+            l.Type = "Modified";
+            string user = Session["Login"].ToString();
+            l.Users = db.Users.Where(x => x.Username == user && x.IsDeleted == false).FirstOrDefault();
+            l.PreviousTicket = oldticket;
+            l.IP = HttpContext.Request.UserHostAddress;
+            l.Time = DateTime.Now;
+            l.routevalues = HttpContext.Request.Url.PathAndQuery;
             List<String> list = new List<String>();
             if (ticket != null && !ticket.IsDeleted)
             {
                 if (ticket.Status != model.Ticket.Status)
                 {
                     ticket.Status = model.Ticket.Status;
-                    result = db.SaveChanges();
-                }
-            }
-            if (result != 0)
-            {
-                list.Add("success");
-                list.Add("Değişiklikler uygulanmıştır");
-            }
-            else
-            {
-                list.Add("danger");
-                list.Add("Değişikler uygulanamamıştır");
-            }
-
-            return PartialView("_Success", list);
-        }
-
-        [HttpPost]
-        public ActionResult StatusResultAssignments(ListAssignmentAndTicket model)
-        {
-            DatabaseContext db = new DatabaseContext();
-            int result = -1;
-            Models.Ticket ticket = db.Tickets.Find(model.Ticket.Id);
-            List<String> list = new List<String>();
-            if (ticket != null && !ticket.IsDeleted)
-            {
-                if (ticket.Status != model.Ticket.Status)
-                {
-                    ticket.Status = model.Ticket.Status;
+                    ticket.EditedOn = DateTime.Now;
+                    l.Ticket = ticket;
+                    db.Logs.Add(l);
                     result = db.SaveChanges();
                 }
             }
@@ -489,25 +467,7 @@ namespace Ticket.Controllers
             return File(path, "application/force-download", Path.GetFileName(path));
         }
 
-        public ActionResult Assignments()
-        {
-            DatabaseContext db = new DatabaseContext();
-            Users modeluser = null;
-            foreach (Users u in db.Users.ToList())
-            {
-                if (Session["Login"].ToString() == u.Username)
-                {
-                    modeluser = u;
-                }
-            }
-
-            ListAssignmentAndTicket model = new ListAssignmentAndTicket();
-            model.Assignments = modeluser.Assignments;
-
-            return View(model);
-        }
-
-        public ActionResult Logs(string sortby = "date")
+        public ActionResult Logs(string sortby = "-date")
         {
             DatabaseContext db = new DatabaseContext();
             List<Log> model = db.Logs.OrderBy(x => x.Time).ToList();
@@ -606,6 +566,47 @@ namespace Ticket.Controllers
             }
 
             return View(model);
+        }
+
+        public ActionResult Log(int id)
+        {
+            DatabaseContext db = new DatabaseContext();
+            Log log = db.Logs.Find(id);
+            switch (log.Type)
+            {
+                case "Added":
+                    log.Type = "Eklendi";
+                    break;
+
+                case "Modified":
+                    log.Type = "Düzenlendi";
+                    break;
+
+                case "Deleted":
+                    log.Type = "Silindi";
+                    break;
+            }
+
+            switch (log.ObjecType)
+            {
+                case "Ticket.Models.Users":
+                    log.ObjecType = "Kullanıcı";
+                    break;
+
+                case "Ticket.Models.Ticket":
+                    log.ObjecType = "Bilet";
+                    break;
+
+                case "Ticket.Models.Assignment":
+                    log.ObjecType = "Atama";
+                    break;
+
+                case "Ticket.Models.Reply":
+                    log.ObjecType = "Yanıt";
+                    break;
+            }
+
+            return View(log);
         }
     }
 }

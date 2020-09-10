@@ -11,15 +11,14 @@ namespace Ticket.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            if (Session["Login"]==null)
+            if (Session["Login"] == null)
             {
-            return View();
-
+                return View();
             }
 
             return RedirectToAction("Index", "Tickets");
-            
         }
+
         public ActionResult SignOut()
         {
             Session["Login"] = null;

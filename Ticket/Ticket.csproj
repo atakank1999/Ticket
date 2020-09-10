@@ -3565,6 +3565,10 @@
     <Compile Include="Migrations\202009082155015_delete.designer.cs">
       <DependentUpon>202009082155015_delete.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202009090031181_previous.cs" />
+    <Compile Include="Migrations\202009090031181_previous.designer.cs">
+      <DependentUpon>202009090031181_previous.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Assignment.cs" />
     <Compile Include="Models\Automation\Email.cs" />
@@ -3612,6 +3616,7 @@
     <Content Include="Views\Tickets\Ticket.cshtml" />
     <Content Include="Views\Admin\Ticket.cshtml" />
     <Content Include="Views\Admin\Logs.cshtml" />
+    <Content Include="Views\Admin\Log.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3635,6 +3640,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202009082155015_delete.resx">
       <DependentUpon>202009082155015_delete.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202009090031181_previous.resx">
+      <DependentUpon>202009090031181_previous.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

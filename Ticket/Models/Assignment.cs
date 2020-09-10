@@ -31,5 +31,15 @@ namespace Ticket.Models
         {
             Deadline = default(DateTime);
         }
+
+        public Assignment(Assignment a)
+        {
+            this.Deadline = a.Deadline;
+            this.Ticket = a.Ticket;
+            this.Admin = a.Admin;
+            this.IsDone = a.IsDone;
+            this.Logs = a.Logs;
+            this.IsDeleted = a.IsDeleted;
+        }
     }
 }

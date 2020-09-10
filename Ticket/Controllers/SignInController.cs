@@ -21,7 +21,7 @@ namespace Ticket.Controllers
         public ActionResult Index(Users user)
         {
             DatabaseContext db = new DatabaseContext();
-            List<Users> usersList = db.Users.ToList();
+            List<Users> usersList = db.Users.Where(x => !x.IsDeleted).ToList();
             foreach (Users u in usersList)
             {
                 if (u.Email == user.Email && u.Password == Crypto.Hash(user.Password))
@@ -35,7 +35,7 @@ namespace Ticket.Controllers
                     return RedirectToAction("Index", "Home");
                 }
             }
-            ModelState.AddModelError("", "E-posta ya da şifre yanlış.");
+            ModelState.AddModelError("", "E-posta veya şifre yanlış.");
 
             return View(user);
         }

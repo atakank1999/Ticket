@@ -30,8 +30,9 @@ namespace Ticket.Models.Context
 
         public override int SaveChanges()
         {
+            DatabaseContext db = new DatabaseContext();
             string username = string.Empty;
-            var ticketList = ChangeTracker.Entries().Where((x => x.State != EntityState.Unchanged && !(x.Entity is Log)));
+            var ticketList = ChangeTracker.Entries().Where((x => x.State == EntityState.Added && !(x.Entity is Log)));
             Users user = new Users();
             if (HttpContext.Current.Session != null)
             {
@@ -42,7 +43,7 @@ namespace Ticket.Models.Context
             {
                 foreach (Users u in this.Users.ToList())
                 {
-                    if (u.Username == username)
+                    if (u.Username == username && !u.IsDeleted)
                     {
                         user = u;
                     }
@@ -55,7 +56,6 @@ namespace Ticket.Models.Context
 
                 if (entity.Entity is Ticket)
                 {
-
                     var t = entity.Entity as Ticket;
                     if (t.IsDeleted)
                     {
@@ -68,24 +68,14 @@ namespace Ticket.Models.Context
                     log.routevalues = HttpContext.Current.Request.Url.PathAndQuery;
                     log.Time = DateTime.Now;
                     log.IP = HttpContext.Current.Request.UserHostAddress;
-
-                    if (entity.State == EntityState.Modified)
-                    {
-                        foreach (string prop in entity.OriginalValues.PropertyNames.ToList())
-                        {
-                            var origin = entity.OriginalValues[prop];
-                            if (log.Previous == null)
-                            {
-                                log.Previous = new Ticket();
-                            }
-                            Ticket prev = log.Previous as Ticket;
-                            prev.GetType().GetProperty(prop).SetValue(prev, origin);
-                        }
-                    }
                 }
                 else if (entity.Entity is Assignment)
                 {
                     var a = entity.Entity as Assignment;
+                    if (a.IsDeleted)
+                    {
+                        return base.SaveChanges();
+                    }
                     log.ObjecType = typeof(Assignment).ToString();
                     log.Assignment = a;
                     log.Users = user;
@@ -93,24 +83,14 @@ namespace Ticket.Models.Context
                     log.routevalues = HttpContext.Current.Request.Url.PathAndQuery;
                     log.Time = DateTime.Now;
                     log.IP = HttpContext.Current.Request.UserHostAddress;
-
-                    if (entity.State == EntityState.Modified)
-                    {
-                        foreach (string prop in entity.OriginalValues.PropertyNames.ToList())
-                        {
-                            var origin = entity.OriginalValues[prop];
-                            if (log.Previous == null)
-                            {
-                                log.Previous = new Assignment();
-                            }
-                            var prev = log.Previous as Assignment;
-                            prev.GetType().GetProperty(prop).SetValue(prev, origin);
-                        }
-                    }
                 }
                 else if (entity.Entity is Reply)
                 {
                     var r = entity.Entity as Reply;
+                    if (r.IsDeleted)
+                    {
+                        return base.SaveChanges();
+                    }
                     log.ObjecType = typeof(Reply).ToString();
                     log.Reply = r;
                     log.Users = user;
@@ -118,43 +98,20 @@ namespace Ticket.Models.Context
                     log.routevalues = HttpContext.Current.Request.Url.PathAndQuery;
                     log.Time = DateTime.Now;
                     log.IP = HttpContext.Current.Request.UserHostAddress;
-
-                    if (entity.State == EntityState.Modified)
-                    {
-                        foreach (string prop in entity.OriginalValues.PropertyNames.ToList())
-                        {
-                            var origin = entity.OriginalValues[prop];
-                            if (log.Previous == null)
-                            {
-                                log.Previous = new Reply();
-                            }
-                            var prev = log.Previous as Reply;
-                            prev.GetType().GetProperty(prop).SetValue(prev, origin);
-                        }
-                    }
                 }
                 else if (entity.Entity is Users)
                 {
                     var r = entity.Entity as Users;
+                    if (r.IsDeleted)
+                    {
+                        return base.SaveChanges();
+                    }
                     log.ObjecType = typeof(Users).ToString();
                     log.Users = user.Username.IsEmpty() ? log.Users = r : log.Users = user;
                     log.Type = entity.State.ToString();
                     log.routevalues = HttpContext.Current.Request.Url.PathAndQuery;
                     log.Time = DateTime.Now;
                     log.IP = HttpContext.Current.Request.UserHostAddress;
-                    if (entity.State == EntityState.Modified)
-                    {
-                        foreach (string prop in entity.OriginalValues.PropertyNames.ToList())
-                        {
-                            var origin = entity.OriginalValues[prop];
-                            if (log.Previous == null)
-                            {
-                                log.Previous = new Users();
-                            }
-                            var prev = log.Previous as Users;
-                            prev.GetType().GetProperty(prop).SetValue(prev, origin);
-                        }
-                    }
                 }
                 this.Logs.Add(log);
             }
