@@ -63,6 +63,7 @@ namespace Ticket.Models.Context
                     }
                     log.ObjecType = typeof(Ticket).ToString();
                     log.Ticket = t;
+                    log.NexTicket = t;
                     log.Users = user;
                     log.Type = entity.State.ToString();
                     log.routevalues = HttpContext.Current.Request.Url.PathAndQuery;
@@ -77,6 +78,7 @@ namespace Ticket.Models.Context
                         return base.SaveChanges();
                     }
                     log.ObjecType = typeof(Assignment).ToString();
+                    log.NextAssignment = a;
                     log.Assignment = a;
                     log.Users = user;
                     log.Type = entity.State.ToString();
@@ -92,6 +94,7 @@ namespace Ticket.Models.Context
                         return base.SaveChanges();
                     }
                     log.ObjecType = typeof(Reply).ToString();
+                    log.NextReply = r;
                     log.Reply = r;
                     log.Users = user;
                     log.Type = entity.State.ToString();
@@ -107,6 +110,7 @@ namespace Ticket.Models.Context
                         return base.SaveChanges();
                     }
                     log.ObjecType = typeof(Users).ToString();
+                    log.NextUsers = user.Username.IsEmpty() ? log.Users = r : log.Users = user;
                     log.Users = user.Username.IsEmpty() ? log.Users = r : log.Users = user;
                     log.Type = entity.State.ToString();
                     log.routevalues = HttpContext.Current.Request.Url.PathAndQuery;

@@ -16,6 +16,7 @@ using Ticket = Ticket.Models.Ticket;
 
 namespace Ticket.Controllers
 {
+    [LogFilter]
     [AuthFilter]
     public class TicketsController : Controller
     {
@@ -210,12 +211,12 @@ namespace Ticket.Controllers
                     l.IP = HttpContext.Request.UserHostAddress;
                     l.Time = DateTime.Now;
                     l.routevalues = HttpContext.Request.Url.PathAndQuery;
-                    l.Users = updateUser;
                     Session["Login"] = model.Username;
                     updateUser.Name = model.Name;
                     updateUser.Surname = model.Surname;
                     updateUser.Username = model.Username;
                     updateUser.Email = model.Email;
+
                     changes = db.ChangeTracker.Entries().Where(x => x.State != EntityState.Unchanged).ToList().Count;
 
                     result = db.SaveChanges();
@@ -231,6 +232,10 @@ namespace Ticket.Controllers
 
                 if (l != null)
                 {
+                    l.NextUsers = updateUser;
+
+                    l.Users = updateUser;
+
                     db.Logs.Add(l);
                 }
                 if (result > 0)
@@ -316,7 +321,7 @@ namespace Ticket.Controllers
                     return View(updateTicket);
                 }
                 db.Tickets.Add(old);
-
+                l.NexTicket = updateTicket;
                 l.Ticket = updateTicket;
                 db.Logs.Add(l);
             }

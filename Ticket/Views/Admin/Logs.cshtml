@@ -15,36 +15,30 @@
                         @if (Request.QueryString["sortby"] != null && Request.QueryString["sortby"].ToString() == "user")
                         {
                             @Html.ActionLink("KULLANICI", "Logs", new { sortby = "-user" }, new { @class = "text-default" })
-
                         }
                         else
                         {
                             @Html.ActionLink("KULLANICI", "Logs", new { sortby = "user" }, new { @class = "text-default" })
-
                         }
                     </th>
                     <th scope="col" class="sort" data-sort="date">
                         @if (Request.QueryString["sortby"] != null && Request.QueryString["sortby"].ToString() == "date")
                         {
                             @Html.ActionLink("TARİH", "Logs", new { sortby = "-date" }, new { @class = "text-default" })
-
                         }
                         else
                         {
                             @Html.ActionLink("TARİH", "Logs", new { sortby = "date" }, new { @class = "text-default" })
-
                         }
                     </th>
                     <th scope="col" class="sort" data-sort="process">
                         @if (Request.QueryString["sortby"] != null && Request.QueryString["sortby"].ToString() == "process")
                         {
                             @Html.ActionLink("İŞLEM", "Logs", new { sortby = "-process" }, new { @class = "text-default" })
-
                         }
                         else
                         {
                             @Html.ActionLink("İŞLEM", "Logs", new { sortby = "process" }, new { @class = "text-default" })
-
                         }
                     </th>
 
@@ -52,48 +46,40 @@
                         @if (Request.QueryString["sortby"] != null && Request.QueryString["sortby"].ToString() == "type")
                         {
                             @Html.ActionLink("TİPİ", "Logs", new { sortby = "-type" }, new { @class = "text-default" })
-
                         }
                         else
                         {
                             @Html.ActionLink("TİPİ", "Logs", new { sortby = "type" }, new { @class = "text-default" })
-
                         }
                     </th>
                     <th scope="col" class="sort" data-sort="url">
                         @if (Request.QueryString["sortby"] != null && Request.QueryString["sortby"].ToString() == "url")
                         {
                             @Html.ActionLink("URL", "Logs", new { sortby = "-url" }, new { @class = "text-default" })
-
                         }
                         else
                         {
                             @Html.ActionLink("URL", "Logs", new { sortby = "url" }, new { @class = "text-default" })
-
                         }
                     </th>
                     <th scope="col" class="sort" data-sort="admin">
                         @if (Request.QueryString["sortby"] != null && Request.QueryString["sortby"].ToString() == "admin")
                         {
                             @Html.ActionLink("ADMIN", "Logs", new { sortby = "-admin" }, new { @class = "text-default" })
-
                         }
                         else
                         {
                             @Html.ActionLink("ADMIN", "Logs", new { sortby = "admin" }, new { @class = "text-default" })
-
                         }
                     </th>
                     <th class="sort" data-sort="IP">
                         @if (Request.QueryString["sortby"] != null && Request.QueryString["sortby"].ToString() == "IP")
                         {
                             @Html.ActionLink("IP", "Logs", new { sortby = "-IP" }, new { @class = "text-default" })
-
                         }
                         else
                         {
                             @Html.ActionLink("IP", "Logs", new { sortby = "IP" }, new { @class = "text-default" })
-
                         }
                     </th>
                     <th scope="col"></th>
@@ -104,8 +90,15 @@
                 {
                     <tr>
                         <th scope="row">
+                            @if (l.Users != null)
+                            {
+                                <a class="table-link" href="/Admin/Logs?user=@l.Users.ID"> @(l.Users.Username) </a>
 
-                            <a class="table-link" href="Admin/Ticket/@l.ID"> @(l.Users==null?"Anonim":l.Users.Username) </a>
+                            }
+                            else
+                            {
+                                @("Anonim")
+                            }
                         </th>
                         <td class="date">
                             @l.Time.ToString("g")
@@ -114,14 +107,33 @@
                             @l.Type
                         </td>
                         <td class="type">
-                            @l.ObjecType
+                            @if (l.ObjecType == "Bilet")
+                            {
+                                <a class="table-link" href="/Admin/Logs?ticket=@l.Ticket.Id"> @(l.ObjecType) </a>
+
+                            }
+                            else if (l.ObjecType == "Atama")
+                            {
+                                <a class="table-link" href="/Admin/Logs?assignment=@l.Assignment.ID"> @(l.ObjecType) </a>
+
+                            }
+                            else if (l.ObjecType == "Yanıt")
+                            {
+                                <a class="table-link" href="/Admin/Logs?reply=@l.Reply.ID"> @(l.ObjecType) </a>
+
+                            }
+                            else if (l.ObjecType == "Kullanıcı")
+                            {
+                                <a class="table-link" href="/Admin/Logs?user=@l.Users.ID"> @(l.ObjecType) </a>
+
+                            }
                         </td>
                         <td class="url">
                             @l.routevalues
                         </td>
                         <td class="admin">
 
-                            @if (l.Users.IsAdmin)
+                            @if (l.Users != null && l.Users.IsAdmin)
                             {
                                 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-file-check-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm-1.146 6.854a.5.5 0 0 0-.708-.708L7.5 8.793 6.354 7.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z" />

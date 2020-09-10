@@ -22,9 +22,16 @@ namespace Ticket.Models
         public virtual Assignment Assignment { get; set; }
         public virtual Reply Reply { get; set; }
         public virtual Ticket Ticket { get; set; }
+        public virtual Ticket NexTicket { get; set; }
         public virtual Ticket PreviousTicket { get; set; }
+        public virtual Reply NextReply { get; set; }
+
         public virtual Reply PreviousReply { get; set; }
+        public virtual Assignment NextAssignment { get; set; }
+
         public virtual Assignment PreviousAssignment { get; set; }
+        public virtual Users NextUsers { get; set; }
+
         public virtual Users PreviousUsers { get; set; }
 
         public string IP { get; set; }

@@ -19,6 +19,7 @@ using Ticket = Ticket.Models.Ticket;
 
 namespace Ticket.Controllers
 {
+    [LogFilter]
     [AdminFilter]
     public class AdminController : Controller
     {
@@ -182,6 +183,7 @@ namespace Ticket.Controllers
             }
             reply.date = DateTime.UtcNow;
             reply.RepliedTicket.Status = reply.RepliedTicket.Status;
+            reply.RepliedTicket.EditedOn = DateTime.Now;
             db.Replies.Add(reply);
             int result = db.SaveChanges();
             if (result > 0)
@@ -226,9 +228,10 @@ namespace Ticket.Controllers
 
                         if (DateTime.Compare(p.Ticket.assignedTo.Deadline.Date.Add(p.TimeSpan), DateTime.Now) > 0)
                         {
-                            assignment.Deadline = p.Ticket.assignedTo.Deadline.Date.Add(p.TimeSpan);
                             Assignment old = new Assignment(a);
                             old.IsDeleted = true;
+
+                            assignment.Deadline = p.Ticket.assignedTo.Deadline.Date.Add(p.TimeSpan);
                             assignment.Admin = u;
                             Log l = new Log();
                             l.ObjecType = typeof(Assignment).ToString();
@@ -237,6 +240,7 @@ namespace Ticket.Controllers
                             string user = Session["Login"].ToString();
                             l.Users = db.Users.Where(x => x.Username == user && x.IsDeleted == false).FirstOrDefault();
                             l.PreviousAssignment = old;
+                            l.NextAssignment = assignment;
                             l.IP = HttpContext.Request.UserHostAddress;
                             l.Time = DateTime.Now;
                             l.routevalues = HttpContext.Request.Url.PathAndQuery;
@@ -381,6 +385,7 @@ namespace Ticket.Controllers
             string user = Session["Login"].ToString();
             l.Users = db.Users.Where(x => x.Username == user && x.IsDeleted == false).FirstOrDefault();
             l.PreviousTicket = oldticket;
+            l.NexTicket = ticket;
             l.IP = HttpContext.Request.UserHostAddress;
             l.Time = DateTime.Now;
             l.routevalues = HttpContext.Request.Url.PathAndQuery;
@@ -425,6 +430,7 @@ namespace Ticket.Controllers
             l.Type = "Modified";
             string user = Session["Login"].ToString();
             l.Users = db.Users.Where(x => x.Username == user && x.IsDeleted == false).FirstOrDefault();
+            l.NexTicket = ticket;
             l.PreviousTicket = oldticket;
             l.IP = HttpContext.Request.UserHostAddress;
             l.Time = DateTime.Now;
@@ -467,7 +473,7 @@ namespace Ticket.Controllers
             return File(path, "application/force-download", Path.GetFileName(path));
         }
 
-        public ActionResult Logs(string sortby = "-date")
+        public ActionResult Logs(int? user, int? ticket, int? assignment, int? reply, string sortby = "-date")
         {
             DatabaseContext db = new DatabaseContext();
             List<Log> model = db.Logs.OrderBy(x => x.Time).ToList();
@@ -563,6 +569,26 @@ namespace Ticket.Controllers
                         log.ObjecType = "Yanıt";
                         break;
                 }
+            }
+
+            if (user != null)
+            {
+                model = model.Where(x => x.Users != null && x.Users.ID == user).ToList();
+            }
+
+            if (ticket != null)
+            {
+                model = model.Where(x => x.Ticket != null && x.Ticket.Id == ticket).ToList();
+            }
+
+            if (reply != null)
+            {
+                model = model.Where(x => x.Reply != null && x.Reply.ID == reply).ToList();
+            }
+
+            if (assignment != null)
+            {
+                model = model.Where(x => x.Assignment != null && x.Assignment.ID == assignment).ToList();
             }
 
             return View(model);

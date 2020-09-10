@@ -3554,6 +3554,7 @@
     <Compile Include="Filters\AdminFilter.cs" />
     <Compile Include="Filters\AuthFilter.cs" />
     <Compile Include="Filters\LogActionFilter.cs" />
+    <Compile Include="Filters\LogFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

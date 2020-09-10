@@ -4,11 +4,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using Ticket.Filters;
 using Ticket.Models;
 using Ticket.Models.Context;
 
 namespace Ticket.Controllers
 {
+    [LogFilter]
     public class SignInController : Controller
     {
         // GET: SignIn

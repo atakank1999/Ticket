@@ -52,23 +52,57 @@ namespace Ticket.Models
         public Users()
         {
             ConfirmGuid = Guid.NewGuid();
+            this.IsDeleted = false;
         }
 
         public Users(Users u)
         {
-            this.Name = u.Name;
-            this.Surname = u.Surname;
-            this.Username = u.Username;
-            this.Email = u.Email;
-            this.Password = u.Password;
-            this.ConfirmGuid = u.ConfirmGuid;
-            this.IsConfirmed = u.IsConfirmed;
-            this.IsAdmin = u.IsAdmin;
-            this.Assignments = u.Assignments;
-            this.Tickets = u.Tickets;
-            this.Replies = u.Replies;
-            this.Logs = u.Logs;
-            this.IsDeleted = u.IsDeleted;
+            if (u != null)
+            {
+                this.Name = u.Name;
+                this.Surname = u.Surname;
+                this.Username = u.Username;
+                this.Email = u.Email;
+                this.Password = u.Password;
+                this.ConfirmGuid = u.ConfirmGuid;
+                this.IsConfirmed = u.IsConfirmed;
+                this.IsAdmin = u.IsAdmin;
+
+                foreach (Ticket ticket in u.Tickets)
+                {
+                    Ticket t = new Ticket(ticket);
+                    t.Author = this;
+                    if (this.Tickets == null)
+                    {
+                        this.Tickets = new List<Ticket>();
+                    }
+                    this.Tickets.Add(t);
+                }
+
+                foreach (Assignment assignment in u.Assignments)
+                {
+                    Assignment a = new Assignment(assignment);
+                    if (this.Assignments == null)
+                    {
+                        this.Assignments = new List<Assignment>();
+                    }
+                    a.Admin = this;
+                    this.Assignments.Add(a);
+                }
+
+                foreach (Reply reply in u.Replies)
+                {
+                    Reply r = new Reply(reply);
+                    if (this.Replies == null)
+                    {
+                        this.Replies = new List<Reply>();
+                    }
+                    r.WriterAdmin = this;
+                    this.Replies.Add(r);
+                }
+
+                this.IsDeleted = u.IsDeleted;
+            }
         }
     }
 }

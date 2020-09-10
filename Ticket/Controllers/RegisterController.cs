@@ -6,11 +6,13 @@ using System.Security.Cryptography.X509Certificates;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using Ticket.Filters;
 using Ticket.Models;
 using Ticket.Models.Context;
 
 namespace Ticket.Controllers
 {
+    [LogFilter]
     public class RegisterController : Controller
     {
         // GET: Register

@@ -25,6 +25,19 @@ namespace Ticket.Models
         public Reply()
         {
             date = DateTime.Now;
+            this.IsDeleted = false;
+        }
+
+        public Reply(Reply r)
+        {
+            if (r != null)
+            {
+                this.WriterAdmin = r.WriterAdmin;
+                this.RepliedTicket = r.RepliedTicket;
+                this.IsDeleted = r.IsDeleted;
+                this.Text = r.Text;
+                this.date = r.date;
+            }
         }
     }
 }

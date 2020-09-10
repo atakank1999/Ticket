@@ -61,22 +61,41 @@ namespace Ticket.Models
         {
             DateTime = DateTime.Now;
             EditedOn = DateTime.Now;
+            this.IsDeleted = false;
         }
 
         public Ticket(Ticket oldticket)
         {
-            this.Title = oldticket.Title;
-            this.Text = oldticket.Text;
-            this.Author = oldticket.Author;
-            this.Replies = oldticket.Replies;
-            this.FilePath = oldticket.FilePath;
-            this.Priority = oldticket.Priority;
-            this.Type = oldticket.Type;
-            this.assignedTo = oldticket.assignedTo;
-            this.DateTime = oldticket.DateTime;
-            this.Status = oldticket.Status;
-            this.EditedOn = oldticket.EditedOn;
-            this.Logs = oldticket.Logs;
+            if (oldticket != null)
+            {
+                this.Author = oldticket.Author;
+                this.Title = oldticket.Title;
+                this.Text = oldticket.Text;
+                foreach (Reply oldticketReply in oldticket.Replies)
+                {
+                    Reply r = new Reply(oldticketReply);
+                    r.RepliedTicket = this;
+                    if (this.Replies == null)
+                    {
+                        this.Replies = new List<Reply>();
+                    }
+                    this.Replies.Add(r);
+                }
+                this.FilePath = oldticket.FilePath;
+                this.Priority = oldticket.Priority;
+                this.Type = oldticket.Type;
+                if (oldticket.assignedTo != null)
+                {
+                    Assignment a = new Assignment(oldticket.assignedTo);
+                    a.Ticket = this;
+                    this.assignedTo = a;
+                }
+
+                this.DateTime = oldticket.DateTime;
+                this.EditedOn = oldticket.EditedOn;
+                this.Status = oldticket.Status;
+                this.EditedOn = oldticket.EditedOn;
+            }
         }
     }
 }
