@@ -219,7 +219,7 @@ namespace Ticket.Controllers
                 Users u = db.Users.Find(p.Ticket.assignedTo.Admin.ID);
                 Assignment assignment = null;
 
-                List<Assignment> alList = db.Assignments.ToList();
+                List<Assignment> alList = db.Assignments.Where(x => !x.IsDeleted).ToList();
                 foreach (Assignment a in alList)
                 {
                     if (a.Ticket == t)
@@ -228,9 +228,16 @@ namespace Ticket.Controllers
 
                         if (DateTime.Compare(p.Ticket.assignedTo.Deadline.Date.Add(p.TimeSpan), DateTime.Now) > 0)
                         {
-                            Assignment old = new Assignment(a);
-                            old.IsDeleted = true;
+                            Models.Ticket oldt = new Models.Ticket(t);
 
+                            Assignment old = new Assignment();
+                            old.IsDeleted = true;
+                            old.Admin = a.Admin;
+                            old.Ticket = oldt;
+                            old.Deadline = a.Deadline;
+                            old.IsDone = a.IsDone;
+                            oldt.EditedOn = DateTime.Now;
+                            oldt.IsDeleted = true;
                             assignment.Deadline = p.Ticket.assignedTo.Deadline.Date.Add(p.TimeSpan);
                             assignment.Admin = u;
                             Log l = new Log();
@@ -244,8 +251,10 @@ namespace Ticket.Controllers
                             l.IP = HttpContext.Request.UserHostAddress;
                             l.Time = DateTime.Now;
                             l.routevalues = HttpContext.Request.Url.PathAndQuery;
-                            db.Assignments.Add(old);
+
+                            db.Tickets.Add(oldt);
                             db.Logs.Add(l);
+                            db.Assignments.Add(old);
                         }
                         else
                         {
@@ -598,6 +607,7 @@ namespace Ticket.Controllers
         {
             DatabaseContext db = new DatabaseContext();
             Log log = db.Logs.Find(id);
+
             switch (log.Type)
             {
                 case "Added":
@@ -617,18 +627,50 @@ namespace Ticket.Controllers
             {
                 case "Ticket.Models.Users":
                     log.ObjecType = "Kullanıcı";
+                    List<Log> loglist2 = db.Logs.Where(x => x.Users.ID == log.Users.ID).ToList();
+
+                    int index2 = loglist2.FindIndex(x => x.ID == log.ID);
+
+                    if (index2 <= loglist2.Count - 2)
+                    {
+                        log.NextUsers = loglist2[index2 + 1].PreviousUsers;
+                    }
+
                     break;
 
                 case "Ticket.Models.Ticket":
                     log.ObjecType = "Bilet";
+                    List<Log> loglist = db.Logs.Where(x => x.Ticket.Id == log.Ticket.Id).ToList();
+
+                    int index = loglist.FindIndex(x => x.ID == log.ID);
+                    if (index <= loglist.Count - 2)
+                    {
+                        log.NexTicket = loglist[index + 1].PreviousTicket;
+                    }
                     break;
 
                 case "Ticket.Models.Assignment":
                     log.ObjecType = "Atama";
+                    List<Log> loglist3 = db.Logs.Where(x => x.Assignment == log.Assignment).ToList();
+
+                    int index3 = loglist3.FindIndex(x => x.ID == log.ID);
+
+                    if (index3 <= loglist3.Count - 2)
+                    {
+                        log.NextAssignment = loglist3[index3 + 1].PreviousAssignment;
+                    }
                     break;
 
                 case "Ticket.Models.Reply":
                     log.ObjecType = "Yanıt";
+                    List<Log> loglist4 = db.Logs.Where(x => x.Reply == log.Reply).ToList();
+
+                    int index4 = loglist4.FindIndex(x => x.ID == log.ID);
+
+                    if (index4 <= loglist4.Count - 2)
+                    {
+                        log.NextReply = loglist4[index4 + 1].PreviousReply;
+                    }
                     break;
             }
 
