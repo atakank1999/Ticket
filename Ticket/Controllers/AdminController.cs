@@ -133,11 +133,19 @@ namespace Ticket.Controllers
             return View(admin);
         }
 
-        public ActionResult Reply()
+        public ActionResult Reply(int id)
         {
-            ReplyWithSelectlist replyWithSelectlist = new ReplyWithSelectlist();
-            replyWithSelectlist.SelectListItems = new List<SelectListItem>();
-            replyWithSelectlist.SelecListStatus = new List<SelectListItem>();
+            DatabaseContext db = new DatabaseContext();
+
+            ReplyWithSelectlist replyWithSelectlist = new ReplyWithSelectlist
+            {
+                SelectListItems = new List<SelectListItem>(),
+                SelecListStatus = new List<SelectListItem>(),
+                Reply = new Reply
+                {
+                    RepliedTicket = db.Tickets.FirstOrDefault(x => x.Id == id && !x.IsDeleted)
+                }
+            };
             replyWithSelectlist.SelectListItems.Add(new SelectListItem()
             {
                 Value = Status.Başlamadı.ToString(),
@@ -230,20 +238,24 @@ namespace Ticket.Controllers
                         {
                             Models.Ticket oldt = new Models.Ticket(t);
 
-                            Assignment old = new Assignment();
-                            old.IsDeleted = true;
-                            old.Admin = a.Admin;
-                            old.Ticket = oldt;
-                            old.Deadline = a.Deadline;
-                            old.IsDone = a.IsDone;
+                            Assignment old = new Assignment
+                            {
+                                IsDeleted = true,
+                                Admin = a.Admin,
+                                Ticket = oldt,
+                                Deadline = a.Deadline,
+                                IsDone = a.IsDone
+                            };
                             oldt.EditedOn = DateTime.Now;
                             oldt.IsDeleted = true;
                             assignment.Deadline = p.Ticket.assignedTo.Deadline.Date.Add(p.TimeSpan);
                             assignment.Admin = u;
-                            Log l = new Log();
-                            l.ObjecType = typeof(Assignment).ToString();
-                            l.Assignment = assignment;
-                            l.Type = "Modified";
+                            Log l = new Log
+                            {
+                                ObjecType = typeof(Assignment).ToString(),
+                                Assignment = assignment,
+                                Type = "Modified"
+                            };
                             string user = Session["Login"].ToString();
                             l.Users = db.Users.Where(x => x.Username == user && x.IsDeleted == false).FirstOrDefault();
                             l.PreviousAssignment = old;
@@ -267,10 +279,7 @@ namespace Ticket.Controllers
 
                 if (u != null && assignment == null)
                 {
-                    assignment = new Assignment();
-                    assignment.Ticket = t;
-                    assignment.IsDone = false;
-                    assignment.Admin = u;
+                    assignment = new Assignment { Ticket = t, IsDone = false, Admin = u };
                     if (DateTime.Compare(p.Ticket.assignedTo.Deadline.Date.Add(p.TimeSpan), DateTime.Now) > 0)
                     {
                         assignment.Deadline = p.Ticket.assignedTo.Deadline.Date.Add(p.TimeSpan);
@@ -385,19 +394,21 @@ namespace Ticket.Controllers
             DatabaseContext db = new DatabaseContext();
             int result = -1;
             Models.Ticket ticket = db.Tickets.Find(model.Ticket.Id);
-            Models.Ticket oldticket = new Models.Ticket(ticket);
-            oldticket.IsDeleted = true;
+            Models.Ticket oldticket = new Models.Ticket(ticket) { IsDeleted = true };
             db.Tickets.Add(oldticket);
-            Log l = new Log();
-            l.ObjecType = typeof(Models.Ticket).ToString();
-            l.Type = "Modified";
             string user = Session["Login"].ToString();
-            l.Users = db.Users.Where(x => x.Username == user && x.IsDeleted == false).FirstOrDefault();
-            l.PreviousTicket = oldticket;
-            l.NexTicket = ticket;
-            l.IP = HttpContext.Request.UserHostAddress;
-            l.Time = DateTime.Now;
-            l.routevalues = HttpContext.Request.Url.PathAndQuery;
+
+            Log l = new Log
+            {
+                ObjecType = typeof(Models.Ticket).ToString(),
+                Type = "Modified",
+                Users = db.Users.Where(x => x.Username == user && x.IsDeleted == false).FirstOrDefault(),
+                PreviousTicket = oldticket,
+                NexTicket = ticket,
+                IP = HttpContext.Request.UserHostAddress,
+                Time = DateTime.Now,
+                routevalues = HttpContext.Request.Url.PathAndQuery
+            };
 
             List<String> list = new List<String>();
             if (ticket != null && !ticket.IsDeleted)
@@ -431,19 +442,21 @@ namespace Ticket.Controllers
             DatabaseContext db = new DatabaseContext();
             int result = -1;
             Models.Ticket ticket = db.Tickets.Find(model.Ticket.Id);
-            Models.Ticket oldticket = new Models.Ticket(ticket);
-            oldticket.IsDeleted = true;
+            Models.Ticket oldticket = new Models.Ticket(ticket) { IsDeleted = true };
             db.Tickets.Add(oldticket);
-            Log l = new Log();
-            l.ObjecType = typeof(Models.Ticket).ToString();
-            l.Type = "Modified";
             string user = Session["Login"].ToString();
-            l.Users = db.Users.Where(x => x.Username == user && x.IsDeleted == false).FirstOrDefault();
-            l.NexTicket = ticket;
-            l.PreviousTicket = oldticket;
-            l.IP = HttpContext.Request.UserHostAddress;
-            l.Time = DateTime.Now;
-            l.routevalues = HttpContext.Request.Url.PathAndQuery;
+
+            Log l = new Log
+            {
+                ObjecType = typeof(Models.Ticket).ToString(),
+                Type = "Modified",
+                Users = db.Users.Where(x => x.Username == user && x.IsDeleted == false).FirstOrDefault(),
+                NexTicket = ticket,
+                PreviousTicket = oldticket,
+                IP = HttpContext.Request.UserHostAddress,
+                Time = DateTime.Now,
+                routevalues = HttpContext.Request.Url.PathAndQuery
+            };
             List<String> list = new List<String>();
             if (ticket != null && !ticket.IsDeleted)
             {
@@ -482,7 +495,7 @@ namespace Ticket.Controllers
             return File(path, "application/force-download", Path.GetFileName(path));
         }
 
-        public ActionResult Logs(int? user, int? ticket, int? assignment, int? reply, string sortby = "-date")
+        public ActionResult Logs(int? user, int? ticket, int? assignment, int? reply, int databaseonly = 0, string sortby = "-date")
         {
             DatabaseContext db = new DatabaseContext();
             List<Log> model = db.Logs.OrderBy(x => x.Time).ToList();
@@ -600,6 +613,11 @@ namespace Ticket.Controllers
                 model = model.Where(x => x.Assignment != null && x.Assignment.ID == assignment).ToList();
             }
 
+            if (databaseonly == 1)
+            {
+                model = model.Where(x => x.Type == "Eklendi" || x.Type == "Düzenlendi" || x.Type == "Silindi").ToList();
+            }
+
             return View(model);
         }
 
@@ -627,7 +645,7 @@ namespace Ticket.Controllers
             {
                 case "Ticket.Models.Users":
                     log.ObjecType = "Kullanıcı";
-                    List<Log> loglist2 = db.Logs.Where(x => x.Users.ID == log.Users.ID).ToList();
+                    List<Log> loglist2 = db.Logs.Where(x => x.Users.ID == log.Users.ID && x.Type == "Modified").ToList();
 
                     int index2 = loglist2.FindIndex(x => x.ID == log.ID);
 
@@ -651,7 +669,7 @@ namespace Ticket.Controllers
 
                 case "Ticket.Models.Assignment":
                     log.ObjecType = "Atama";
-                    List<Log> loglist3 = db.Logs.Where(x => x.Assignment == log.Assignment).ToList();
+                    List<Log> loglist3 = db.Logs.Where(x => x.Assignment.ID == log.Assignment.ID).ToList();
 
                     int index3 = loglist3.FindIndex(x => x.ID == log.ID);
 
@@ -663,7 +681,7 @@ namespace Ticket.Controllers
 
                 case "Ticket.Models.Reply":
                     log.ObjecType = "Yanıt";
-                    List<Log> loglist4 = db.Logs.Where(x => x.Reply == log.Reply).ToList();
+                    List<Log> loglist4 = db.Logs.Where(x => x.Reply.ID == log.Reply.ID).ToList();
 
                     int index4 = loglist4.FindIndex(x => x.ID == log.ID);
 

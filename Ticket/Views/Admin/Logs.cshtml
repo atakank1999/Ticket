@@ -5,6 +5,22 @@
     ViewBag.Title = "Logs";
 }
 
+
+
+@if (HttpContext.Current.Request.Params["databaseonly"] == "1")
+{
+    <input type="checkbox"  value="" id="button" checked onclick='window.location.assign("/Admin/logs?databaseonly=0")'/>
+    <label for="button">Sadece Veritabanını etkileyen logları görüntülemek için</label>
+
+}
+else
+{
+    <input type="checkbox" value="" id="button2" onclick='window.location.assign("/Admin/logs?databaseonly=1")'/>
+    <label for="button2">Sadece Veritabanını etkileyen logları görüntülemek için</label>
+
+
+}
+
 <div class="table-responsive ">
 
     <div>
@@ -152,3 +168,5 @@
         </table>
     </div>
 </div>
+
+

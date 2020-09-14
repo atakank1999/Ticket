@@ -3352,6 +3352,7 @@
     <Content Include="Material-Time-Picker-Plugin-jQuery-MDTimePicker\README.md" />
     <None Include="Properties\PublishProfiles\Ticket-dev-as - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\Ticket20200831142313 - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\Ticket20200914003754 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\Ticketappp - Web Deploy.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

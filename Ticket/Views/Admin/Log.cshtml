@@ -54,7 +54,7 @@
                     @if (Model.ObjecType == "Bilet")
                     {
                         Ticket prev = Model.PreviousTicket as Ticket;
-                        if (Model.Ticket != null && prev.Title != Model.Ticket.Title)
+                        if (Model.NexTicket != null && prev.Title != Model.NexTicket.Title)
                         {
                             <h4 class="text-red">Eski Başlığı : @prev.Title</h4>
                         }
@@ -63,7 +63,7 @@
                             <h4>Başlığı : @prev.Title</h4>
 
                         }
-                        if (Model.Ticket != null && prev.Text != Model.Ticket.Text)
+                        if (Model.NexTicket != null && prev.Text != Model.NexTicket.Text)
                         {
                             <p class="text-red">Eski İçeriği : @prev.Text</p>
                         }
@@ -72,7 +72,7 @@
                             <p>İçeriği : @prev.Text</p>
 
                         }
-                        if (Model.Ticket != null && prev.Priority != Model.Ticket.Priority)
+                        if (Model.NexTicket != null && prev.Priority != Model.NexTicket.Priority)
                         {
                             <p class="text-red"> Eski Önceliği  : @prev.Priority</p>
                         }
@@ -81,7 +81,7 @@
                             <p>Önceliği  : @prev.Priority</p>
 
                         }
-                        if (Model.Ticket != null && prev.Status != Model.Ticket.Status)
+                        if (Model.NexTicket != null && prev.Status != Model.NexTicket.Status)
                         {
                             <p class="text-red">Eski Durumu : @prev.Status</p>
                         }
@@ -90,7 +90,7 @@
                             <p>Durumu : @prev.Status</p>
 
                         }
-                        if (Model.Ticket != null && prev.Type != Model.Ticket.Type)
+                        if (Model.NexTicket != null && prev.Type != Model.NexTicket.Type)
                         {
                             <p class="text-red">Eski Tipi : @prev.Type</p>
                         }
@@ -104,7 +104,7 @@
                     else if (Model.ObjecType == "Atama")
                     {
                         Assignment prev = Model.PreviousAssignment as Assignment;
-                        if (Model.Assignment != null && prev.Admin.Username != Model.Assignment.Admin.Username)
+                        if (Model.NextAssignment != null && prev.Admin.Username != Model.NextAssignment.Admin.Username)
                         {
                             <p class="text-red">Eski Admini :  @prev.Admin.Username</p>
                         }
@@ -113,7 +113,7 @@
                             <p>Admini : @prev.Admin.Username</p>
 
                         }
-                        if (Model.Assignment != null && prev.Deadline != Model.Assignment.Deadline)
+                        if (Model.NextAssignment != null && prev.Deadline != Model.NextAssignment.Deadline)
                         {
                             <p class="text-red">Eski Son Tarihi : @prev.Deadline</p>
                         }
@@ -122,7 +122,7 @@
                             <p>Son Tarihi : @prev.Deadline</p>
 
                         }
-                        if (Model.Assignment != null && prev.IsDone != Model.Assignment.IsDone)
+                        if (Model.NextAssignment != null && prev.IsDone != Model.NextAssignment.IsDone)
                         {
                             <p class="text-red">Eski Yapılma Durumu : @prev.IsDone</p>
                         }
@@ -131,11 +131,13 @@
                             <p>Yapılma Durumu : @prev.IsDone</p>
 
                         }
+                        <p>Bilet ID  : @Model.Assignment.Ticket.Id</p>
+
                     }
                     else if (Model.ObjecType == "Kullanıcı")
                     {
                         Users prev = Model.PreviousUsers as Users;
-                        if (Model.Users != null && prev.Username != Model.Users.Username)
+                        if (Model.NextUsers != null && prev.Username != Model.NextUsers.Username)
                         {
                             <p class="text-red">Eski Kullanıcı Adı : @prev.Username</p>
                         }
@@ -144,7 +146,7 @@
                             <p>Kullanıcı Adı : @prev.Username</p>
 
                         }
-                        if (Model.Users != null && prev.Email != Model.Users.Email)
+                        if (Model.NextUsers != null && prev.Email != Model.NextUsers.Email)
                         {
                             <p class="text-red">Eski e-postası : @prev.Email</p>
                         }
@@ -153,7 +155,7 @@
                             <p>E-posta :  @prev.Email</p>
 
                         }
-                        if (Model.Users != null && prev.IsConfirmed != Model.Users.IsConfirmed)
+                        if (Model.NextUsers != null && prev.IsConfirmed != Model.NextUsers.IsConfirmed)
                         {
                             <p class="text-red">Eski Onaylanma Durumu : @prev.IsConfirmed</p>
                         }
@@ -162,7 +164,7 @@
                             <p>Onaylanma Durumu : @prev.IsConfirmed</p>
 
                         }
-                        if (Model.Users != null && prev.Name != Model.Users.Name)
+                        if (Model.NextUsers != null && prev.Name != Model.NextUsers.Name)
                         {
                             <p class="text-red">Eski Adı : @prev.Name</p>
                         }
@@ -171,7 +173,7 @@
                             <p>Adı : @prev.Name</p>
 
                         }
-                        if (Model.Users != null && prev.Surname != Model.Users.Surname)
+                        if (Model.NextUsers != null && prev.Surname != Model.NextUsers.Surname)
                         {
                             <p class="text-red">Eski Soyadı : @prev.Surname</p>
                         }
@@ -184,7 +186,7 @@
                     else
                     {
                         Reply prev = Model.PreviousReply as Reply;
-                        if (Model.Reply != null && prev.Text != Model.Reply.Text)
+                        if (Model.NextReply != null && prev.Text != Model.NextReply.Text)
                         {
                             <p class="text-red">Eski İçeriği : @prev.Text</p>
                         }
@@ -193,7 +195,7 @@
                             <p>İçeriği : @prev.Text</p>
 
                         }
-                        if (Model.Reply != null && prev.date != Model.Reply.date)
+                        if (Model.NextReply != null && prev.date != Model.NextReply.date)
                         {
                             <p class="text-red">Eski Tarihi :@prev.date</p>
                         }
@@ -222,6 +224,8 @@
                         <p> Admini : @Model.NextAssignment.Admin.Username</p>
                         <p>Son Tarihi : @Model.NextAssignment.Deadline</p>
                         <p>Yapılma Durumu : @Model.NextAssignment.IsDone</p>
+                        <p>Bilet ID  : @Model.Assignment.Ticket.Id</p>
+
                     }
                     else if (Model.ObjecType == "Kullanıcı")
                     {

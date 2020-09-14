@@ -20,7 +20,7 @@ namespace Ticket.Controllers
     [AuthFilter]
     public class TicketsController : Controller
     {
-        private List<string> acceptedExtensions = new List<string>()
+        private readonly List<string> acceptedExtensions = new List<string>()
         {
             ".pdf",
             ".xls",
@@ -202,15 +202,16 @@ namespace Ticket.Controllers
                 }
                 else
                 {
-                    old = new Users(updateUser);
-                    old.IsDeleted = true;
-                    l = new Log();
-                    l.ObjecType = typeof(Users).ToString();
-                    l.Type = "Modified";
-                    l.PreviousUsers = old;
-                    l.IP = HttpContext.Request.UserHostAddress;
-                    l.Time = DateTime.Now;
-                    l.routevalues = HttpContext.Request.Url.PathAndQuery;
+                    old = new Users(updateUser) { IsDeleted = true };
+                    l = new Log
+                    {
+                        ObjecType = typeof(Users).ToString(),
+                        Type = "Modified",
+                        PreviousUsers = old,
+                        IP = HttpContext.Request.UserHostAddress,
+                        Time = DateTime.Now,
+                        routevalues = HttpContext.Request.Url.PathAndQuery
+                    };
                     Session["Login"] = model.Username;
                     updateUser.Name = model.Name;
                     updateUser.Surname = model.Surname;
@@ -281,21 +282,22 @@ namespace Ticket.Controllers
             if (ModelState.IsValid && !updateTicket.IsDeleted)
             {
                 string user = Session["Login"].ToString();
-                old = new Models.Ticket(updateTicket);
-                old.IsDeleted = true;
+                old = new Models.Ticket(updateTicket) { IsDeleted = true };
 
                 updateTicket.Type = model.Type;
                 updateTicket.Text = model.Text;
                 updateTicket.Title = model.Title;
                 updateTicket.EditedOn = DateTime.Now;
-                Log l = new Log();
-                l.ObjecType = typeof(Models.Ticket).ToString();
-                l.Type = "Modified";
-                l.Users = db.Users.Where(x => x.Username == user && x.IsDeleted == false).FirstOrDefault();
-                l.PreviousTicket = old;
-                l.IP = HttpContext.Request.UserHostAddress;
-                l.Time = DateTime.Now;
-                l.routevalues = HttpContext.Request.Url.PathAndQuery;
+                Log l = new Log
+                {
+                    ObjecType = typeof(Models.Ticket).ToString(),
+                    Type = "Modified",
+                    Users = db.Users.Where(x => x.Username == user && x.IsDeleted == false).FirstOrDefault(),
+                    PreviousTicket = old,
+                    IP = HttpContext.Request.UserHostAddress,
+                    Time = DateTime.Now,
+                    routevalues = HttpContext.Request.Url.PathAndQuery
+                };
                 if (file != null)
                 {
                     if (acceptedExtensions.Contains(Path.GetExtension(file.FileName)))
@@ -338,16 +340,19 @@ namespace Ticket.Controllers
             if (!t.IsDeleted)
             {
                 t.IsDeleted = true;
-                Log log = new Log();
-                log.Ticket = null;
                 string username = Session["Login"].ToString();
-                log.Users = db.Users.FirstOrDefault(x => x.Username == username.ToString());
-                log.ObjecType = typeof(Models.Ticket).ToString();
-                log.Type = "Deleted";
-                log.IP = HttpContext.Request.UserHostAddress;
-                log.PreviousTicket = t;
-                log.Time = DateTime.Now;
-                log.routevalues = HttpContext.Request.Url.PathAndQuery;
+
+                Log log = new Log
+                {
+                    Users = db.Users.FirstOrDefault(x => x.Username == username.ToString()),
+                    ObjecType = typeof(Models.Ticket).ToString(),
+                    Type = "Deleted",
+                    IP = HttpContext.Request.UserHostAddress,
+                    PreviousTicket = t,
+                    Time = DateTime.Now,
+                    Ticket = t,
+                    routevalues = HttpContext.Request.Url.PathAndQuery
+                };
                 db.Logs.Add(log);
                 db.SaveChanges();
             }
@@ -359,7 +364,7 @@ namespace Ticket.Controllers
         {
             DatabaseContext db = new DatabaseContext();
             Models.Ticket ticket = db.Tickets.Find(id);
-            string path = String.Empty;
+            string path;
             if (!ticket.IsDeleted)
             {
                 path = ticket.FilePath;
