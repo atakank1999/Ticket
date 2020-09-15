@@ -212,6 +212,10 @@ namespace Ticket.Controllers
                         Time = DateTime.Now,
                         routevalues = HttpContext.Request.Url.PathAndQuery
                     };
+                    foreach (Models.Ticket t in old.Tickets)
+                    {
+                        t.IsDeleted = true;
+                    }
                     Session["Login"] = model.Username;
                     updateUser.Name = model.Name;
                     updateUser.Surname = model.Surname;

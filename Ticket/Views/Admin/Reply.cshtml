@@ -41,11 +41,11 @@
                             }
 
                         }
-                        <p class="text-right">
-                            <small>Durumu:</small>
-                            <small>@Model.Reply.RepliedTicket.Status</small>
-                        </p>
-                    </small>
+                <p class="text-right">
+                    <small>Durumu:</small>
+                    <small>@Model.Reply.RepliedTicket.Status</small>
+                </p>
+                </small>
                 </p>
             </div>
         </div>
@@ -55,41 +55,37 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-7 ml-auto">
-            @using (Html.BeginForm())
+            @using (Html.BeginForm("Reply", "Admin", FormMethod.Post))
             {
                 @Html.AntiForgeryToken()
 
                 <div class="form-horizontal">
 
-                    @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <div class="form-group ">
-                        @Html.LabelFor(model => model.Reply.Text, "Yanıtınız", htmlAttributes: new {@class = "control-label col-md-2"})
+                        @Html.LabelFor(Model => Model.Reply.Text, "Yanıtınız", htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col ml-auto">
-                            @Html.TextAreaFor(model => model.Reply.Text, 10, 300, new {@class = "form-control ", style = "width: 100%; max-width: 100%;",placeholder = "Yanıtınızı buraya yazınız" } )
-                            @Html.ValidationMessageFor(model => model.Reply.Text, "", new {@class = "text-danger"})
+                            @Html.TextAreaFor(Model => Model.Reply.Text, 10, 300, new { @class = "form-control ", style = "width: 100%; max-width: 100%;", placeholder = "Yanıtınızı buraya yazınız" })
+                            @Html.ValidationMessageFor(Model => Model.Reply.Text, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            @Html.DropDownListFor(x => x.Reply.RepliedTicket.Status, Model.SelectListItems, "Durumunu Seçiniz", new {@class = "form-control form-control-lg"})
+                            @Html.DropDownListFor(x => x.Reply.RepliedTicket.Status, Model.SelectListItems, "Durumunu Seçiniz", new { @class = "form-control form-control-lg" })
                         </div>
                         <div class="form-group col-md-6">
 
-                            @Html.DropDownListFor(x => x.Reply.RepliedTicket.Priority, Model.SelecListStatus, "Önemini Seçiniz", new {@class = "form-control form-control-lg"})
+                            @Html.DropDownListFor(x => x.Reply.RepliedTicket.Priority, Model.SelecListStatus, "Önemini Seçiniz", new { @class = "form-control form-control-lg" })
                         </div>
                     </div>
 
                     <div class="form-group float-right">
                         <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Yanıtla" class="btn btn-default"/>
+                            <input type="submit" value="Yanıtla" class="btn btn-default" />
                         </div>
                     </div>
                 </div>
             }
         </div>
-
     </div>
-
-
-
 </div>

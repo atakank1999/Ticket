@@ -172,38 +172,74 @@ namespace Ticket.Controllers
         public async Task<ActionResult> Reply(int id, Reply reply)
         {
             DatabaseContext db = new DatabaseContext();
-            List<Users> userlist = db.Users.Where(x => !x.IsDeleted).ToList();
-            List<Models.Ticket> ticketlList = db.Tickets.Where(x => !x.IsDeleted).ToList();
-            foreach (Users u in userlist)
-            {
-                if (u.Username == Session["Admin"].ToString() && !u.IsDeleted)
-                {
-                    reply.WriterAdmin = u;
-                }
-            }
 
-            foreach (Models.Ticket t in ticketlList)
+            if (reply.Text != null)
             {
-                if (t.Id == id && !t.IsDeleted)
+                List<Users> userlist = db.Users.Where(x => !x.IsDeleted).ToList();
+                List<Models.Ticket> ticketlList = db.Tickets.Where(x => !x.IsDeleted).ToList();
+                foreach (Users u in userlist)
                 {
-                    reply.RepliedTicket = t;
+                    if (u.Username == Session["Admin"].ToString() && !u.IsDeleted)
+                    {
+                        reply.WriterAdmin = u;
+                    }
+                }
+
+                foreach (Models.Ticket t in ticketlList)
+                {
+                    if (t.Id == id && !t.IsDeleted)
+                    {
+                        t.Status = reply.RepliedTicket.Status;
+                        t.Priority = reply.RepliedTicket.Priority;
+                        reply.RepliedTicket = t;
+                    }
+                }
+                reply.date = DateTime.UtcNow;
+                reply.RepliedTicket.EditedOn = DateTime.Now;
+                db.Replies.Add(reply);
+                int result = db.SaveChanges();
+                if (result > 0)
+                {
+                    MailMessage message = new MailMessage();
+                    message.To.Add(new MailAddress(reply.RepliedTicket.Author.Email.ToString()));
+                    message.Subject = reply.RepliedTicket.Title + " başlıklı biletinize yanıt geldi";
+                    message.Body = reply.Text;
+                    using (var smtp = new SmtpClient())
+                    {
+                        await smtp.SendMailAsync(message);
+                    }
                 }
             }
-            reply.date = DateTime.UtcNow;
-            reply.RepliedTicket.Status = reply.RepliedTicket.Status;
-            reply.RepliedTicket.EditedOn = DateTime.Now;
-            db.Replies.Add(reply);
-            int result = db.SaveChanges();
-            if (result > 0)
+            else
             {
-                MailMessage message = new MailMessage();
-                message.To.Add(new MailAddress(reply.RepliedTicket.Author.Email.ToString()));
-                message.Subject = reply.RepliedTicket.Title + " başlıklı biletinize yanıt geldi";
-                message.Body = reply.Text;
-                using (var smtp = new SmtpClient())
+                ReplyWithSelectlist replyWithSelectlist = new ReplyWithSelectlist
                 {
-                    await smtp.SendMailAsync(message);
-                }
+                    SelectListItems = new List<SelectListItem>(),
+                    SelecListStatus = new List<SelectListItem>(),
+                };
+                replyWithSelectlist.SelectListItems.Add(new SelectListItem()
+                {
+                    Value = Status.Başlamadı.ToString(),
+                    Text = "Başlamadı"
+                });
+                replyWithSelectlist.SelectListItems.Add(new SelectListItem()
+                {
+                    Value = Status.Sürüyor.ToString(),
+                    Text = "Sürüyor"
+                });
+                replyWithSelectlist.SelectListItems.Add(new SelectListItem()
+                {
+                    Value = Status.Çözüldü.ToString(),
+                    Text = "Çözüldü"
+                });
+                replyWithSelectlist.SelecListStatus.Add(new SelectListItem { Text = "Düşük", Value = Priority.Dusuk.ToString(), Selected = false });
+                replyWithSelectlist.SelecListStatus.Add(new SelectListItem { Text = "Orta", Value = Priority.Orta.ToString(), Selected = false });
+                replyWithSelectlist.SelecListStatus.Add(new SelectListItem { Text = "Önemli", Value = Priority.Onemli.ToString(), Selected = false });
+                replyWithSelectlist.SelecListStatus.Add(new SelectListItem { Text = "Acil", Value = Priority.Acil.ToString(), Selected = false });
+                replyWithSelectlist.Reply = reply;
+                replyWithSelectlist.Reply.RepliedTicket = db.Tickets.FirstOrDefault(x => x.Id == id && !x.IsDeleted);
+
+                return View(replyWithSelectlist);
             }
 
             return RedirectToAction("Index");
