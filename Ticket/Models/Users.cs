@@ -67,38 +67,46 @@ namespace Ticket.Models
                 this.ConfirmGuid = u.ConfirmGuid;
                 this.IsConfirmed = u.IsConfirmed;
                 this.IsAdmin = u.IsAdmin;
-
-                foreach (Ticket ticket in u.Tickets)
+                if (u.Tickets != null)
                 {
-                    Ticket t = new Ticket(ticket);
-                    t.Author = this;
-                    if (this.Tickets == null)
+                    foreach (Ticket ticket in u.Tickets)
                     {
-                        this.Tickets = new List<Ticket>();
+                        Ticket t = new Ticket(ticket);
+                        t.Author = this;
+                        if (this.Tickets == null)
+                        {
+                            this.Tickets = new List<Ticket>();
+                        }
+                        this.Tickets.Add(t);
                     }
-                    this.Tickets.Add(t);
                 }
 
-                foreach (Assignment assignment in u.Assignments)
+                if (u.Assignments != null)
                 {
-                    Assignment a = new Assignment(assignment);
-                    if (this.Assignments == null)
+                    foreach (Assignment assignment in u.Assignments)
                     {
-                        this.Assignments = new List<Assignment>();
+                        Assignment a = new Assignment(assignment);
+                        if (this.Assignments == null)
+                        {
+                            this.Assignments = new List<Assignment>();
+                        }
+                        a.Admin = this;
+                        this.Assignments.Add(a);
                     }
-                    a.Admin = this;
-                    this.Assignments.Add(a);
                 }
 
-                foreach (Reply reply in u.Replies)
+                if (u.Replies != null)
                 {
-                    Reply r = new Reply(reply);
-                    if (this.Replies == null)
+                    foreach (Reply reply in u.Replies)
                     {
-                        this.Replies = new List<Reply>();
+                        Reply r = new Reply(reply);
+                        if (this.Replies == null)
+                        {
+                            this.Replies = new List<Reply>();
+                        }
+                        r.WriterAdmin = this;
+                        this.Replies.Add(r);
                     }
-                    r.WriterAdmin = this;
-                    this.Replies.Add(r);
                 }
 
                 this.IsDeleted = u.IsDeleted;

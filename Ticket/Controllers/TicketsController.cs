@@ -212,10 +212,14 @@ namespace Ticket.Controllers
                         Time = DateTime.Now,
                         routevalues = HttpContext.Request.Url.PathAndQuery
                     };
-                    foreach (Models.Ticket t in old.Tickets)
+                    if (old.Tickets != null)
                     {
-                        t.IsDeleted = true;
+                        foreach (Models.Ticket t in old.Tickets)
+                        {
+                            t.IsDeleted = true;
+                        }
                     }
+
                     Session["Login"] = model.Username;
                     updateUser.Name = model.Name;
                     updateUser.Surname = model.Surname;
@@ -311,7 +315,11 @@ namespace Ticket.Controllers
                             Directory.CreateDirectory(Server.MapPath("~/userfiles"));
                         }
                         file.SaveAs(Path.Combine(Server.MapPath("~/userfiles"), file.FileName));
-                        System.IO.File.Delete(updateTicket.FilePath);
+                        if (updateTicket.FilePath!=null)
+                        {
+                            System.IO.File.Delete(updateTicket.FilePath);
+
+                        }
                         updateTicket.FilePath = Path.Combine(Server.MapPath("~/userfiles"), file.FileName);
                     }
                     else

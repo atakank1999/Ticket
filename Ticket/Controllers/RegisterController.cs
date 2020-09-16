@@ -68,7 +68,7 @@ namespace Ticket.Controllers
             message.To.Add(new MailAddress(u.Email.ToString()));
             message.Subject = "Üyeliğinizi Onaylayın";
             message.Body = "Üyeliğinizi Onaylamak İçin :" +
-                          "https://ticket20200831142313.azurewebsites.net/Register/guid/" + u.ConfirmGuid.ToString();
+                          "https://ticket20200914003754.azurewebsites.net//Register/guid/" + u.ConfirmGuid.ToString();
             using (var smtp = new SmtpClient())
             {
                 smtp.Send(message);

@@ -41,7 +41,15 @@
                 İşlemi Yapan kullanıcı @(Model.Users==null?"Anonim":Model.Users.Username)
             </li>
             <li>
-                Cinsi: @Model.ObjecType
+                @if (String.IsNullOrEmpty(Model.ObjecType))
+                {
+                    <p>Cinsi: Yok</p>
+                }
+                else
+                {
+                    <p>Cinsi: @(Model.ObjecType)</p>
+
+                }
             </li>
         </ul>
     </div>
@@ -97,6 +105,33 @@
                         else
                         {
                             <p>Tipi : @prev.Type</p>
+
+                        }
+                        if (Model.NexTicket != null && prev.FilePath != Model.NexTicket.FilePath)
+                        {
+                            if (prev.FilePath != null)
+                            {
+                                <p class="text-red">Eski Dosya : @Path.GetFileName(prev.FilePath).ToString()</p>
+
+                            }
+                            else
+                            {
+                                <p class="text-red">Eski Dosya : Yok</p>
+
+                            }
+                        }
+                        else
+                        {
+                            if (prev.FilePath != null)
+                            {
+                                <p class="text-red">Eski Dosya : @Path.GetFileName(prev.FilePath).ToString()</p>
+
+                            }
+                            else
+                            {
+                                <p class="text-red">Eski Dosya : Yok</p>
+
+                            }
 
                         }
 
@@ -218,6 +253,17 @@
                         <p>Önceliği : @Model.NexTicket.Priority</p>
                         <p>Durumu : @Model.NexTicket.Status</p>
                         <p>Tipi : @Model.NexTicket.Type</p>
+                        if (Model.NexTicket.FilePath != null)
+                        {
+                            <p>Tipi : @Path.GetFileName(Model.NexTicket.FilePath).ToString()</p>
+
+                        }
+                        else
+                        {
+                            <p>Tipi : Yok</p>
+
+                        }
+
                     }
                     else if (Model.ObjecType == "Atama")
                     {

@@ -35,9 +35,16 @@
                 <div class="custom-file">
                     <label for="file">Eklenecek Dosyayı Seçiniz</label>
                     <input type="file" class="form-control-file" id="file" name="file">
-                    @if (Model.FilePath != null)
+                    <br />
+                    
+                    @if (!Model.FilePath.IsEmpty())
                     {
-                        <p><small>Şu an yüklü olan dosya : @Path.GetFileName(Model.FilePath)</small> </p>
+                        <p>Şuan Yüklü Olan Dosyayı İndirmek İçin : </p>
+                        <button class="btn btn-icon btn-outline-primary">
+                            <span class="btn-inner--icon"><i class="ni ni-cloud-download-95"></i></span>
+                            @Html.ActionLink(Path.GetFileName(Model.FilePath).ToString(), "Download", "Tickets", new { id = Model.Id }, new { @class = "btn-inner--text" })
+                        </button>
+
                     }
 
                 </div>

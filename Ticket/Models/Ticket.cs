@@ -71,16 +71,20 @@ namespace Ticket.Models
                 this.Author = oldticket.Author;
                 this.Title = oldticket.Title;
                 this.Text = oldticket.Text;
-                foreach (Reply oldticketReply in oldticket.Replies)
+                if (oldticket.Replies != null)
                 {
-                    Reply r = new Reply(oldticketReply);
-                    r.RepliedTicket = this;
-                    if (this.Replies == null)
+                    foreach (Reply oldticketReply in oldticket.Replies)
                     {
-                        this.Replies = new List<Reply>();
+                        Reply r = new Reply(oldticketReply);
+                        r.RepliedTicket = this;
+                        if (this.Replies == null)
+                        {
+                            this.Replies = new List<Reply>();
+                        }
+                        this.Replies.Add(r);
                     }
-                    this.Replies.Add(r);
                 }
+
                 this.FilePath = oldticket.FilePath;
                 this.Priority = oldticket.Priority;
                 this.Type = oldticket.Type;
